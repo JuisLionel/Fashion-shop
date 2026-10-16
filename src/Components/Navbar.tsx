@@ -49,7 +49,7 @@ export default function Navbar() {
   }
 
   const textButton =
-    'inline-flex h-8 w-8 cursor-pointer items-center justify-center gap-2 font-josefin leading-none hover:text-accent md:order-none md:w-auto md:justify-start'
+    'btn btn-ghost btn-sm h-10 min-h-10 w-10 cursor-pointer justify-center gap-2 rounded-full px-0 font-josefin text-xl leading-none hover:text-accent md:btn-md md:h-12 md:min-h-12 md:w-auto md:justify-start md:px-3'
 
   const iconButton = 'btn btn-ghost btn-circle btn-sm hover:text-accent md:btn-md'
 
@@ -57,40 +57,35 @@ export default function Navbar() {
     <>
       {/* Navbar */}
       <div className="sticky top-0 z-50 h-0">
-        {/*
-          Phone (Gucci style): [title ........ cart account search menu]
-          md+: [menu search]  [title]  [cart account theme]
-          The two groups use `contents` on phones so their buttons can be re-ordered
-          freely with `order-*`, and become real flex groups again from md.
-        */}
+
         <header className={`navbar main-head absolute inset-x-0 top-0 flex items-center justify-between gap-1 px-4 py-2 text-base-content md:px-6 md:py-4 ${isScrolled ? 'bg-base-100 slidedown' : 'bg-base-100/0'}`}>
           <div className="contents md:flex md:items-center md:gap-6" id="Right">
             <button onClick={toggleMenu} aria-label="Menu" className={`order-5 ${textButton}`}>
-              <FiMenu className="h-5 w-5 shrink-0 md:h-4 md:w-4" aria-hidden="true" />
-              <span className="hidden h-4 items-center md:inline-flex">Menu</span>
+              <FiMenu className="h-6 w-6 shrink-0 md:h-5 md:w-5" aria-hidden="true" />
+              <span className="hidden h-6 items-center md:inline-flex">Menu</span>
             </button>
 
             <button onClick={toggleSearch} aria-label="Search" className={`order-4 ${textButton}`}>
-              <FiSearch className="h-5 w-5 shrink-0 md:h-4 md:w-4" aria-hidden="true" />
-              <span className="hidden h-4 items-center md:inline-flex">Search</span>
+              <FiSearch className="h-6 w-6 shrink-0 md:h-5 md:w-5" aria-hidden="true" />
+              <span className="hidden h-6 items-center md:inline-flex">Search</span>
             </button>
           </div>
 
           <h1
             id="center"
-            className="order-1 mr-auto whitespace-nowrap font-jost text-base font-bold uppercase tracking-[0.18em] min-[400px]:text-xl md:order-none md:mr-0 md:pt-5 md:text-3xl md:tracking-[0.3em] lg:text-4xl"
+            className="order-1 mr-auto whitespace-nowrap font-jost text-base font-bold uppercase tracking-[0.18em] min-[400px]:text-xl md:order-0 md:mr-0 md:pt-5 md:text-3xl md:tracking-[0.3em] lg:text-3xl"
           >
             Fashion Shop
           </h1>
 
           <div className="contents md:flex md:items-center md:justify-end md:gap-4" id="Left">
             <Link to="/Wishlist" aria-label="Cart" className={`order-2 md:order-0 ${iconButton}`}>
-              <FiShoppingCart className="h-5 w-5" aria-hidden="true" />
+              <FiShoppingCart className="h-6 w-6" aria-hidden="true" />
             </Link>
 
-            <div className="dropdown dropdown-hover dropdown-bottom dropdown-end order-3 md:dropdown-center md:order-none">
+            <div className="dropdown dropdown-hover dropdown-bottom dropdown-end order-3 md:dropdown-center md:order-0">
               <button tabIndex={0} role="button" aria-label="Account" className={iconButton}>
-                <RiAccountCircleLine className="h-5 w-5" aria-hidden="true" />
+                <RiAccountCircleLine className="h-6 w-6" aria-hidden="true" />
               </button>
 
               <ul tabIndex={-1} className="dropdown-content menu bg-base-100 rounded-box z-1 w-30 p-2 border border-base-300 shadow-lg">
@@ -99,7 +94,6 @@ export default function Navbar() {
               </ul>
             </div>
 
-            {/* Theme toggle: hidden on phones */}
             <label className={`swap swap-rotate max-md:hidden ${iconButton}`}>
               <input
                 type="checkbox"
@@ -107,8 +101,8 @@ export default function Navbar() {
                 onChange={(e) => setTheme(e.target.checked ? 'tepian-dark' : 'tepian-light')}
                 aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
               />
-              <FiSun className="swap-off h-5 w-5" aria-hidden="true" />
-              <FiMoon className="swap-on h-5 w-5" aria-hidden="true" />
+              <FiSun className="swap-off h-6 w-6" aria-hidden="true" />
+              <FiMoon className="swap-on h-6 w-6" aria-hidden="true" />
             </label>
           </div>
         </header>
