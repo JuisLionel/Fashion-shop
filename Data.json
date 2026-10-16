@@ -1,0 +1,1812 @@
+[
+  {
+    "id": "SH-001",
+    "name": "Basic Tee Putih",
+    "category": "T-Shirts",
+    "price_idr": 89000,
+    "sale_price_idr": null,
+    "material": "Cotton Combed 30s",
+    "colors": [
+      "White",
+      "Black",
+      "Grey"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 12,
+      "M": 3,
+      "L": 15,
+      "XL": 0,
+      "XXL": 2
+    },
+    "rating": 4.1,
+    "review_count": 302,
+    "is_new": false,
+    "featured": false,
+    "description": "Everyday crew neck with a soft, medium-weight feel.",
+    "tags": [
+      "t-shirts",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-002",
+    "name": "Basic Tee Hitam",
+    "category": "T-Shirts",
+    "price_idr": 89000,
+    "sale_price_idr": null,
+    "material": "Cotton Combed 30s",
+    "colors": [
+      "Black",
+      "Navy"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 0,
+      "M": 5,
+      "L": 0,
+      "XL": 2,
+      "XXL": 15
+    },
+    "rating": 4.2,
+    "review_count": 286,
+    "is_new": false,
+    "featured": false,
+    "description": "Clean black tee that holds its colour after many washes.",
+    "tags": [
+      "t-shirts",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-003",
+    "name": "Pocket Tee Sage",
+    "category": "T-Shirts",
+    "price_idr": 109000,
+    "sale_price_idr": null,
+    "material": "Cotton Combed 24s",
+    "colors": [
+      "Sage",
+      "Sand",
+      "White"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 15,
+      "M": 0,
+      "L": 2,
+      "XL": 5,
+      "XXL": 0
+    },
+    "rating": 4.4,
+    "review_count": 117,
+    "is_new": false,
+    "featured": false,
+    "description": "Chest pocket tee in a muted green.",
+    "tags": [
+      "t-shirts",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-004",
+    "name": "Heavy Tee 240gsm",
+    "category": "T-Shirts",
+    "price_idr": 149000,
+    "sale_price_idr": null,
+    "material": "Cotton 240gsm",
+    "colors": [
+      "Black",
+      "Off White",
+      "Brown"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 0,
+      "M": 3,
+      "L": 8,
+      "XL": 15,
+      "XXL": 3
+    },
+    "rating": 4.6,
+    "review_count": 290,
+    "is_new": false,
+    "featured": false,
+    "description": "Thick, structured fabric that keeps its shape.",
+    "tags": [
+      "t-shirts",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1529139574466-a303027c1d8?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-005",
+    "name": "Ringer Tee Retro",
+    "category": "T-Shirts",
+    "price_idr": 119000,
+    "sale_price_idr": null,
+    "material": "Cotton Combed 30s",
+    "colors": [
+      "White/Navy",
+      "White/Red"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 3,
+      "M": 2,
+      "L": 5,
+      "XL": 12,
+      "XXL": 2
+    },
+    "rating": 4.1,
+    "review_count": 34,
+    "is_new": false,
+    "featured": false,
+    "description": "Contrast collar and sleeve trim in a 70s style.",
+    "tags": [
+      "t-shirts",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-006",
+    "name": "Striped Tee Biru",
+    "category": "T-Shirts",
+    "price_idr": 125000,
+    "sale_price_idr": null,
+    "material": "Cotton Combed 30s",
+    "colors": [
+      "Blue/White",
+      "Black/White"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 5,
+      "M": 20,
+      "L": 15,
+      "XL": 12,
+      "XXL": 20
+    },
+    "rating": 4.5,
+    "review_count": 157,
+    "is_new": false,
+    "featured": false,
+    "description": "Horizontal stripes, relaxed fit.",
+    "tags": [
+      "t-shirts",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-007",
+    "name": "V-Neck Essential",
+    "category": "T-Shirts",
+    "price_idr": 95000,
+    "sale_price_idr": null,
+    "material": "Cotton Spandex",
+    "colors": [
+      "White",
+      "Grey",
+      "Black"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 5,
+      "M": 3,
+      "L": 5,
+      "XL": 2,
+      "XXL": 8
+    },
+    "rating": 4.9,
+    "review_count": 233,
+    "is_new": true,
+    "featured": false,
+    "description": "Soft stretch fabric, good for layering.",
+    "tags": [
+      "t-shirts",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-008",
+    "name": "Raglan Tee Abu",
+    "category": "T-Shirts",
+    "price_idr": 115000,
+    "sale_price_idr": null,
+    "material": "Cotton Combed 30s",
+    "colors": [
+      "Grey/Black",
+      "Grey/Navy"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 8,
+      "M": 2,
+      "L": 2,
+      "XL": 15,
+      "XXL": 3
+    },
+    "rating": 4.2,
+    "review_count": 254,
+    "is_new": false,
+    "featured": false,
+    "description": "Baseball-style sleeves with a sporty look.",
+    "tags": [
+      "t-shirts",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1529139574466-a303027c1d8?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-009",
+    "name": "Tee Garment Dye",
+    "category": "T-Shirts",
+    "price_idr": 139000,
+    "sale_price_idr": null,
+    "material": "Cotton 20s, garment dyed",
+    "colors": [
+      "Faded Olive",
+      "Faded Brick",
+      "Faded Blue"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 15,
+      "M": 0,
+      "L": 2,
+      "XL": 12,
+      "XXL": 12
+    },
+    "rating": 4.6,
+    "review_count": 300,
+    "is_new": false,
+    "featured": true,
+    "description": "Lived-in colour from garment dyeing.",
+    "tags": [
+      "t-shirts",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-010",
+    "name": "Slub Tee Natural",
+    "category": "T-Shirts",
+    "price_idr": 129000,
+    "sale_price_idr": null,
+    "material": "Slub Cotton",
+    "colors": [
+      "Oatmeal",
+      "Charcoal"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 20,
+      "M": 2,
+      "L": 2,
+      "XL": 8,
+      "XXL": 20
+    },
+    "rating": 4.1,
+    "review_count": 162,
+    "is_new": false,
+    "featured": false,
+    "description": "Textured slub weave with a casual look.",
+    "tags": [
+      "t-shirts",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-011",
+    "name": "Oversized Tee Boxy",
+    "category": "Oversized",
+    "price_idr": 159000,
+    "sale_price_idr": null,
+    "material": "Cotton 240gsm",
+    "colors": [
+      "Black",
+      "White",
+      "Cream"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 20,
+      "M": 8,
+      "L": 15,
+      "XL": 12,
+      "XXL": 0
+    },
+    "rating": 4.4,
+    "review_count": 316,
+    "is_new": false,
+    "featured": false,
+    "description": "Dropped shoulders and a boxy cut.",
+    "tags": [
+      "oversized",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-012",
+    "name": "Oversized Tee Washed",
+    "category": "Oversized",
+    "price_idr": 169000,
+    "sale_price_idr": 144000,
+    "material": "Washed Cotton 20s",
+    "colors": [
+      "Washed Black",
+      "Washed Grey"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 2,
+      "M": 20,
+      "L": 0,
+      "XL": 5,
+      "XXL": 8
+    },
+    "rating": 4.2,
+    "review_count": 204,
+    "is_new": false,
+    "featured": false,
+    "description": "Vintage wash for a faded finish.",
+    "tags": [
+      "oversized",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-013",
+    "name": "Oversized Pocket Tee",
+    "category": "Oversized",
+    "price_idr": 165000,
+    "sale_price_idr": null,
+    "material": "Cotton 24s",
+    "colors": [
+      "Mocha",
+      "Black"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 20,
+      "M": 2,
+      "L": 3,
+      "XL": 20,
+      "XXL": 15
+    },
+    "rating": 4.9,
+    "review_count": 224,
+    "is_new": false,
+    "featured": false,
+    "description": "Roomy fit with a large chest pocket.",
+    "tags": [
+      "oversized",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-014",
+    "name": "Longline Oversized",
+    "category": "Oversized",
+    "price_idr": 175000,
+    "sale_price_idr": 149000,
+    "material": "Cotton 240gsm",
+    "colors": [
+      "Black",
+      "Stone"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 8,
+      "M": 15,
+      "L": 12,
+      "XL": 15,
+      "XXL": 5
+    },
+    "rating": 4.2,
+    "review_count": 122,
+    "is_new": true,
+    "featured": false,
+    "description": "Extra length, sits below the hip.",
+    "tags": [
+      "oversized",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-015",
+    "name": "Cropped Boxy Tee",
+    "category": "Oversized",
+    "price_idr": 149000,
+    "sale_price_idr": null,
+    "material": "Cotton Combed 30s",
+    "colors": [
+      "White",
+      "Lilac",
+      "Black"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 5,
+      "M": 0,
+      "L": 20,
+      "XL": 3,
+      "XXL": 8
+    },
+    "rating": 4.1,
+    "review_count": 277,
+    "is_new": false,
+    "featured": false,
+    "description": "Short, wide cut for high-waist outfits.",
+    "tags": [
+      "oversized",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-016",
+    "name": "Oversized Tee Heather",
+    "category": "Oversized",
+    "price_idr": 155000,
+    "sale_price_idr": null,
+    "material": "Cotton Blend",
+    "colors": [
+      "Heather Grey",
+      "Heather Blue"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 12,
+      "M": 12,
+      "L": 3,
+      "XL": 0,
+      "XXL": 20
+    },
+    "rating": 4.8,
+    "review_count": 290,
+    "is_new": false,
+    "featured": false,
+    "description": "Soft melange fabric with a relaxed drape.",
+    "tags": [
+      "oversized",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-017",
+    "name": "Tee Sablon Kota Lama",
+    "category": "Graphic Tee",
+    "price_idr": 139000,
+    "sale_price_idr": null,
+    "material": "Cotton Combed 30s",
+    "colors": [
+      "White",
+      "Black"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 15,
+      "M": 15,
+      "L": 15,
+      "XL": 15,
+      "XXL": 2
+    },
+    "rating": 4.4,
+    "review_count": 101,
+    "is_new": false,
+    "featured": false,
+    "description": "Line drawing of old town buildings on the chest.",
+    "tags": [
+      "graphic-tee",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-018",
+    "name": "Tee Sablon Kopi Pagi",
+    "category": "Graphic Tee",
+    "price_idr": 135000,
+    "sale_price_idr": null,
+    "material": "Cotton Combed 30s",
+    "colors": [
+      "Cream",
+      "Brown"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 2,
+      "M": 5,
+      "L": 20,
+      "XL": 3,
+      "XXL": 2
+    },
+    "rating": 4.1,
+    "review_count": 4,
+    "is_new": false,
+    "featured": true,
+    "description": "Small coffee cup graphic with a morning slogan.",
+    "tags": [
+      "graphic-tee",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-019",
+    "name": "Tee Riau Tepi Sungai",
+    "category": "Graphic Tee",
+    "price_idr": 139000,
+    "sale_price_idr": null,
+    "material": "Cotton Combed 30s",
+    "colors": [
+      "Navy",
+      "White"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 3,
+      "M": 2,
+      "L": 12,
+      "XL": 0,
+      "XXL": 2
+    },
+    "rating": 4.6,
+    "review_count": 80,
+    "is_new": false,
+    "featured": false,
+    "description": "River scene print inspired by Sungai Siak.",
+    "tags": [
+      "graphic-tee",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-020",
+    "name": "Tee Retro Cassette",
+    "category": "Graphic Tee",
+    "price_idr": 145000,
+    "sale_price_idr": 123000,
+    "material": "Cotton Combed 30s",
+    "colors": [
+      "Black",
+      "Faded Red"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 8,
+      "M": 12,
+      "L": 12,
+      "XL": 20,
+      "XXL": 2
+    },
+    "rating": 4.5,
+    "review_count": 242,
+    "is_new": false,
+    "featured": false,
+    "description": "Cassette tape print with a vintage feel.",
+    "tags": [
+      "graphic-tee",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-021",
+    "name": "Tee Minimal Wave",
+    "category": "Graphic Tee",
+    "price_idr": 129000,
+    "sale_price_idr": 110000,
+    "material": "Cotton Combed 30s",
+    "colors": [
+      "White",
+      "Sage"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 20,
+      "M": 20,
+      "L": 8,
+      "XL": 2,
+      "XXL": 3
+    },
+    "rating": 4.3,
+    "review_count": 139,
+    "is_new": true,
+    "featured": false,
+    "description": "Single wave line across the chest.",
+    "tags": [
+      "graphic-tee",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-022",
+    "name": "Tee Typo Santai",
+    "category": "Graphic Tee",
+    "price_idr": 125000,
+    "sale_price_idr": 106000,
+    "material": "Cotton Combed 30s",
+    "colors": [
+      "Black",
+      "Grey"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 20,
+      "M": 3,
+      "L": 0,
+      "XL": 5,
+      "XXL": 12
+    },
+    "rating": 4.5,
+    "review_count": 17,
+    "is_new": false,
+    "featured": false,
+    "description": "Typographic print with a relaxed slogan.",
+    "tags": [
+      "graphic-tee",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-023",
+    "name": "Tee Motor Klasik",
+    "category": "Graphic Tee",
+    "price_idr": 149000,
+    "sale_price_idr": null,
+    "material": "Cotton Combed 24s",
+    "colors": [
+      "Off White",
+      "Black"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 8,
+      "M": 2,
+      "L": 8,
+      "XL": 12,
+      "XXL": 3
+    },
+    "rating": 4.2,
+    "review_count": 281,
+    "is_new": false,
+    "featured": false,
+    "description": "Illustrated classic motorbike on the back.",
+    "tags": [
+      "graphic-tee",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-024",
+    "name": "Tee Botanical",
+    "category": "Graphic Tee",
+    "price_idr": 139000,
+    "sale_price_idr": null,
+    "material": "Cotton Combed 30s",
+    "colors": [
+      "White",
+      "Olive"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 12,
+      "M": 5,
+      "L": 5,
+      "XL": 5,
+      "XXL": 15
+    },
+    "rating": 4.2,
+    "review_count": 269,
+    "is_new": false,
+    "featured": false,
+    "description": "Leaf illustration in a single-colour print.",
+    "tags": [
+      "graphic-tee",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-025",
+    "name": "Tee Anak Kos",
+    "category": "Graphic Tee",
+    "price_idr": 119000,
+    "sale_price_idr": null,
+    "material": "Cotton Combed 30s",
+    "colors": [
+      "Black",
+      "White"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 20,
+      "M": 12,
+      "L": 0,
+      "XL": 0,
+      "XXL": 8
+    },
+    "rating": 4.2,
+    "review_count": 313,
+    "is_new": false,
+    "featured": false,
+    "description": "Humour tee about student life.",
+    "tags": [
+      "graphic-tee",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-026",
+    "name": "Tee Pixel Cat",
+    "category": "Graphic Tee",
+    "price_idr": 129000,
+    "sale_price_idr": null,
+    "material": "Cotton Combed 30s",
+    "colors": [
+      "White",
+      "Navy"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 12,
+      "M": 20,
+      "L": 12,
+      "XL": 12,
+      "XXL": 2
+    },
+    "rating": 4.2,
+    "review_count": 104,
+    "is_new": false,
+    "featured": false,
+    "description": "Small pixel-art cat on the chest.",
+    "tags": [
+      "graphic-tee",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-027",
+    "name": "Polo Pique Classic",
+    "category": "Polo",
+    "price_idr": 179000,
+    "sale_price_idr": null,
+    "material": "Cotton Pique",
+    "colors": [
+      "White",
+      "Navy",
+      "Black"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 12,
+      "M": 5,
+      "L": 20,
+      "XL": 0,
+      "XXL": 20
+    },
+    "rating": 4.3,
+    "review_count": 47,
+    "is_new": false,
+    "featured": true,
+    "description": "Textured pique knit with a two-button placket.",
+    "tags": [
+      "polo",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-028",
+    "name": "Polo Stripe Smart",
+    "category": "Polo",
+    "price_idr": 195000,
+    "sale_price_idr": null,
+    "material": "Cotton Pique",
+    "colors": [
+      "Navy/White",
+      "Green/White"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 2,
+      "M": 15,
+      "L": 5,
+      "XL": 20,
+      "XXL": 3
+    },
+    "rating": 4.6,
+    "review_count": 48,
+    "is_new": true,
+    "featured": false,
+    "description": "Chest stripe polo for smart-casual wear.",
+    "tags": [
+      "polo",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-029",
+    "name": "Polo Knit Ribbed",
+    "category": "Polo",
+    "price_idr": 215000,
+    "sale_price_idr": 183000,
+    "material": "Cotton Knit",
+    "colors": [
+      "Cream",
+      "Dark Brown"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 15,
+      "M": 20,
+      "L": 15,
+      "XL": 2,
+      "XXL": 3
+    },
+    "rating": 4.1,
+    "review_count": 81,
+    "is_new": false,
+    "featured": false,
+    "description": "Ribbed knit polo with a retro look.",
+    "tags": [
+      "polo",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-030",
+    "name": "Polo Dry-Fit Sport",
+    "category": "Polo",
+    "price_idr": 169000,
+    "sale_price_idr": null,
+    "material": "Polyester Dry-Fit",
+    "colors": [
+      "Black",
+      "Royal Blue",
+      "Red"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 20,
+      "M": 3,
+      "L": 20,
+      "XL": 12,
+      "XXL": 3
+    },
+    "rating": 4.1,
+    "review_count": 11,
+    "is_new": false,
+    "featured": false,
+    "description": "Lightweight breathable fabric for active days.",
+    "tags": [
+      "polo",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-031",
+    "name": "Polo Linen Blend",
+    "category": "Polo",
+    "price_idr": 225000,
+    "sale_price_idr": 191000,
+    "material": "Linen Cotton Blend",
+    "colors": [
+      "Sand",
+      "Light Blue"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 2,
+      "M": 3,
+      "L": 15,
+      "XL": 5,
+      "XXL": 5
+    },
+    "rating": 4.2,
+    "review_count": 260,
+    "is_new": false,
+    "featured": false,
+    "description": "Cool and airy for hot weather.",
+    "tags": [
+      "polo",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-032",
+    "name": "Polo Office Slim",
+    "category": "Polo",
+    "price_idr": 189000,
+    "sale_price_idr": 161000,
+    "material": "Cotton Pique",
+    "colors": [
+      "Grey",
+      "Navy"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 5,
+      "M": 12,
+      "L": 8,
+      "XL": 15,
+      "XXL": 3
+    },
+    "rating": 4.7,
+    "review_count": 238,
+    "is_new": false,
+    "featured": false,
+    "description": "Tailored cut that works for work.",
+    "tags": [
+      "polo",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-033",
+    "name": "Kemeja Flannel Kotak",
+    "category": "Shirts",
+    "price_idr": 249000,
+    "sale_price_idr": null,
+    "material": "Cotton Flannel",
+    "colors": [
+      "Red Check",
+      "Green Check"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 15,
+      "M": 3,
+      "L": 3,
+      "XL": 0,
+      "XXL": 20
+    },
+    "rating": 4.6,
+    "review_count": 80,
+    "is_new": false,
+    "featured": false,
+    "description": "Soft brushed flannel in a classic check.",
+    "tags": [
+      "shirts",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-034",
+    "name": "Kemeja Oxford Putih",
+    "category": "Shirts",
+    "price_idr": 269000,
+    "sale_price_idr": null,
+    "material": "Oxford Cotton",
+    "colors": [
+      "White",
+      "Light Blue"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 3,
+      "M": 3,
+      "L": 20,
+      "XL": 2,
+      "XXL": 0
+    },
+    "rating": 4.5,
+    "review_count": 288,
+    "is_new": false,
+    "featured": false,
+    "description": "Button-down collar, crisp and easy to iron.",
+    "tags": [
+      "shirts",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-035",
+    "name": "Kemeja Linen Lengan Pendek",
+    "category": "Shirts",
+    "price_idr": 239000,
+    "sale_price_idr": null,
+    "material": "Linen Blend",
+    "colors": [
+      "Beige",
+      "Olive"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 20,
+      "M": 2,
+      "L": 0,
+      "XL": 5,
+      "XXL": 5
+    },
+    "rating": 4.8,
+    "review_count": 263,
+    "is_new": true,
+    "featured": false,
+    "description": "Short sleeve shirt that breathes well.",
+    "tags": [
+      "shirts",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-036",
+    "name": "Kemeja Denim Tipis",
+    "category": "Shirts",
+    "price_idr": 279000,
+    "sale_price_idr": null,
+    "material": "Light Denim",
+    "colors": [
+      "Light Wash",
+      "Indigo"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 20,
+      "M": 0,
+      "L": 2,
+      "XL": 20,
+      "XXL": 12
+    },
+    "rating": 4.5,
+    "review_count": 266,
+    "is_new": false,
+    "featured": true,
+    "description": "Lightweight denim shirt for layering.",
+    "tags": [
+      "shirts",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-037",
+    "name": "Kemeja Boxy Stripe",
+    "category": "Shirts",
+    "price_idr": 229000,
+    "sale_price_idr": null,
+    "material": "Cotton Poplin",
+    "colors": [
+      "Blue Stripe",
+      "Black Stripe"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 5,
+      "M": 8,
+      "L": 20,
+      "XL": 20,
+      "XXL": 5
+    },
+    "rating": 4.9,
+    "review_count": 136,
+    "is_new": false,
+    "featured": false,
+    "description": "Boxy cut with vertical stripes.",
+    "tags": [
+      "shirts",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-038",
+    "name": "Kemeja Cuban Collar",
+    "category": "Shirts",
+    "price_idr": 235000,
+    "sale_price_idr": null,
+    "material": "Rayon",
+    "colors": [
+      "Cream",
+      "Forest Green"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 5,
+      "M": 20,
+      "L": 3,
+      "XL": 15,
+      "XXL": 2
+    },
+    "rating": 4.3,
+    "review_count": 127,
+    "is_new": false,
+    "featured": false,
+    "description": "Open collar with a relaxed, resort feel.",
+    "tags": [
+      "shirts",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-039",
+    "name": "Batik Slim Parang",
+    "category": "Batik",
+    "price_idr": 299000,
+    "sale_price_idr": null,
+    "material": "Cotton Batik Print",
+    "colors": [
+      "Brown",
+      "Navy"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 15,
+      "M": 2,
+      "L": 5,
+      "XL": 8,
+      "XXL": 2
+    },
+    "rating": 4.2,
+    "review_count": 191,
+    "is_new": false,
+    "featured": false,
+    "description": "Parang motif in a modern slim cut.",
+    "tags": [
+      "batik",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-040",
+    "name": "Batik Kawung Modern",
+    "category": "Batik",
+    "price_idr": 289000,
+    "sale_price_idr": null,
+    "material": "Cotton Batik Print",
+    "colors": [
+      "Indigo",
+      "Maroon"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 3,
+      "M": 8,
+      "L": 3,
+      "XL": 20,
+      "XXL": 5
+    },
+    "rating": 4.1,
+    "review_count": 253,
+    "is_new": false,
+    "featured": false,
+    "description": "Kawung pattern with a clean, simple collar.",
+    "tags": [
+      "batik",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-041",
+    "name": "Batik Mega Mendung",
+    "category": "Batik",
+    "price_idr": 319000,
+    "sale_price_idr": null,
+    "material": "Cotton Batik Print",
+    "colors": [
+      "Blue",
+      "Grey"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 3,
+      "M": 5,
+      "L": 3,
+      "XL": 15,
+      "XXL": 15
+    },
+    "rating": 4.2,
+    "review_count": 167,
+    "is_new": false,
+    "featured": false,
+    "description": "Cloud motif inspired by Cirebon batik.",
+    "tags": [
+      "batik",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1529139574466-a303027c1d8?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-042",
+    "name": "Batik Casual Tee",
+    "category": "Batik",
+    "price_idr": 159000,
+    "sale_price_idr": null,
+    "material": "Cotton Combed 30s",
+    "colors": [
+      "Black",
+      "Navy"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 2,
+      "M": 12,
+      "L": 0,
+      "XL": 12,
+      "XXL": 20
+    },
+    "rating": 4.0,
+    "review_count": 173,
+    "is_new": true,
+    "featured": false,
+    "description": "T-shirt with a subtle batik panel on one side.",
+    "tags": [
+      "batik",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-043",
+    "name": "Batik Lengan Panjang Formal",
+    "category": "Batik",
+    "price_idr": 349000,
+    "sale_price_idr": 297000,
+    "material": "Cotton Batik",
+    "colors": [
+      "Brown",
+      "Dark Green"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 8,
+      "M": 2,
+      "L": 2,
+      "XL": 5,
+      "XXL": 2
+    },
+    "rating": 4.3,
+    "review_count": 96,
+    "is_new": false,
+    "featured": false,
+    "description": "Long sleeve batik for formal events.",
+    "tags": [
+      "batik",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-044",
+    "name": "Long Sleeve Basic",
+    "category": "Long Sleeve",
+    "price_idr": 129000,
+    "sale_price_idr": 110000,
+    "material": "Cotton Combed 30s",
+    "colors": [
+      "White",
+      "Black",
+      "Grey"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 8,
+      "M": 3,
+      "L": 15,
+      "XL": 8,
+      "XXL": 15
+    },
+    "rating": 4.9,
+    "review_count": 296,
+    "is_new": false,
+    "featured": false,
+    "description": "Plain long sleeve for layering.",
+    "tags": [
+      "long-sleeve",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-045",
+    "name": "Long Sleeve Waffle",
+    "category": "Long Sleeve",
+    "price_idr": 169000,
+    "sale_price_idr": null,
+    "material": "Waffle Knit Cotton",
+    "colors": [
+      "Cream",
+      "Charcoal"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 20,
+      "M": 12,
+      "L": 2,
+      "XL": 8,
+      "XXL": 0
+    },
+    "rating": 4.2,
+    "review_count": 41,
+    "is_new": false,
+    "featured": true,
+    "description": "Textured waffle knit that traps warmth.",
+    "tags": [
+      "long-sleeve",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-046",
+    "name": "Long Sleeve Graphic",
+    "category": "Long Sleeve",
+    "price_idr": 159000,
+    "sale_price_idr": null,
+    "material": "Cotton Combed 30s",
+    "colors": [
+      "Black",
+      "White"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 8,
+      "M": 0,
+      "L": 2,
+      "XL": 8,
+      "XXL": 2
+    },
+    "rating": 4.2,
+    "review_count": 139,
+    "is_new": false,
+    "featured": false,
+    "description": "Back print with sleeve text detail.",
+    "tags": [
+      "long-sleeve",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-047",
+    "name": "Henley Long Sleeve",
+    "category": "Long Sleeve",
+    "price_idr": 185000,
+    "sale_price_idr": null,
+    "material": "Cotton Slub",
+    "colors": [
+      "Olive",
+      "Navy"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 2,
+      "M": 20,
+      "L": 0,
+      "XL": 12,
+      "XXL": 15
+    },
+    "rating": 4.3,
+    "review_count": 70,
+    "is_new": false,
+    "featured": false,
+    "description": "Three-button placket and soft slub texture.",
+    "tags": [
+      "long-sleeve",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-048",
+    "name": "Sleeveless Gym Tank",
+    "category": "Active",
+    "price_idr": 99000,
+    "sale_price_idr": 84000,
+    "material": "Polyester Dry-Fit",
+    "colors": [
+      "Black",
+      "Grey"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 0,
+      "M": 5,
+      "L": 2,
+      "XL": 3,
+      "XXL": 8
+    },
+    "rating": 4.2,
+    "review_count": 163,
+    "is_new": false,
+    "featured": false,
+    "description": "Quick-dry tank for the gym.",
+    "tags": [
+      "active",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-049",
+    "name": "Rashguard Light",
+    "category": "Active",
+    "price_idr": 189000,
+    "sale_price_idr": null,
+    "material": "Lycra Blend",
+    "colors": [
+      "Black",
+      "Navy"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 8,
+      "M": 5,
+      "L": 8,
+      "XL": 20,
+      "XXL": 3
+    },
+    "rating": 4.8,
+    "review_count": 132,
+    "is_new": true,
+    "featured": false,
+    "description": "Close-fitting layer for sun and water.",
+    "tags": [
+      "active",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1538805060514-97d9cc17730c?auto=format&fit=crop&w=800&h=1000&q=80"
+  },
+  {
+    "id": "SH-050",
+    "name": "Running Tee Mesh",
+    "category": "Active",
+    "price_idr": 149000,
+    "sale_price_idr": null,
+    "material": "Polyester Mesh",
+    "colors": [
+      "Neon Green",
+      "Black"
+    ],
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "stock_by_size": {
+      "S": 0,
+      "M": 0,
+      "L": 0,
+      "XL": 5,
+      "XXL": 20
+    },
+    "rating": 4.4,
+    "review_count": 225,
+    "is_new": false,
+    "featured": false,
+    "description": "Breathable mesh back panels.",
+    "tags": [
+      "active",
+      "unisex"
+    ],
+    "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&h=1000&q=80"
+  }
+]
