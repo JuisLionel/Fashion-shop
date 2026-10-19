@@ -59,7 +59,13 @@ export default function Cart() {
   return (
     <>
       <header className="relative flex h-44 items-center justify-center overflow-hidden bg-base-300 md:h-56">
-        <img src="/hero.webp" alt="" className="absolute inset-0 h-full w-full object-cover" />
+        <img src="/hero.webp" alt="" className="theme-image-light absolute inset-0 h-full w-full object-cover" />
+        <img
+          src="/hero-dark.webp"
+          alt=""
+          aria-hidden="true"
+          className="theme-image-dark absolute inset-0 h-full w-full object-cover"
+        />
         <div className="absolute inset-0 bg-black/40" />
         <h1 className="relative z-10 font-jost text-3xl font-light uppercase tracking-widest text-white md:text-4xl">
           Shopping Bag

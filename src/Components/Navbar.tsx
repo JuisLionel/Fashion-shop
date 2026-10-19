@@ -61,7 +61,8 @@ export default function Navbar({ isHome }: NavbarProps) {
   }
 
   const navIsScrolled = isHome && isScrolled
-  const color = navIsScrolled || !isHome ? '!text-base-content' : '!text-[#111111]'
+  const color = navIsScrolled || !isHome || isDark ? '!text-base-content' : '!text-[#111111]'
+  const headerColor = isHome && !navIsScrolled && !isDark ? 'text-[#111111]' : 'text-base-content'
 
   const textButton =
     `btn btn-ghost btn-sm inline-flex h-10 min-h-10 w-10 min-w-10 cursor-pointer items-center justify-center gap-2 rounded-none p-0 font-jost text-sm font-light tracking-wide leading-none hover:!text-accent md:btn-md md:h-12 md:min-h-12 md:w-auto md:min-w-0 md:px-3 ${color}`
@@ -73,7 +74,7 @@ export default function Navbar({ isHome }: NavbarProps) {
     <>
       <div className={`sticky top-0 z-50 ${isHome ? 'h-0' : ''}`}>
         <header
-          className={`navbar main-head ${isHome ? 'absolute inset-x-0 top-0' : 'relative w-full'} flex flex-nowrap items-center justify-between gap-1 px-4 py-2 md:px-6 md:py-4 ${navIsScrolled || !isHome ? 'bg-base-100 text-base-content' : 'bg-base-100/0 text-[#111111]'} ${navIsScrolled ? 'slidedown' : ''
+          className={`navbar main-head ${isHome ? 'absolute inset-x-0 top-0' : 'relative w-full'} flex flex-nowrap items-center justify-between gap-1 px-4 py-2 md:px-6 md:py-4 ${navIsScrolled || !isHome ? 'bg-base-100' : 'bg-base-100/0'} ${headerColor} ${navIsScrolled ? 'slidedown' : ''
             }`}
         >
           <div className="flex items-center gap-1 max-md:contents md:gap-6" id="Right">

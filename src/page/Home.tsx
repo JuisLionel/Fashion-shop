@@ -76,31 +76,39 @@ function Banner() {
   if (MAX_DISCOUNT === 0) return null
 
   return (
-    <section className="reveal relative flex h-[60svh] min-h-96 w-full items-end overflow-hidden bg-[#e6e6e7] font-jost text-[#111111] md:items-center">
+    <section className="reveal relative flex h-[60svh] min-h-96 w-full items-end overflow-hidden bg-base-200 font-jost text-base-content md:items-center">
       {/* Background image */}
       <img
         src="/banner.webp"
         alt=""
         loading="lazy"
         onError={(e) => { e.currentTarget.style.visibility = 'hidden' }}
-        className="absolute inset-0 h-full w-full object-cover object-top-left"
+        className="theme-image-light absolute inset-0 h-full w-full object-cover object-top-left"
+      />
+      <img
+        src="/banner-dark.webp"
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+        onError={(e) => { e.currentTarget.style.visibility = 'hidden' }}
+        className="theme-image-dark absolute inset-0 h-full w-full object-cover object-top-left"
       />
 
       {/* Text */}
-      <div className="relative z-10 flex w-full flex-col items-start gap-4 p-6 max-md:bg-[#e6e6e7]/85 md:ml-auto md:w-[40%] md:p-12 lg:p-16">
+      <div className="relative z-10 flex w-full flex-col items-start gap-4 bg-base-100/90 p-6 text-base-content md:ml-auto md:w-[40%] md:p-12 lg:p-16">
         <p className="text-sm md:text-base ">Limited Time Offers</p>
 
         <h2 className="text-3xl font-medium leading-tight md:text-4xl lg:text-5xl">
           <span className='text-accent'>{MAX_DISCOUNT}%</span> Off All Fashion Favorites - Limited Time!
         </h2>
 
-        <p className="max-w-md text-sm font-light text-[#111111]/70">
+        <p className="max-w-md text-sm font-light text-base-content/70">
           {siteData.site.home.saleDescription}
         </p>
 
         <Link
           to="/shop?sort=sale"
-          className="mt-2 inline-flex items-center gap-2  bg-[#3b1d12] px-6 py-3 text-sm font-medium text-white transition-colors duration-300 hover:bg-[#5a2d1c]"
+          className="btn btn-neutral mt-2 inline-flex items-center gap-2 rounded-none px-6 text-sm font-medium"
         >
           Shop Now
           <FiArrowRight aria-hidden="true" />
@@ -239,7 +247,14 @@ function Welcome() {
         src="/hero.webp"
         alt=""
         fetchPriority="high"
-        className="absolute inset-0 h-full w-full object-cover object-[50%_50%]"
+        className="theme-image-light absolute inset-0 h-full w-full object-cover object-[50%_50%]"
+      />
+      <img
+        src="/hero-dark.webp"
+        alt=""
+        aria-hidden="true"
+        fetchPriority="high"
+        className="theme-image-dark absolute inset-0 h-full w-full object-cover object-[50%_50%]"
       />
 
       <div className="relative z-10 flex flex-col items-center gap-4 pb-10 font-jost text-[#111111] md:pb-14">
@@ -303,17 +318,25 @@ function Category() {
           const maxLinks = category.featured ? 8 : 5
           const visibleCategories = productCategories.slice(0, maxLinks)
           const hasMore = productCategories.length > maxLinks
+          const darkImage = category.tag.toLowerCase() === 'woman'
+            ? '/Assets/woman-dark.webp'
+            : category.tag.toLowerCase() === 'man'
+              ? '/Assets/men-dark.webp'
+              : '/Assets/accessorie-dark.webp'
+          const imageClass = 'absolute inset-0 h-full w-full object-cover object-right transition-transform duration-700 ease-out group-hover:scale-105'
 
           return (
             <Link
               key={category.name}
               to={category.to}
               aria-label={`Shop ${category.name}`}
-              className={`reveal group relative flex flex-col overflow-hidden rounded-2xl bg-[#e6e6e7] ${category.featured ? 'lg:row-span-2' : ''
+              className={`reveal group relative flex min-h-96 flex-col overflow-hidden rounded-2xl bg-base-200 ${category.featured ? 'lg:row-span-2'
+                : ''
                 }`}
             >
-              <div className="relative z-10 order-1 flex w-full flex-col items-start gap-3 p-5 font-jost text-[#111111] md:p-8 lg:w-[45%]">
-                <span className="rounded-md bg-white px-3 py-1 text-xs font-medium text-[#111111]">
+                <div className="category-scrim absolute inset-0 z-[1]" aria-hidden="true" />
+                <div className="relative z-10 flex w-full max-w-[85%] flex-col items-start gap-3 p-5 font-jost text-base-content md:p-8 lg:max-w-[48%]">
+                  <span className="rounded-md bg-base-100/80 px-3 py-1 text-xs font-medium text-base-content">
                   {categoryProducts.length} {categoryProducts.length === 1 ? 'Item' : 'Items'}
                 </span>
 
@@ -321,7 +344,7 @@ function Category() {
                   {category.name}
                 </h3>
 
-                <p className="max-w-[24ch] text-xs leading-relaxed text-[#111111]/60">
+                <p className="max-w-[24ch] text-xs leading-relaxed text-base-content/70">
                   {category.description}
                 </p>
 
@@ -329,22 +352,26 @@ function Category() {
                   {visibleCategories.map((item) => (
                     <li key={item}>{item}</li>
                   ))}
-                  {hasMore && <li className="text-[#111111]/60">and more...</li>}
+                  {hasMore && <li className="text-base-content/60">and more...</li>}
                 </ul>
               </div>
-              <img
-                src={category.image}
-                alt=""
-                loading="lazy"
-                onError={(e) => { e.currentTarget.style.visibility = 'hidden' }}
-                className={`order-2 block w-full object-cover object-right transition-transform duration-700 ease-out group-hover:scale-105 md:aspect-video lg:absolute lg:bottom-0 lg:right-0 lg:aspect-auto ${category.tag.toLowerCase() === 'accessories'
-                  ? 'aspect-5/4'
-                  : 'aspect-4/5 max-md:-mt-8'
-                  } ${category.featured
-                    ? 'origin-bottom-right lg:h-auto lg:w-[150%] lg:max-w-none'
-                    : 'origin-right lg:inset-y-0 lg:h-full lg:w-auto lg:max-w-[60%]'
-                  }`}
-              />
+              <>
+                <img
+                  src={category.image}
+                  alt=""
+                  loading="lazy"
+                  onError={(e) => { e.currentTarget.style.visibility = 'hidden' }}
+                  className={`theme-image-light ${imageClass}`}
+                />
+                <img
+                  src={darkImage}
+                  alt=""
+                  aria-hidden="true"
+                  loading="lazy"
+                  onError={(e) => { e.currentTarget.style.visibility = 'hidden' }}
+                  className={`theme-image-dark ${imageClass}`}
+                />
+              </>
             </Link>
           )
         })}
