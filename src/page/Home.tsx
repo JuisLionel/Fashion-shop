@@ -195,7 +195,10 @@ function ProductCard({ product }: { product: Product }) {
             onClick={() => handleProductAction(() => toggleWishlist(product.id))}
             className={`${iconButton} ${isWishlisted ? 'bg-base-content! text-base-100!' : ''}`}
           >
-            <FiHeart className={`h-4 w-4 ${isWishlisted ? 'fill-current' : ''}`} aria-hidden="true" />
+            <FiHeart
+              className={`h-4 w-4 ${isWishlisted ? 'fill-current text-red-500' : ''}`}
+              aria-hidden="true"
+            />
           </button>
         </div>
       </div>

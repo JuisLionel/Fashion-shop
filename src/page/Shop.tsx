@@ -171,7 +171,10 @@ function ShopProductCard({ product }: { product: Product }) {
             onClick={() => handleProductAction(() => toggleWishlist(product.id))}
             className={`flex h-10 w-10 items-center justify-center rounded-full bg-base-100 text-base-content shadow-sm transition-colors hover:bg-base-content hover:text-base-100 ${isWishlisted ? '!bg-base-content !text-base-100' : ''}`}
           >
-            <FiHeart className={`h-4 w-4 ${isWishlisted ? 'fill-current' : ''}`} aria-hidden="true" />
+            <FiHeart
+              className={`h-4 w-4 ${isWishlisted ? 'fill-current text-red-500' : ''}`}
+              aria-hidden="true"
+            />
           </button>
         </div>
       </div>

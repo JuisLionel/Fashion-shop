@@ -74,7 +74,7 @@ export default function Wishlist() {
                       onClick={() => runAction(() => toggleWishlist(product.id))}
                       className="flex h-9 w-9 items-center justify-center rounded-full bg-base-content text-base-100 transition-colors hover:bg-accent"
                     >
-                      <FiHeart className="h-4 w-4 fill-current" aria-hidden="true" />
+                      <FiHeart className="h-4 w-4 fill-current text-red-500" aria-hidden="true" />
                     </button>
                     <button
                       type="button"

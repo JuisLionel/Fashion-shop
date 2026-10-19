@@ -413,7 +413,10 @@ export default function Product() {
                 aria-pressed={wishlistIncludesProduct}
                 className="btn btn-outline w-full rounded-none uppercase tracking-widest"
               >
-                <FiHeart aria-hidden="true" className={wishlistIncludesProduct ? 'fill-current' : ''} />
+                <FiHeart
+                  aria-hidden="true"
+                  className={wishlistIncludesProduct ? 'fill-current text-red-500' : ''}
+                />
                 {wishlistIncludesProduct ? 'Remove from wishlist' : 'Add to wishlist'}
               </button>
               {actionMessage && <p role="status" className="text-sm text-base-content/70">{actionMessage}</p>}
