@@ -3,10 +3,13 @@ import siteData from '../Data.json'
 import Navbar from './Components/Navbar'
 import Promo from './Components/Promo'
 import Home from './page/Home'
-import Product from './page/Shop'
+import ShopPage  from './page/Shop'
+import Product from './page/Product'
 import Wishlist from './page/Wishlist'
 import NotFound from './page/404'
 import Footers from './Components/Footers'
+import { AuthProvider } from './auth/AuthProvider'
+import { AccountPage, AccountSectionPage, SignInPage, SignUpPage } from './page/Auth'
 
 // Shared layout: promo banner + navbar on every page except 404
 function Layout() {
@@ -19,8 +22,8 @@ function Layout() {
     return (
     <>  
       {isTherePromo && <Promo />}
-      <Navbar />
-      <main className={isHome ? '' : 'pt-20'}>
+      <Navbar isHome={isHome} />
+      <main>
         <Outlet />
       </main>
     </>
@@ -43,26 +46,37 @@ export default function App() {
       className="min-h-screen bg-base-100 text-base-content"
       onDragStart={(event) => event.preventDefault()}
     >
-      <Routes>
-        <Route element={<Layout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/shop" element={<Placeholder title="Shop" />} />
-          <Route path="/product/:id" element={<Product />} />
-          <Route path="/wishlist" element={<Wishlist />} />
+      <AuthProvider>
+        <Routes>
+          <Route element={<Layout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/shop" element={<ShopPage />} />
+            <Route path="/product/:id" element={<Product />} />
+            <Route path="/wishlist" element={<Wishlist />} />
 
-          <Route path="/sign-in" element={<Placeholder title="Sign In" />} />
-          <Route path="/sign-up" element={<Placeholder title="Sign Up" />} />
-          <Route path="/account" element={<Placeholder title="My Account" />} />
+            <Route path="/sign-in" element={<SignInPage />} />
+            <Route path="/sign-up" element={<SignUpPage />} />
+            <Route path="/account" element={<AccountPage />} />
+            <Route path="/orders" element={<Placeholder title="orders" />} />
+            <Route path="/account/wallet" element={<AccountSectionPage section="wallet" title="My wallet" />} />
 
-          <Route path="/size-guide" element={<Placeholder title="Size Guide" />} />
-          <Route path="/shipping" element={<Placeholder title="Shipping" />} />
-          <Route path="/exchanges" element={<Placeholder title="Exchanges" />} />
-        </Route>
+            <Route path="/size-guide" element={<Placeholder title="Size Guide" />} />
+            <Route path="/shipping" element={<Placeholder title="Shipping" />} />
+            <Route path="/exchanges" element={<Placeholder title="Exchanges" />} />
+          </Route>
 
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
 
-      <Footers />
+        <FooterForCurrentRoute />
+      </AuthProvider>
     </div>
   )
+}
+
+function FooterForCurrentRoute() {
+  const { pathname } = useLocation()
+  const hideFooter = pathname === '/sign-in' || pathname === '/sign-up' || pathname.startsWith('/account')
+
+  return hideFooter ? null : <Footers />
 }

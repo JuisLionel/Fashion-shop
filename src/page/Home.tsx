@@ -20,6 +20,7 @@ type Product = {
   variant_image: string | string[]
   price_idr: number
   sale_price_idr: number | null
+  purchases: number
   review_count?: number
   is_new: boolean
 }
@@ -28,7 +29,10 @@ const PRODUCTS: Product[] = siteData.products
 
 const NEW_ARRIVALS = PRODUCTS.filter((p) => p.is_new).slice(0, 4)
 const ON_SALE = PRODUCTS.filter((p) => p.sale_price_idr).slice(0, 4)
-const BEST_SELLERS = [...PRODUCTS].sort((a, b) => (b.review_count ?? 0) - (a.review_count ?? 0)).slice(0, 4)
+const BEST_SELLERS = PRODUCTS
+  .filter((product) => product.purchases > 0)
+  .sort((a, b) => b.purchases - a.purchases)
+  .slice(0, 4)
 
 const MAX_DISCOUNT = Math.max(
   0,
@@ -94,6 +98,9 @@ function ProductCard({ product }: { product: Product }) {
       </div>
       <div className="pt-4 font-jost text-sm">
         <p className="truncate transition-colors duration-300 group-hover:text-accent">{product.name}</p>
+        {product.purchases > 0 && (
+          <p className="mt-1 text-xs text-base-content/60">{product.purchases.toLocaleString('id-ID')} sold</p>
+        )}
         <p className="mt-2">
           {product.sale_price_idr ? (
             <>
@@ -171,8 +178,8 @@ function Category() {
           )
           const productCategories = category.tag.toLowerCase() === 'accessories'
             ? [...new Set(categoryProducts.flatMap((product) =>
-                product.tags?.filter((tag) => tag.toLowerCase() !== category.tag.toLowerCase()) ?? []
-              ))].map((tag) => tag.charAt(0).toUpperCase() + tag.slice(1))
+              product.tags?.filter((tag) => tag.toLowerCase() !== category.tag.toLowerCase()) ?? []
+            ))].map((tag) => tag.charAt(0).toUpperCase() + tag.slice(1))
             : [...new Set(categoryProducts.map((product) => product.category))]
 
           const maxLinks = category.featured ? 8 : 5
@@ -187,9 +194,8 @@ function Category() {
               className={`reveal group relative flex overflow-hidden rounded-2xl bg-[#e6e6e7] ${category.featured ? 'min-h-96 items-center md:row-span-2' : 'min-h-64 items-start'
                 }`}
             >
-              {/* Background image */}
               {category.featured ? (
-                <div className="absolute inset-x-0 bottom-0 h-[95%] overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,#000_12%)]">
+                <div className="absolute inset-x-0 bottom-0 h-[95%] overflow-hidden mask-[linear-gradient(to_bottom,transparent,#000_12%)]">
                   <img
                     src={category.image}
                     alt=""
@@ -204,11 +210,10 @@ function Category() {
                   alt=""
                   loading="lazy"
                   onError={(e) => { e.currentTarget.style.visibility = 'hidden' }}
-                  className={`absolute inset-0 h-full w-full origin-right object-cover object-right transition-transform duration-700 ease-out group-hover:scale-105 ${
-                    category.tag.toLowerCase() === 'accessories'
-                      ? 'max-md:inset-auto max-md:bottom-0 max-md:right-0 max-md:h-2/5 max-md:w-2/5 max-md:object-contain max-md:object-right-bottom'
+                  className={`absolute inset-0 h-full w-full origin-right object-cover object-right transition-transform duration-700 ease-out group-hover:scale-105 ${category.tag.toLowerCase() === 'accessories'
+                      ? 'max-md:inset-auto max-md:bottom-0 max-md:right-0 max-md:h-2/5 max-md:w-2/5 max-md:object-contain max-md:object-bottom-right'
                       : ''
-                  }`}
+                    }`}
                 />
               )}
 
@@ -246,7 +251,7 @@ function NewArrivals() {
 
   return (
     <section className="mx-auto max-w-360 px-6 pb-20 md:px-12">
-      <SectionHeader title={siteData.site.home.newArrivalsTitle} to="/shop?category=new" />
+      <SectionHeader title={siteData.site.home.newArrivalsTitle} to="/shop?sort=new" />
       <div className="grid grid-cols-2 gap-x-4 gap-y-10 lg:grid-cols-4">
         {NEW_ARRIVALS.map((product) => (
           <ProductCard key={product.id} product={product} />
@@ -268,7 +273,7 @@ function Sale() {
           <p className="mt-4 font-jost font-light text-base-content/70">
             {siteData.site.home.saleDescription}
           </p>
-          <Link to="/shop?category=sale" className="btn btn-neutral mt-6 rounded-none font-jost uppercase tracking-widest">
+          <Link to="/shop?sort=sale" className="btn btn-neutral mt-6 rounded-none font-jost uppercase tracking-widest">
             {siteData.site.home.saleButtonLabel}
           </Link>
         </div>
@@ -286,7 +291,7 @@ function Sale() {
 function BestSellers() {
   return (
     <section className="mx-auto max-w-360 px-6 pb-20 md:px-12">
-      <SectionHeader title={siteData.site.home.bestSellersTitle} to="/shop" label="Shop all" />
+      <SectionHeader title={siteData.site.home.bestSellersTitle} to="/shop?sort=best-sellers" label="Shop all" />
       <div className="grid grid-cols-2 gap-x-4 gap-y-10 lg:grid-cols-4">
         {BEST_SELLERS.map((product) => (
           <ProductCard key={product.id} product={product} />

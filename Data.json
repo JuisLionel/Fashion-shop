@@ -109,10 +109,11 @@
   "products": [
     {
       "id": "SH-001",
+      "purchases": 1201,
       "name": "Basic Tee Putih",
       "category": "T-Shirts",
       "price_idr": 89000,
-      "sale_price_idr": null,
+      "sale_price_idr": 80000,
       "material": "Cotton Combed 30s",
       "colors": [
         "White",
@@ -137,8 +138,7 @@
       "description": "Soft white tee with a clean neckline. Pre-shrunk, so the fit stays the same after washing.",
       "tags": [
         "t-shirts",
-        "Man",
-        "Woman"
+        "Man"
       ],
       "main_image": [
         "https://placehold.co/800x1000/f5f5f5/000000.png?text=Basic+Tee+Putih",
@@ -195,10 +195,12 @@
         "https://placehold.co/800x1000/9a9a9a/000000.png?text=variant",
         "https://placehold.co/800x1000/3b3b3b/ffffff.png?text=variant",
         "https://placehold.co/800x1000/6b7048/ffffff.png?text=variant"
-      ]
+      ],
+      "purchases": 1163
     },
     {
       "id": "SH-004",
+      "purchases": 426,
       "name": "Polo Classic Navy",
       "category": "Polo Shirts",
       "price_idr": 149000,
@@ -243,6 +245,7 @@
     },
     {
       "id": "SH-005",
+      "purchases": 915,
       "name": "Kemeja Linen Cream",
       "category": "Shirts",
       "price_idr": 199000,
@@ -289,6 +292,7 @@
     },
     {
       "id": "SH-006",
+      "purchases": 94,
       "name": "Flannel Kotak Merah",
       "category": "Shirts",
       "price_idr": 229000,
@@ -332,6 +336,7 @@
     },
     {
       "id": "SH-007",
+      "purchases": 1489,
       "name": "Long Sleeve Tee Hitam",
       "category": "Long Sleeve",
       "price_idr": 109000,
@@ -377,6 +382,7 @@
     },
     {
       "id": "SH-008",
+      "purchases": 646,
       "name": "Blazer Linen Sand",
       "category": "Blazers",
       "price_idr": 329000,
@@ -420,6 +426,7 @@
     },
     {
       "id": "SH-009",
+      "purchases": 1224,
       "name": "Midi Dress Sage",
       "category": "Dresses",
       "price_idr": 249000,
@@ -463,6 +470,7 @@
     },
     {
       "id": "SH-010",
+      "purchases": 255,
       "name": "Denim Jeans Indigo",
       "category": "Jeans",
       "price_idr": 279000,
@@ -506,6 +514,7 @@
     },
     {
       "id": "SH-011",
+      "purchases": 970,
       "name": "Utility Jacket Olive",
       "category": "Jackets & Coats",
       "price_idr": 359000,
@@ -549,6 +558,7 @@
     },
     {
       "id": "SH-012",
+      "purchases": 999,
       "name": "Canvas Tote Natural",
       "category": "Accessories",
       "price_idr": 79000,
@@ -587,6 +597,7 @@
     },
     {
       "id": "SH-013",
+      "purchases": 297,
       "name": "Basic Tee Hitam",
       "category": "T-Shirts",
       "price_idr": 89000,
@@ -632,6 +643,7 @@
     },
     {
       "id": "SH-014",
+      "purchases": 366,
       "name": "Pocket Tee Olive",
       "category": "T-Shirts",
       "price_idr": 99000,
@@ -676,6 +688,7 @@
     },
     {
       "id": "SH-015",
+      "purchases": 571,
       "name": "Polo Classic Cream",
       "category": "Polo Shirts",
       "price_idr": 149000,
@@ -719,6 +732,7 @@
     },
     {
       "id": "SH-016",
+      "purchases": 438,
       "name": "Oxford Shirt Sky",
       "category": "Shirts",
       "price_idr": 189000,
@@ -764,6 +778,7 @@
     },
     {
       "id": "SH-017",
+      "purchases": 1389,
       "name": "Flannel Shirt Forest",
       "category": "Shirts",
       "price_idr": 229000,
@@ -807,6 +822,7 @@
     },
     {
       "id": "SH-018",
+      "purchases": 1084,
       "name": "Long Sleeve Tee Cream",
       "category": "Long Sleeve",
       "price_idr": 109000,
@@ -850,6 +866,7 @@
     },
     {
       "id": "SH-019",
+      "purchases": 845,
       "name": "Linen Blazer Charcoal",
       "category": "Blazers",
       "price_idr": 349000,
@@ -894,6 +911,7 @@
     },
     {
       "id": "SH-020",
+      "purchases": 323,
       "name": "Wrap Dress Terracotta",
       "category": "Dresses",
       "price_idr": 259000,
@@ -937,6 +955,7 @@
     },
     {
       "id": "SH-021",
+      "purchases": 870,
       "name": "Straight Jeans Black",
       "category": "Jeans",
       "price_idr": 279000,
@@ -982,6 +1001,7 @@
     },
     {
       "id": "SH-022",
+      "purchases": 573,
       "name": "Denim Jacket Mid Blue",
       "category": "Jackets & Coats",
       "price_idr": 319000,
@@ -1025,6 +1045,7 @@
     },
     {
       "id": "SH-023",
+      "purchases": 1156,
       "name": "Canvas Crossbody Bag",
       "category": "Accessories",
       "price_idr": 129000,
@@ -1063,6 +1084,7 @@
     },
     {
       "id": "SH-024",
+      "purchases": 1111,
       "name": "Ribbed Tank Top",
       "category": "T-Shirts",
       "price_idr": 69000,
@@ -1108,6 +1130,7 @@
     },
     {
       "id": "SH-025",
+      "purchases": 1436,
       "name": "Polo Stripe Sand",
       "category": "Polo Shirts",
       "price_idr": 159000,
@@ -1151,6 +1174,7 @@
     },
     {
       "id": "SH-026",
+      "purchases": 959,
       "name": "Poplin Shirt White",
       "category": "Shirts",
       "price_idr": 179000,
@@ -1196,6 +1220,7 @@
     },
     {
       "id": "SH-027",
+      "purchases": 1184,
       "name": "Thermal Long Sleeve Navy",
       "category": "Long Sleeve",
       "price_idr": 119000,
@@ -1239,6 +1264,7 @@
     },
     {
       "id": "SH-028",
+      "purchases": 751,
       "name": "Oversized Blazer Stone",
       "category": "Blazers",
       "price_idr": 369000,
@@ -1282,6 +1308,7 @@
     },
     {
       "id": "SH-029",
+      "purchases": 97,
       "name": "Knit Midi Dress Black",
       "category": "Dresses",
       "price_idr": 289000,
@@ -1325,6 +1352,7 @@
     },
     {
       "id": "SH-030",
+      "purchases": 132,
       "name": "Wide Leg Jeans Light Blue",
       "category": "Jeans",
       "price_idr": 299000,
@@ -1368,6 +1396,7 @@
     },
     {
       "id": "SH-031",
+      "purchases": 756,
       "name": "Coach Jacket Black",
       "category": "Jackets & Coats",
       "price_idr": 289000,
@@ -1411,6 +1440,7 @@
     },
     {
       "id": "SH-032",
+      "purchases": 1239,
       "name": "Bucket Hat Olive",
       "category": "Accessories",
       "price_idr": 89000,
@@ -1449,6 +1479,7 @@
     },
     {
       "id": "SH-033",
+      "purchases": 995,
       "name": "Relaxed Blouse Ivory",
       "category": "Blouses",
       "price_idr": 159000,
@@ -1492,6 +1523,7 @@
     },
     {
       "id": "SH-034",
+      "purchases": 212,
       "name": "Pleated Midi Skirt Black",
       "category": "Skirts",
       "price_idr": 199000,
@@ -1535,6 +1567,7 @@
     },
     {
       "id": "SH-035",
+      "purchases": 35,
       "name": "Linen Wide-Leg Trousers",
       "category": "Trousers",
       "price_idr": 239000,
@@ -1578,6 +1611,7 @@
     },
     {
       "id": "SH-036",
+      "purchases": 1161,
       "name": "Cropped Cardigan Rose",
       "category": "Knitwear",
       "price_idr": 219000,
@@ -1621,6 +1655,7 @@
     },
     {
       "id": "SH-037",
+      "purchases": 383,
       "name": "Cotton Shirt Dress Blue",
       "category": "Dresses",
       "price_idr": 269000,
@@ -1664,6 +1699,7 @@
     },
     {
       "id": "SH-038",
+      "purchases": 447,
       "name": "Soft Knit Top Ecru",
       "category": "Knitwear",
       "price_idr": 149000,
@@ -1707,6 +1743,7 @@
     },
     {
       "id": "SH-039",
+      "purchases": 1036,
       "name": "Denim Mini Skirt",
       "category": "Skirts",
       "price_idr": 189000,
@@ -1750,6 +1787,7 @@
     },
     {
       "id": "SH-040",
+      "purchases": 193,
       "name": "Tailored Ankle Pants",
       "category": "Trousers",
       "price_idr": 229000,
@@ -1793,6 +1831,7 @@
     },
     {
       "id": "SH-041",
+      "purchases": 955,
       "name": "Lightweight Trench Coat",
       "category": "Jackets & Coats",
       "price_idr": 389000,
@@ -1836,6 +1875,7 @@
     },
     {
       "id": "SH-042",
+      "purchases": 753,
       "name": "Sleeveless Midi Dress Sage",
       "category": "Dresses",
       "price_idr": 239000,
@@ -1879,6 +1919,7 @@
     },
     {
       "id": "SH-043",
+      "purchases": 30,
       "name": "Oxford Shirt Sand",
       "category": "Shirts",
       "price_idr": 189000,
@@ -1924,6 +1965,7 @@
     },
     {
       "id": "SH-044",
+      "purchases": 721,
       "name": "Chino Trousers Navy",
       "category": "Trousers",
       "price_idr": 219000,
@@ -1969,6 +2011,7 @@
     },
     {
       "id": "SH-045",
+      "purchases": 122,
       "name": "Pique Polo Forest",
       "category": "Polo Shirts",
       "price_idr": 159000,
@@ -2014,6 +2057,7 @@
     },
     {
       "id": "SH-046",
+      "purchases": 91,
       "name": "Utility Overshirt Khaki",
       "category": "Shirts",
       "price_idr": 239000,
@@ -2057,6 +2101,7 @@
     },
     {
       "id": "SH-047",
+      "purchases": 1495,
       "name": "Heavyweight Tee Stone",
       "category": "T-Shirts",
       "price_idr": 109000,
@@ -2102,6 +2147,7 @@
     },
     {
       "id": "SH-048",
+      "purchases": 929,
       "name": "Zip Hoodie Charcoal",
       "category": "Sweatshirts",
       "price_idr": 259000,
@@ -2145,6 +2191,7 @@
     },
     {
       "id": "SH-049",
+      "purchases": 185,
       "name": "Straight Jeans Dark Wash",
       "category": "Jeans",
       "price_idr": 289000,
@@ -2190,6 +2237,7 @@
     },
     {
       "id": "SH-050",
+      "purchases": 518,
       "name": "Lightweight Bomber Jacket",
       "category": "Jackets & Coats",
       "price_idr": 329000,
@@ -2233,6 +2281,7 @@
     },
     {
       "id": "SH-051",
+      "purchases": 757,
       "name": "Leather Belt Tan",
       "category": "Accessories",
       "price_idr": 119000,
@@ -2275,6 +2324,7 @@
     },
     {
       "id": "SH-052",
+      "purchases": 924,
       "name": "Everyday Crossbody Bag",
       "category": "Accessories",
       "price_idr": 169000,
@@ -2311,6 +2361,7 @@
     },
     {
       "id": "SH-053",
+      "purchases": 1119,
       "name": "Classic Sunglasses Tortoise",
       "category": "Accessories",
       "price_idr": 99000,
@@ -2347,6 +2398,7 @@
     },
     {
       "id": "SH-054",
+      "purchases": 209,
       "name": "Leather Card Holder",
       "category": "Accessories",
       "price_idr": 79000,
@@ -2383,6 +2435,7 @@
     },
     {
       "id": "SH-055",
+      "purchases": 321,
       "name": "Canvas Shopper Tote",
       "category": "Accessories",
       "price_idr": 89000,
@@ -2419,6 +2472,7 @@
     },
     {
       "id": "SH-056",
+      "purchases": 624,
       "name": "Ribbed Knit Beanie",
       "category": "Accessories",
       "price_idr": 69000,
@@ -2455,6 +2509,7 @@
     },
     {
       "id": "SH-057",
+      "purchases": 57,
       "name": "Minimalist Wristwatch",
       "category": "Accessories",
       "price_idr": 249000,
@@ -2491,6 +2546,7 @@
     },
     {
       "id": "SH-058",
+      "purchases": 1317,
       "name": "Soft Wool Scarf",
       "category": "Accessories",
       "price_idr": 99000,
@@ -2527,6 +2583,7 @@
     },
     {
       "id": "SH-059",
+      "purchases": 620,
       "name": "Leather Bracelet",
       "category": "Accessories",
       "price_idr": 59000,
@@ -2567,6 +2624,7 @@
     },
     {
       "id": "SH-060",
+      "purchases": 190,
       "name": "Slim Leather Wallet",
       "category": "Accessories",
       "price_idr": 109000,
@@ -2603,6 +2661,7 @@
     },
     {
       "id": "SH-061",
+      "purchases": 1464,
       "name": "Linen Camp Collar Shirt",
       "category": "Shirts",
       "price_idr": 179000,
@@ -2648,6 +2707,7 @@
     },
     {
       "id": "SH-062",
+      "purchases": 1022,
       "name": "Textured Knit Sweater",
       "category": "Knitwear",
       "price_idr": 239000,

@@ -160,3 +160,12 @@
     --color-error: #E57A64;
     --color-error-content: #0E0E0E;
 }
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--color-base-content);
+  caret-color: var(--color-base-content);
+  box-shadow: 0 0 0 1000px var(--color-base-100) inset;
+  transition: background-color 9999s ease-in-out 0s;
+}

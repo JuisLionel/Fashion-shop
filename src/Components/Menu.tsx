@@ -6,6 +6,7 @@ import { useGSAP } from '@gsap/react'
 import { FiChevronLeft, FiChevronRight, FiX } from 'react-icons/fi'
 
 import siteData from '../../Data.json'
+import { useAuth } from '../auth/useAuth'
 
 type MenuProps = {
     isMenuOpen: boolean
@@ -29,7 +30,7 @@ const categoryParam = (c: string) => encodeURIComponent(c)
 const MENU_GROUPS: Section[][] = [
     [
         { label: 'New In', to: '/shop?sort=new' },
-        { label: 'Sale', to: '/shop?sale=true' },
+        { label: 'Sale', to: '/shop?sort=sale' },
     ],
     CATEGORIES.map((category) => ({
         label: category,
@@ -74,6 +75,7 @@ const RowChevron = () => (
 )
 
 export default function Menu({ isMenuOpen, toggleMenu }: MenuProps) {
+    const { isSignedIn, signOut } = useAuth()
     const [active, setActive] = useState<Section | null>(null)
     const [shown, setShown] = useState<Section | null>(null)
 
@@ -251,15 +253,51 @@ export default function Menu({ isMenuOpen, toggleMenu }: MenuProps) {
                             </ul>
 
                             <ul className="mt-10 md:hidden">
-                                <li className="lvl1-item">
-                                    <Link
-                                        to="/sign-in"
-                                        onClick={close}
-                                        className="inline-block font-jost text-base font-light underline underline-offset-4 transition-colors duration-300 hover:text-accent"
-                                    >
-                                        Sign In
-                                    </Link>
-                                </li>
+                                {isSignedIn ? (
+                                    <>
+                                        {[
+                                            { label: 'My orders', to: '/account/orders' },
+                                            { label: 'My account settings', to: '/account/settings' },
+                                            { label: 'My address book', to: '/account/addresses' },
+                                            { label: 'My wallet', to: '/account/wallet' },
+                                            { label: 'My saved items', to: '/wishlist' },
+                                            { label: 'My appointments', to: '/account/appointments' },
+                                        ].map((link) => (
+                                            <li key={link.label} className="lvl1-item">
+                                                <Link
+                                                    to={link.to}
+                                                    onClick={close}
+                                                    className="inline-block py-2 font-jost text-base font-light uppercase underline underline-offset-4 transition-colors duration-300 hover:text-accent"
+                                                >
+                                                    {link.label}
+                                                </Link>
+                                            </li>
+                                        ))}
+                                        <li className="lvl1-item mt-3">
+                                            <button
+                                                type="button"
+                                                onClick={() => {
+                                                    signOut()
+                                                    close()
+                                                    window.location.assign('/')
+                                                }}
+                                                className="inline-block py-2 font-jost text-base font-light uppercase underline underline-offset-4 transition-colors duration-300 hover:text-accent"
+                                            >
+                                                Sign out
+                                            </button>
+                                        </li>
+                                    </>
+                                ) : (
+                                    <li className="lvl1-item">
+                                        <Link
+                                            to="/sign-in"
+                                            onClick={close}
+                                            className="inline-block font-jost text-base font-light underline underline-offset-4 transition-colors duration-300 hover:text-accent"
+                                        >
+                                            Sign In
+                                        </Link>
+                                    </li>
+                                )}
                             </ul>
                         </nav>
 

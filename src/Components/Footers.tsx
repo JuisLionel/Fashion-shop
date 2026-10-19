@@ -27,7 +27,7 @@ export default function Footers() {
             <h2 className="mb-4 font-jost text-xs font-semibold uppercase tracking-[0.18em] text-base-content/55">Shop</h2>
             <ul className="space-y-3 font-jost text-sm">
               <li><Link to="/shop?sort=new" className="link link-hover no-underline hover:text-accent">New in</Link></li>
-              <li><Link to="/shop?sale=true" className="link link-hover no-underline hover:text-accent">Sale</Link></li>
+              <li><Link to="/shop?sort=sale" className="link link-hover no-underline hover:text-accent">Sale</Link></li>
               {CATEGORIES.map((category) => (
                 <li key={category}>
                   <Link to={`/shop?category=${encodeURIComponent(category)}`} className="link link-hover no-underline hover:text-accent">
