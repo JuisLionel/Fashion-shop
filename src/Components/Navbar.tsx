@@ -71,7 +71,7 @@ export default function Navbar({ isHome }: NavbarProps) {
 
   return (
     <>
-      <div className={isHome ? 'sticky top-0 z-50 h-0' : 'relative z-50'}>
+      <div className={`sticky top-0 z-50 ${isHome ? 'h-0' : ''}`}>
         <header
           className={`navbar main-head ${isHome ? 'absolute inset-x-0 top-0' : 'relative w-full'} flex flex-nowrap items-center justify-between gap-1 px-4 py-2 md:px-6 md:py-4 ${navIsScrolled || !isHome ? 'bg-base-100 text-base-content' : 'bg-base-100/0 text-[#111111]'} ${navIsScrolled ? 'slidedown' : ''
             }`}

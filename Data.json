@@ -13,52 +13,30 @@
     "faqs": [
       {
         "question": "How long does delivery take?",
-        "answer": "Orders ship within 1 to 2 working days. Delivery usually takes 2 to 5 days across Indonesia, depending on your courier and location."
+        "answer": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library in London, took a 1914 Cicero translation and scrambled it to make dummy text for Letraset's Body Type sheets. It has survived not only many decades, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised thanks to these sheets and more recently with desktop publishing software like Aldus PageMaker"
       },
       {
         "question": "Is shipping free?",
-        "answer": "Yes, shipping is free on orders over Rp 300.000. Below that, the fee depends on your address and courier."
+        "answer": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library in London, took a 1914 Cicero translation and scrambled it to make dummy text for Letraset's Body Type sheets. It has survived not only many decades, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised thanks to these sheets and more recently with desktop publishing software like Aldus PageMaker"
       },
       {
         "question": "Which couriers do you use?",
-        "answer": "We ship with JNE, J&T and SiCepat. Every order comes with a tracking number so you can follow your package."
+        "answer": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library in London, took a 1914 Cicero translation and scrambled it to make dummy text for Letraset's Body Type sheets. It has survived not only many decades, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised thanks to these sheets and more recently with desktop publishing software like Aldus PageMaker"
       },
       {
         "question": "What if the size doesn't fit?",
-        "answer": "You can exchange it once for free within 7 days of receiving it. The item must be unworn and have its tags."
+        "answer": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library in London, took a 1914 Cicero translation and scrambled it to make dummy text for Letraset's Body Type sheets. It has survived not only many decades, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised thanks to these sheets and more recently with desktop publishing software like Aldus PageMaker"
       },
       {
         "question": "Will the shirt shrink after washing?",
-        "answer": "No. Our cotton is pre-shrunk, so the size stays true. For best results, wash cold and dry in the shade."
+        "answer": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library in London, took a 1914 Cicero translation and scrambled it to make dummy text for Letraset's Body Type sheets. It has survived not only many decades, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised thanks to these sheets and more recently with desktop publishing software like Aldus PageMaker"
       },
       {
         "question": "How do I choose my size?",
-        "answer": "Each product page lists the available sizes and stock. If you're between two sizes, message us and we will help you find your fit."
+        "answer": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library in London, took a 1914 Cicero translation and scrambled it to make dummy text for Letraset's Body Type sheets. It has survived not only many decades, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised thanks to these sheets and more recently with desktop publishing software like Aldus PageMaker"
       }
     ],
     "home": {
-      "benefits": [
-        {
-          "icon": "shipping",
-          "title": "Free shipping",
-          "text": "On orders over Rp 300.000"
-        },
-        {
-          "icon": "exchange",
-          "title": "7-day exchange",
-          "text": "Wrong size? Swap it once, free"
-        },
-        {
-          "icon": "package",
-          "title": "Local couriers",
-          "text": "JNE, J&T and SiCepat with tracking"
-        },
-        {
-          "icon": "cotton",
-          "title": "Pre-shrunk cotton",
-          "text": "Sizes stay true after washing"
-        }
-      ],
       "categories": [
         {
           "name": "For Women's",
