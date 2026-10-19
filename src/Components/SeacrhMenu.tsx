@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router'
 
 import siteData from '../../Data.json'
-import { FiX } from 'react-icons/fi'
+import { FiX, FiSearch } from 'react-icons/fi'
 
 type SearchProps = {
     isSearchOpen: boolean
@@ -13,7 +13,7 @@ type SearchItem = {
     id: string
     name: string
     category: string
-    image: string
+    images: string[]
     price_idr: number
     sale_price_idr: number | null
     rating: number
@@ -28,7 +28,8 @@ type SearchItem = {
 
 const SEARCH_ITEMS: SearchItem[] = siteData.products.map((product) => ({
     ...product,
-    image: product.variant_image[0] ?? '',
+    // hover-gallery supports up to 10 images
+    images: product.main_image.slice(0, 10),
     rating: 0,
     review_count: 0,
 }))
@@ -43,21 +44,91 @@ const TRENDING = SEARCH_CATEGORIES
     .slice(0, 5)
     .map((item) => item.category)
 
-// New in: only categories that have at least one product marked is_new
-const SEARCH_NEW_IN = SEARCH_CATEGORIES
-    .filter((category) => SEARCH_ITEMS.some((p) => p.category === category && p.is_new))
-    .map((category) => ({ label: category, to: `/shop?category=${encodeURIComponent(category)}&sort=new` }))
+// Sidebar: only these two sections
+const SIDEBAR = [
+    {
+        title: 'New in',
+        links: [
+            { label: 'Women', to: '/shop?category=Women&sort=new' },
+            { label: 'Men', to: '/shop?category=Men&sort=new' },
+        ],
+    },
+    {
+        title: 'Suggestions',
+        links: [
+            { label: 'Personalization', to: '/personalization' },
+            { label: 'Store Locator', to: '/store-locator' },
+        ],
+    },
+]
 
-// Every product, best ones first: featured, then best rated
 const ALL_PRODUCTS = [...SEARCH_ITEMS]
     .sort((a, b) => Number(b.featured) - Number(a.featured) || b.rating - a.rating || b.review_count - a.review_count)
 
 const formatPrice = (value: number) => `Rp ${value.toLocaleString('id-ID')}`
 
+function SearchProductCard({ product, onSelect }: { product: SearchItem; onSelect: () => void }) {
+    const [imageLoaded, setImageLoaded] = useState(false)
+
+    return (
+        <Link to={`/product/${product.id}`} onClick={onSelect} className="group block min-w-0">
+            <div className="relative aspect-3/4 overflow-hidden bg-base-200">
+                {!imageLoaded && (
+                    <div className="skeleton absolute inset-0 z-10 rounded-none" aria-hidden="true" />
+                )}
+                <figure className="hover-gallery h-full w-full">
+                    {product.images.map((src, i) => (
+                        <img
+                            key={src + i}
+                            src={src}
+                            alt={i === 0 ? product.name : ''}
+                            loading="lazy"
+                            onLoad={() => {
+                                if (i === 0) setImageLoaded(true)
+                            }}
+                            onError={(e) => {
+                                e.currentTarget.style.visibility = 'hidden'
+                                if (i === 0) setImageLoaded(true)
+                            }}
+                            className="h-full w-full object-cover"
+                        />
+                    ))}
+                </figure>
+
+                {product.is_new && (
+                    <span className="badge badge-sm pointer-events-none absolute left-2 top-2 z-20 border-0 bg-base-100 font-jost uppercase tracking-wider sm:left-3 sm:top-3">
+                        New
+                    </span>
+                )}
+            </div>
+            <div className="px-1 pt-3 font-jost text-sm sm:px-3 sm:pt-4">
+                <p className="truncate transition-colors duration-300 group-hover:text-accent">{product.name}</p>
+                <p className="mt-2 sm:mt-5">
+                    {product.sale_price_idr ? (
+                        <>
+                            <span className="text-accent">{formatPrice(product.sale_price_idr)}</span>
+                            <span className="ml-2 text-base-content/50 line-through">{formatPrice(product.price_idr)}</span>
+                        </>
+                    ) : (
+                        formatPrice(product.price_idr)
+                    )}
+                </p>
+            </div>
+        </Link>
+    )
+}
+
 export default function SearchMenu({ isSearchOpen, toggleSearch }: SearchProps) {
     const [query, setQuery] = useState('')
+    const inputRef = useRef<HTMLInputElement>(null)
 
-    // Lock page scroll while open
+    // Focus the input once the panel has slid in
+    useEffect(() => {
+        if (!isSearchOpen) return
+        const timer = setTimeout(() => inputRef.current?.focus(), 400)
+        return () => clearTimeout(timer)
+    }, [isSearchOpen])
+
     useEffect(() => {
         if (!isSearchOpen) return
 
@@ -82,7 +153,8 @@ export default function SearchMenu({ isSearchOpen, toggleSearch }: SearchProps) 
         return () => document.removeEventListener('keydown', onKeyDown)
     }, [isSearchOpen, toggleSearch])
 
-    const words = query.trim().toLowerCase().split(/\s+/).filter(Boolean)
+    const trimmed = query.trim()
+    const words = trimmed.toLowerCase().split(/\s+/).filter(Boolean)
     const isSearching = words.length > 0
 
     const matches = isSearching
@@ -97,10 +169,9 @@ export default function SearchMenu({ isSearchOpen, toggleSearch }: SearchProps) 
     const noMatch = isSearching && matches.length === 0
     const list = noMatch ? ALL_PRODUCTS : matches
 
-    const linkClass = 'font-jost text-sm underline underline-offset-4 transition-colors duration-300 hover:text-accent'
+    const linkClass = 'link link-hover font-jost text-sm underline underline-offset-4 hover:text-accent'
     const headingClass = 'font-jost text-xs font-semibold uppercase tracking-wider'
 
-    // Horizontal scroll row on phones (bleeds to the screen edge, hidden scrollbar), normal layout from md up
     const scrollRow =
         '-mx-4 flex flex-nowrap items-center gap-x-5 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:-mx-6 sm:px-6 md:mx-0 md:px-0'
 
@@ -111,7 +182,6 @@ export default function SearchMenu({ isSearchOpen, toggleSearch }: SearchProps) 
         >
             <div className={`bg-base-100 fixed inset-0 z-120 overflow-x-hidden overflow-y-auto overscroll-contain transition-all duration-700 ${isSearchOpen ? 'translate-y-0 scale-100 opacity-100' : '-translate-y-1000 scale-50 opacity-0'}`}>
                 <div className="mx-auto max-w-360 px-4 pb-16 sm:px-6 sm:pb-20">
-                    {/* Phone: title */}
                     <div className="flex items-center justify-between gap-2 pt-4 md:block md:pt-5">
                         <h1 className="order-1 whitespace-nowrap text-left font-jost text-base font-bold uppercase tracking-[0.18em] min-[400px]:text-xl md:text-center md:text-5xl md:tracking-[0.3em]">
                             {siteData.site.brand.name}
@@ -135,23 +205,47 @@ export default function SearchMenu({ isSearchOpen, toggleSearch }: SearchProps) 
                         <div className="order-1 min-w-0 lg:order-0 lg:col-start-2">
                             <form
                                 role="search"
-                                onSubmit={(e) => e.preventDefault()}
-                                className="flex max-w-179 items-baseline gap-2 border-b border-base-300 pb-3"
+                                onSubmit={(e) => {
+                                    e.preventDefault()
+                                    inputRef.current?.blur()
+                                }}
+                                className="max-w-179"
                             >
-                                <label htmlFor="site-search" className="sr-only shrink-0 font-jost text-lg font-light text-base-content/60 sm:not-sr-only">
-                                    Search for:
+                                <label className="input input-lg w-full rounded-full shadow-none transition-[box-shadow,border-color] duration-300 ease-out focus-within:border-base-content/30 focus-within:shadow-lg focus-within:outline-none">
+                                    <FiSearch className="h-5 w-5 shrink-0 opacity-60" aria-hidden="true" />
+                                    <input
+                                        id="site-search"
+                                        ref={inputRef}
+                                        type="text"
+                                        inputMode="search"
+                                        enterKeyHint="search"
+                                        autoComplete="off"
+                                        aria-label="Search for products"
+                                        value={query}
+                                        onChange={(e) => setQuery(e.target.value)}
+                                        placeholder={`Search ${TRENDING[0] ?? 'products'}`}
+                                        className="grow font-jost font-light"
+                                    />
+
+                                    {query ? (
+                                        <button
+                                            type="button"
+                                            aria-label="Clear search"
+                                            onClick={() => {
+                                                setQuery('')
+                                                inputRef.current?.focus()
+                                            }}
+                                            className="btn btn-ghost btn-circle btn-xs"
+                                        >
+                                            <FiX className="h-4 w-4" aria-hidden="true" />
+                                        </button>
+                                    ) : (
+                                        <kbd className="kbd kbd-sm max-md:hidden">Esc</kbd>
+                                    )}
                                 </label>
-                                <input
-                                    id="site-search"
-                                    type="search"
-                                    value={query}
-                                    onChange={(e) => setQuery(e.target.value)}
-                                    placeholder={TRENDING[0]}
-                                    className="w-full min-w-0 bg-transparent font-jost text-lg font-light outline-none placeholder:text-base-content/40"
-                                />
                             </form>
 
-                            <div className="mt-5 sm:mt-6 md:flex md:flex-wrap md:items-center md:gap-x-6 md:gap-y-2">
+                            <div className="mt-5 sm:mt-6 md:flex md:flex-wrap md:items-center md:gap-x-4 md:gap-y-2">
                                 <h2 className="font-jost text-sm text-base-content md:text-base-content/60 font-bold">
                                     Trending Searches
                                 </h2>
@@ -162,7 +256,7 @@ export default function SearchMenu({ isSearchOpen, toggleSearch }: SearchProps) 
                                             key={item}
                                             type="button"
                                             onClick={() => setQuery(item)}
-                                            className={`shrink-0 cursor-pointer whitespace-nowrap ${linkClass}`}
+                                            className={`btn btn-outline btn-sm shrink-0 rounded-full font-jost font-normal ${trimmed.toLowerCase() === item.toLowerCase() ? 'btn-active' : ''}`}
                                         >
                                             {item}
                                         </button>
@@ -171,25 +265,31 @@ export default function SearchMenu({ isSearchOpen, toggleSearch }: SearchProps) 
                             </div>
                         </div>
 
-                        {/* New in: horizontal scroll on phones, vertical sidebar on lg+ */}
                         <aside className="order-2 min-w-0 lg:order-0 lg:col-start-1 lg:row-start-2">
-                            <h2 className={headingClass}>New in</h2>
-                            <ul className={`${scrollRow} mt-3 md:mt-4 md:flex-wrap md:gap-y-3 md:gap-x-6 md:overflow-visible md:pb-0 lg:mt-5 lg:flex-col lg:items-start lg:gap-y-4`}>
-                                {SEARCH_NEW_IN.map((link) => (
-                                    <li key={link.label} className="shrink-0 whitespace-nowrap">
-                                        <Link to={link.to} onClick={toggleSearch} className={linkClass}>{link.label}</Link>
-                                    </li>
+                            <div className="flex flex-col gap-6 md:gap-10">
+                                {SIDEBAR.map((section) => (
+                                    <div key={section.title}>
+                                        <h2 className={headingClass}>{section.title}</h2>
+                                        <ul className={`${scrollRow} mt-3 md:mt-4 md:flex-wrap md:gap-y-3 md:gap-x-6 md:overflow-visible md:pb-0 lg:mt-5 lg:flex-col lg:items-start lg:gap-y-4`}>
+                                            {section.links.map((link) => (
+                                                <li key={link.label} className="shrink-0 whitespace-nowrap">
+                                                    <Link to={link.to} onClick={toggleSearch} className={linkClass}>
+                                                        {link.label}
+                                                    </Link>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
                                 ))}
-                            </ul>
+                            </div>
                         </aside>
 
-                        {/* Results */}
                         <section className="order-3 min-w-0 lg:order-0 lg:col-start-2 lg:row-start-2" aria-live="polite">
                             <h2 className={`${headingClass} mb-6`}>
                                 {noMatch
-                                    ? `No results for “${query.trim()}”. Here is everything`
+                                    ? `No results for “${trimmed}”. Here is everything`
                                     : isSearching
-                                        ? `${list.length} result${list.length === 1 ? '' : 's'} for “${query.trim()}”`
+                                        ? `${list.length} result${list.length === 1 ? '' : 's'} for “${trimmed}”`
                                         : `All products (${list.length})`}
                             </h2>
 
@@ -198,33 +298,7 @@ export default function SearchMenu({ isSearchOpen, toggleSearch }: SearchProps) 
                             ) : (
                                 <div className="grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-4 sm:gap-y-10 md:grid-cols-3 xl:grid-cols-4">
                                     {list.map((product) => (
-                                        <Link key={product.id} to={`/product/${product.id}`} onClick={toggleSearch} className="group block min-w-0">
-                                            <div className="relative aspect-3/4 overflow-hidden bg-base-200 transition-colors duration-300">
-                                                <img
-                                                    src={product.image}
-                                                    alt=""
-                                                    loading="lazy"
-                                                    onError={(e) => { e.currentTarget.style.visibility = 'hidden' }}
-                                                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                                                />
-                                                {product.is_new && (
-                                                    <span className="absolute left-2 top-2 font-jost text-[11px] uppercase tracking-wider sm:left-3 sm:top-3">New</span>
-                                                )}
-                                            </div>
-                                            <div className="px-1 pt-3 font-jost text-sm sm:px-3 sm:pt-4">
-                                                <p className="truncate transition-colors duration-300 group-hover:text-accent">{product.name}</p>
-                                                <p className="mt-2 sm:mt-5">
-                                                    {product.sale_price_idr ? (
-                                                        <>
-                                                            <span className="text-accent">{formatPrice(product.sale_price_idr)}</span>
-                                                            <span className="ml-2 text-base-content/50 line-through">{formatPrice(product.price_idr)}</span>
-                                                        </>
-                                                    ) : (
-                                                        formatPrice(product.price_idr)
-                                                    )}
-                                                </p>
-                                            </div>
-                                        </Link>
+                                        <SearchProductCard key={product.id} product={product} onSelect={toggleSearch} />
                                     ))}
                                 </div>
                             )}

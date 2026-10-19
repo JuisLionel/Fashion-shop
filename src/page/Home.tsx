@@ -169,7 +169,11 @@ function Category() {
           const categoryProducts = PRODUCTS.filter((product) =>
             product.tags?.some((tag) => tag.toLowerCase() === category.tag.toLowerCase())
           )
-          const productCategories = [...new Set(categoryProducts.map((product) => product.category))]
+          const productCategories = category.tag.toLowerCase() === 'accessories'
+            ? [...new Set(categoryProducts.flatMap((product) =>
+                product.tags?.filter((tag) => tag.toLowerCase() !== category.tag.toLowerCase()) ?? []
+              ))].map((tag) => tag.charAt(0).toUpperCase() + tag.slice(1))
+            : [...new Set(categoryProducts.map((product) => product.category))]
 
           const maxLinks = category.featured ? 8 : 5
           const visibleCategories = productCategories.slice(0, maxLinks)
@@ -200,7 +204,11 @@ function Category() {
                   alt=""
                   loading="lazy"
                   onError={(e) => { e.currentTarget.style.visibility = 'hidden' }}
-                  className="absolute inset-0 h-full w-full origin-right object-cover object-right transition-transform duration-700 ease-out group-hover:scale-105"
+                  className={`absolute inset-0 h-full w-full origin-right object-cover object-right transition-transform duration-700 ease-out group-hover:scale-105 ${
+                    category.tag.toLowerCase() === 'accessories'
+                      ? 'max-md:inset-auto max-md:bottom-0 max-md:right-0 max-md:h-2/5 max-md:w-2/5 max-md:object-contain max-md:object-right-bottom'
+                      : ''
+                  }`}
                 />
               )}
 
