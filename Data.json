@@ -9,7 +9,6 @@
       "enabled": false,
       "text": "20% off all shirts with code TEPIAN20"
     },
-    "faqTitle": "Questions? We have answers",
     "faqs": [
       {
         "question": "How long does delivery take?",
@@ -63,11 +62,9 @@
           "featured": false
         }
       ],
-      "newArrivalsTitle": "New arrivals",
       "saleEyebrow": "Limited time",
       "saleDescription": "Our everyday basics at a lower price while stock lasts.",
-      "saleButtonLabel": "Shop the sale",
-      "bestSellersTitle": "Best sellers"
+      "saleButtonLabel": "Shop the sale"
     },
     "footer": {
       "rights": "All rights reserved."

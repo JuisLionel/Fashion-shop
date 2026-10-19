@@ -1,6 +1,20 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
+img, a {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+}
+
+body {
+  -webkit-user-select: none;
+  -ms-user-select: none; 
+  user-select: none;
+}
+
+
 @layer base {
     * {
         transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
@@ -8,6 +22,22 @@
 
     body {
         font-family: var(--font-outfit);
+    }
+
+    #root {
+        -webkit-user-select: none;
+        user-select: none;
+    }
+
+    input,
+    textarea,
+    [contenteditable="true"] {
+        -webkit-user-select: text;
+        user-select: text;
+    }
+
+    img {
+        -webkit-user-drag: none;
     }
 
     h1,

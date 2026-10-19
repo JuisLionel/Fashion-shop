@@ -88,13 +88,17 @@ export default function Navbar({ isHome }: NavbarProps) {
               <span className="hidden leading-none [text-box:trim-both_cap_alphabetic] md:block">Search</span>
             </button>
           </div>
-          <Link to="/" aria-label="Fashion Shop home" className="text-inherit no-underline">
+          <Link
+            to="/"
+            aria-label="Fashion Shop home"
+            className="text-inherit no-underline max-md:order-1 md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2"
+          >
             <h1
               id="center"
-              className="whitespace-nowrap font-jost text-xl font-bold uppercase tracking-[0.25em] max-md:order-1 md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:text-3xl md:tracking-[0.3em]"
+              className="inline-flex whitespace-nowrap font-jost text-base font-bold uppercase gap-2 tracking-widest sm:text-lg md:text-3xl md:tracking-[0.18em]"
             >
-              <span className="md:hidden">Fashion</span>
-              <span className="hidden md:inline">Shop</span>
+              <span className="inline">Fashion</span>
+              <span className="inline">Shop</span>
             </h1>
           </Link>
           <div className="flex items-center justify-end gap-1 max-md:contents md:gap-4" id="Left">

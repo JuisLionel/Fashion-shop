@@ -33,6 +33,14 @@ type Product = {
 }
 
 const PRODUCTS: Product[] = siteData.products
+const HOME_STATS = [
+  { value: PRODUCTS.length.toLocaleString('id-ID'), label: 'Styles to explore' },
+  { value: siteData.site.home.categories.length.toLocaleString('id-ID'), label: 'Collections' },
+  {
+    value: PRODUCTS.reduce((total, product) => total + product.purchases, 0).toLocaleString('id-ID'),
+    label: 'Items sold',
+  },
+]
 
 const NEW_ARRIVALS = PRODUCTS.filter((p) => p.is_new).slice(0, 4)
 const ON_SALE = PRODUCTS.filter((p) => p.sale_price_idr).slice(0, 4)
@@ -77,7 +85,6 @@ function Banner() {
 
   return (
     <section className="reveal relative flex h-[60svh] min-h-96 w-full items-end overflow-hidden bg-base-200 font-jost text-base-content md:items-center">
-      {/* Background image */}
       <img
         src="/banner.webp"
         alt=""
@@ -94,7 +101,6 @@ function Banner() {
         className="theme-image-dark absolute inset-0 h-full w-full object-cover object-top-left"
       />
 
-      {/* Text */}
       <div className="relative z-10 flex w-full flex-col items-start gap-4 bg-base-100/90 p-6 text-base-content md:ml-auto md:w-[40%] md:p-12 lg:p-16">
         <p className="text-sm md:text-base ">Limited Time Offers</p>
 
@@ -160,7 +166,6 @@ function ProductCard({ product }: { product: Product }) {
           </figure>
         </Link>
 
-        {/* Badges */}
         <div className="pointer-events-none absolute left-3 top-3 flex flex-col items-start gap-1.5">
           {discount > 0 && (
             <span className="rounded-md bg-white px-2.5 py-1 text-xs font-medium text-accent">
@@ -179,7 +184,7 @@ function ProductCard({ product }: { product: Product }) {
             type="button"
             aria-label={`Add ${product.name} to cart${cartQuantity ? `, currently ${cartQuantity} in cart` : ''}`}
             onClick={() => handleProductAction(() => addToCart(product.id))}
-            className={`${iconButton} ${cartQuantity ? '!bg-base-content !text-base-100' : ''}`}
+            className={`${iconButton} ${cartQuantity ? 'bg-base-content! text-base-100!' : ''}`}
           >
             <FiShoppingBag className="h-4 w-4" aria-hidden="true" />
           </button>
@@ -188,7 +193,7 @@ function ProductCard({ product }: { product: Product }) {
             aria-label={`${isWishlisted ? 'Remove' : 'Add'} ${product.name} ${isWishlisted ? 'from' : 'to'} wishlist`}
             aria-pressed={isWishlisted}
             onClick={() => handleProductAction(() => toggleWishlist(product.id))}
-            className={`${iconButton} ${isWishlisted ? '!bg-base-content !text-base-100' : ''}`}
+            className={`${iconButton} ${isWishlisted ? 'bg-base-content! text-base-100!' : ''}`}
           >
             <FiHeart className={`h-4 w-4 ${isWishlisted ? 'fill-current' : ''}`} aria-hidden="true" />
           </button>
@@ -242,53 +247,76 @@ function Welcome() {
   const root = useRef<HTMLElement>(null)
 
   return (
-    <section ref={root} className="relative flex h-screen min-h-128 items-end justify-center overflow-hidden bg-base-200">
+    <section ref={root} className="relative flex min-h-176 h-svh items-end overflow-hidden bg-base-200">
       <img
         src="/hero.webp"
         alt=""
         fetchPriority="high"
-        className="theme-image-light absolute inset-0 h-full w-full object-cover object-[50%_50%]"
+        className="theme-image-light absolute inset-0 h-full w-full object-cover object-[50%_35%]"
       />
       <img
         src="/hero-dark.webp"
         alt=""
         aria-hidden="true"
         fetchPriority="high"
-        className="theme-image-dark absolute inset-0 h-full w-full object-cover object-[50%_50%]"
+        className="theme-image-dark absolute inset-0 h-full w-full object-cover object-[50%_35%]"
       />
 
-      <div className="relative z-10 flex flex-col items-center gap-4 pb-10 font-jost text-[#111111] md:pb-14">
-        <Link
-          to="/shop"
-          className="inline-flex bg-white px-10 py-4 text-xs font-medium uppercase tracking-widest text-[#111111] transition-colors duration-300 hover:bg-[#111111] hover:text-white"
-        >
-          Shop now
-        </Link>
+      <div className="absolute inset-0 bg-linear-to-t from-base-100/90 via-base-100/20 to-transparent" aria-hidden="true" />
+      <div className="relative z-10 mx-auto grid w-full max-w-360 gap-10 px-6 pb-10 font-jost text-base-content sm:px-8 md:grid-cols-[1fr_auto] md:items-end md:px-12 md:pb-14">
+        <div className="flex flex-col items-start gap-5">
+          <p className="text-xs uppercase tracking-[0.3em] text-base-content/75">Fashion Shop · Since 2026</p>
+          <h2 className="max-w-xl text-4xl font-light leading-tight md:text-5xl lg:text-6xl">
+            Find your style.
+            <br />
+            Make it yours.
+          </h2>
+          <Link
+            to="/shop"
+            className="inline-flex bg-base-content px-8 py-4 text-xs font-medium uppercase tracking-widest text-base-100 transition-colors duration-300 hover:bg-accent hover:text-accent-content"
+          >
+            Shop now
+            <FiArrowRight className="ml-3 h-4 w-4" aria-hidden="true" />
+          </Link>
+        </div>
+
+        <dl className="grid grid-cols-3 border-t border-base-content/40 pt-5 md:min-w-96 md:border-l md:border-t-0 md:pl-8 md:pt-0">
+          {HOME_STATS.map((stat) => (
+            <div key={stat.label} className="px-2 first:pl-0 md:px-4">
+              <dt className="text-2xl font-light sm:text-3xl">{stat.value}</dt>
+              <dd className="mt-1 max-w-24 text-[10px] uppercase leading-relaxed tracking-wider text-base-content/75 sm:text-xs">
+                {stat.label}
+              </dd>
+            </div>
+          ))}
+        </dl>
       </div>
     </section>
   )
 }
 
 function Faq() {
-  const { faqTitle, faqs } = siteData.site
+  const { faqs } = siteData.site
 
   return (
-    <section className="w-full bg-base-200 px-6 py-20 md:px-12">
-      <div className="mx-auto max-w-3xl font-jost">
-        <div className="reveal mb-10 text-center">
-          <p className="text-sm text-base-content/70">FAQ</p>
-          <h2 className="mt-2 text-3xl font-normal md:text-4xl">{faqTitle}</h2>
+    <section className="w-full bg-base-200 px-6 py-24 md:px-12 md:py-28">
+      <div className="mx-auto max-w-5xl font-jost">
+        <div className="reveal mb-12 text-center">
+          <p className="text-base text-base-content/70 md:text-lg">FAQ</p>
+          <h2 className="mt-3 text-4xl font-normal md:text-5xl">Questions? We have answers</h2>
         </div>
 
-        <div className="reveal space-y-2">
+        <div className="reveal space-y-3">
           {faqs.map((item, index) => (
             <div
               key={item.question}
               className="collapse collapse-plus rounded-none bg-base-100 transition-colors duration-300 has-checked:bg-[#3b1d12] has-checked:text-white"
             >
               <input type="radio" name="home-faq" defaultChecked={index === 1} aria-label={item.question} />
-              <div className="collapse-title min-h-0! px-5 py-7 text-sm font-normal">{item.question}</div>
-              <div className="collapse-content px-5 text-xs font-light leading-relaxed text-white/80">
+              <div className="collapse-title min-h-0! px-6 py-8 text-base font-normal md:px-8 md:py-9 md:text-lg">
+                {item.question}
+              </div>
+              <div className="collapse-content px-6 text-sm font-light leading-relaxed text-white/80 md:px-8 md:text-base">
                 <p>{item.answer}</p>
               </div>
             </div>
@@ -334,7 +362,7 @@ function Category() {
                 : ''
                 }`}
             >
-                <div className="category-scrim absolute inset-0 z-[1]" aria-hidden="true" />
+                <div className="category-scrim absolute inset-0 z-1" aria-hidden="true" />
                 <div className="relative z-10 flex w-full max-w-[85%] flex-col items-start gap-3 p-5 font-jost text-base-content md:p-8 lg:max-w-[48%]">
                   <span className="rounded-md bg-base-100/80 px-3 py-1 text-xs font-medium text-base-content">
                   {categoryProducts.length} {categoryProducts.length === 1 ? 'Item' : 'Items'}
@@ -385,7 +413,7 @@ function NewArrivals() {
 
   return (
     <section className="w-full px-6 pb-20 md:px-12 mt-10">
-      <SectionHeader title={siteData.site.home.newArrivalsTitle} to="/shop?sort=new" />
+      <SectionHeader title="New arrivals" to="/shop?sort=new" />
       <div className="grid grid-cols-2 gap-x-4 gap-y-10 lg:grid-cols-4">
         {NEW_ARRIVALS.map((product) => (
           <ProductCard key={product.id} product={product} />
