@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router'
 
-import products from '../../Data.json'
+import siteData from '../../Data.json'
 import { FiX } from 'react-icons/fi'
 
 type SearchProps = {
@@ -26,7 +26,12 @@ type SearchItem = {
     description: string
 }
 
-const SEARCH_ITEMS = products as unknown as SearchItem[]
+const SEARCH_ITEMS: SearchItem[] = siteData.products.map((product) => ({
+    ...product,
+    image: product.variant_image[0] ?? '',
+    rating: 0,
+    review_count: 0,
+}))
 const SEARCH_CATEGORIES = [...new Set(SEARCH_ITEMS.map((p) => p.category))]
 
 const TRENDING = SEARCH_CATEGORIES
@@ -49,7 +54,7 @@ const ALL_PRODUCTS = [...SEARCH_ITEMS]
 
 const formatPrice = (value: number) => `Rp ${value.toLocaleString('id-ID')}`
 
-export default function Search({ isSearchOpen, toggleSearch }: SearchProps) {
+export default function SearchMenu({ isSearchOpen, toggleSearch }: SearchProps) {
     const [query, setQuery] = useState('')
 
     // Lock page scroll while open
@@ -67,7 +72,6 @@ export default function Search({ isSearchOpen, toggleSearch }: SearchProps) {
         }
     }, [isSearchOpen])
 
-    // Close with Escape
     useEffect(() => {
         if (!isSearchOpen) return
 
@@ -110,7 +114,7 @@ export default function Search({ isSearchOpen, toggleSearch }: SearchProps) {
                     {/* Phone: title */}
                     <div className="flex items-center justify-between gap-2 pt-4 md:block md:pt-5">
                         <h1 className="order-1 whitespace-nowrap text-left font-jost text-base font-bold uppercase tracking-[0.18em] min-[400px]:text-xl md:text-center md:text-5xl md:tracking-[0.3em]">
-                            Fashion Shop
+                            {siteData.site.brand.name}
                         </h1>
 
                         <button

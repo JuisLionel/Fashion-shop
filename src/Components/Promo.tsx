@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { FiX } from 'react-icons/fi'
 import TextLoop from './TextLoop'
+import siteData from '../../Data.json'
 
 export default function Promo() {
     const [isVisible, setIsVisible] = useState(true)
@@ -10,7 +11,7 @@ export default function Promo() {
     return (
         <div className="relative w-full overflow-hidden border-b p-1 border-black/10 bg-linear-to-r from-[#F9A8AC] via-[#F9D6BF] to-[#A9D6CB] text-black dark:border-white/15">
             <TextLoop
-                text="20% off all shirts with code TEPIAN20"
+                text={siteData.site.promo.text}
                 shape="line"
                 speed={45}
                 separator="✦"

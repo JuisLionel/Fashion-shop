@@ -1,1812 +1,2527 @@
-[
-  {
-    "id": "SH-001",
-    "name": "Basic Tee Putih",
-    "category": "T-Shirts",
-    "price_idr": 89000,
-    "sale_price_idr": null,
-    "material": "Cotton Combed 30s",
-    "colors": [
-      "White",
-      "Black",
-      "Grey"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 12,
-      "M": 3,
-      "L": 15,
-      "XL": 0,
-      "XXL": 2
+{
+  "site": {
+    "brand": {
+      "name": "Fashion Shop",
+      "description": "Timeless style meets modern expression. We believe fashion is more than what you wear — it's a reflection of who you are. Discover thoughtfully curated pieces that blend effortless elegance, contemporary design, and everyday versatility, made to inspire confidence and help you express your individuality in every moment.",
+      "since": "Thoughtfully curated, driven by individuality, and inspired by the art of everyday dressing since 2026."
     },
-    "rating": 4.1,
-    "review_count": 302,
-    "is_new": false,
-    "featured": false,
-    "description": "Everyday crew neck with a soft, medium-weight feel.",
-    "tags": [
-      "t-shirts",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&h=1000&q=80"
+    "promo": {
+      "enabled": false,
+      "text": "20% off all shirts with code TEPIAN20"
+    },
+    "home": {
+      "benefits": [
+        {
+          "icon": "shipping",
+          "title": "Free shipping",
+          "text": "On orders over Rp 300.000"
+        },
+        {
+          "icon": "exchange",
+          "title": "7-day exchange",
+          "text": "Wrong size? Swap it once, free"
+        },
+        {
+          "icon": "package",
+          "title": "Local couriers",
+          "text": "JNE, J&T and SiCepat with tracking"
+        },
+        {
+          "icon": "cotton",
+          "title": "Pre-shrunk cotton",
+          "text": "Sizes stay true after washing"
+        }
+      ],
+      "categories": [
+        {
+          "name": "For Women's",
+          "tag": "Woman",
+          "description": "Easy everyday pieces cut for her, in soft fabrics that wear well.",
+          "to": "/shop?category=women",
+          "image": "/Assets/Woman.webp",
+          "featured": true
+        },
+        {
+          "name": "For Men's",
+          "tag": "Man",
+          "description": "Clean basics for every day.",
+          "to": "/shop?category=men",
+          "image": "/Assets/Men.webp",
+          "featured": false
+        },
+        {
+          "name": "Accessories",
+          "tag": "accessories",
+          "description": "Finish the look.",
+          "to": "/shop?category=accessories",
+          "image": "/Assets/Accessories.webp",
+          "featured": false
+        }
+      ],
+      "newArrivalsTitle": "New arrivals",
+      "saleEyebrow": "Limited time",
+      "saleDescription": "Our everyday basics at a lower price while stock lasts.",
+      "saleButtonLabel": "Shop the sale",
+      "bestSellersTitle": "Best sellers"
+    },
+    "footer": {
+      "rights": "All rights reserved."
+    },
+    "contact": {
+      "description": "Questions about sizes, orders or exchanges? Message us and we will help you find your fit.",
+      "whatsapp": {
+        "label": "+62 812 0000 0000",
+        "href": "https://wa.me/628120000000"
+      },
+      "phone": {
+        "label": "+62 761 000 000",
+        "href": "tel:+62761000000"
+      },
+      "email": {
+        "label": "hello@yourshop.com",
+        "href": "mailto:hello@yourshop.com"
+      },
+      "instagram": {
+        "label": "@yourshop",
+        "href": "https://instagram.com/yourshop"
+      },
+      "address": [
+        "Jl. Example No. 12",
+        "City, province 28000",
+        "Country"
+      ],
+      "hours": [
+        [
+          "Monday to Friday",
+          "09:00 – 17:00"
+        ],
+        [
+          "Saturday",
+          "10:00 – 15:00"
+        ],
+        [
+          "Sunday",
+          "Closed"
+        ]
+      ]
+    }
   },
-  {
-    "id": "SH-002",
-    "name": "Basic Tee Hitam",
-    "category": "T-Shirts",
-    "price_idr": 89000,
-    "sale_price_idr": null,
-    "material": "Cotton Combed 30s",
-    "colors": [
-      "Black",
-      "Navy"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 0,
-      "M": 5,
-      "L": 0,
-      "XL": 2,
-      "XXL": 15
+  "products": [
+    {
+      "id": "SH-001",
+      "name": "Basic Tee Putih",
+      "category": "T-Shirts",
+      "price_idr": 89000,
+      "sale_price_idr": null,
+      "material": "Cotton Combed 30s",
+      "colors": [
+        "White",
+        "Cream"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "stock_by_size": {
+        "S": 12,
+        "M": 20,
+        "L": 18,
+        "XL": 9,
+        "XXL": 4
+      },
+      "is_new": false,
+      "featured": true,
+      "description": "Soft white tee with a clean neckline. Pre-shrunk, so the fit stays the same after washing.",
+      "tags": [
+        "t-shirts",
+        "Man",
+        "Woman"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/f5f5f5/000000.png?text=Basic+Tee+Putih",
+        "https://placehold.co/800x1000/efe6d2/000000.png?text=Basic+Tee+Putih",
+        "https://placehold.co/800x1000/d9d9d9/000000.png?text=Basic+Tee+Putih"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/f5f5f5/000000.png?text=variant",
+        "https://placehold.co/800x1000/efe6d2/000000.png?text=variant"
+      ]
     },
-    "rating": 4.2,
-    "review_count": 286,
-    "is_new": false,
-    "featured": false,
-    "description": "Clean black tee that holds its colour after many washes.",
-    "tags": [
-      "t-shirts",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-003",
-    "name": "Pocket Tee Sage",
-    "category": "T-Shirts",
-    "price_idr": 109000,
-    "sale_price_idr": null,
-    "material": "Cotton Combed 24s",
-    "colors": [
-      "Sage",
-      "Sand",
-      "White"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 15,
-      "M": 0,
-      "L": 2,
-      "XL": 5,
-      "XXL": 0
+    {
+      "id": "SH-003",
+      "name": "Oversized Tee Abu",
+      "category": "T-Shirts",
+      "price_idr": 119000,
+      "sale_price_idr": 99000,
+      "material": "Cotton Combed 24s",
+      "colors": [
+        "Grey",
+        "Charcoal",
+        "Olive"
+      ],
+      "sizes": [
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "stock_by_size": {
+        "M": 7,
+        "L": 14,
+        "XL": 11,
+        "XXL": 0
+      },
+      "is_new": true,
+      "featured": true,
+      "description": "Relaxed oversized cut with dropped shoulders and a heavier fabric that drapes well.",
+      "tags": [
+        "t-shirts",
+        "Man",
+        "oversized"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/9a9a9a/000000.png?text=Oversized+Tee+Abu",
+        "https://placehold.co/800x1000/3b3b3b/ffffff.png?text=Oversized+Tee+Abu",
+        "https://placehold.co/800x1000/6b7048/ffffff.png?text=Oversized+Tee+Abu",
+        "https://placehold.co/800x1000/b5b5b5/000000.png?text=Oversized+Tee+Abu"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/9a9a9a/000000.png?text=variant",
+        "https://placehold.co/800x1000/3b3b3b/ffffff.png?text=variant",
+        "https://placehold.co/800x1000/6b7048/ffffff.png?text=variant"
+      ]
     },
-    "rating": 4.4,
-    "review_count": 117,
-    "is_new": false,
-    "featured": false,
-    "description": "Chest pocket tee in a muted green.",
-    "tags": [
-      "t-shirts",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-004",
-    "name": "Heavy Tee 240gsm",
-    "category": "T-Shirts",
-    "price_idr": 149000,
-    "sale_price_idr": null,
-    "material": "Cotton 240gsm",
-    "colors": [
-      "Black",
-      "Off White",
-      "Brown"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 0,
-      "M": 3,
-      "L": 8,
-      "XL": 15,
-      "XXL": 3
+    {
+      "id": "SH-004",
+      "name": "Polo Classic Navy",
+      "category": "Polo Shirts",
+      "price_idr": 149000,
+      "sale_price_idr": null,
+      "material": "Lacoste Pique Cotton",
+      "colors": [
+        "Navy",
+        "Maroon",
+        "Forest Green"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "stock_by_size": {
+        "S": 6,
+        "M": 15,
+        "L": 22,
+        "XL": 8
+      },
+      "is_new": false,
+      "featured": false,
+      "description": "Breathable pique polo with a two-button placket. Smart enough for the office, easy enough for weekends.",
+      "tags": [
+        "polo",
+        "Man"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/1f2a44/ffffff.png?text=Polo+Classic+Navy",
+        "https://placehold.co/800x1000/6d1f2b/ffffff.png?text=Polo+Classic+Navy",
+        "https://placehold.co/800x1000/1f4d36/ffffff.png?text=Polo+Classic+Navy"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/1f2a44/ffffff.png?text=variant",
+        "https://placehold.co/800x1000/6d1f2b/ffffff.png?text=variant",
+        "https://placehold.co/800x1000/1f4d36/ffffff.png?text=variant"
+      ]
     },
-    "rating": 4.6,
-    "review_count": 290,
-    "is_new": false,
-    "featured": false,
-    "description": "Thick, structured fabric that keeps its shape.",
-    "tags": [
-      "t-shirts",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1529139574466-a303027c1d8?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-005",
-    "name": "Ringer Tee Retro",
-    "category": "T-Shirts",
-    "price_idr": 119000,
-    "sale_price_idr": null,
-    "material": "Cotton Combed 30s",
-    "colors": [
-      "White/Navy",
-      "White/Red"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 3,
-      "M": 2,
-      "L": 5,
-      "XL": 12,
-      "XXL": 2
+    {
+      "id": "SH-005",
+      "name": "Kemeja Linen Cream",
+      "category": "Shirts",
+      "price_idr": 199000,
+      "sale_price_idr": 169000,
+      "material": "Linen Blend",
+      "colors": [
+        "Cream",
+        "Sage",
+        "Sky Blue"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "stock_by_size": {
+        "S": 3,
+        "M": 8,
+        "L": 10,
+        "XL": 0
+      },
+      "is_new": true,
+      "featured": true,
+      "description": "Lightweight linen-blend shirt that stays cool in Pekanbaru's heat. Wear it buttoned up or open over a tee.",
+      "tags": [
+        "shirts",
+        "Man",
+        "Woman",
+        "linen"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/efe6d2/000000.png?text=Kemeja+Linen+Cream",
+        "https://placehold.co/800x1000/a9b79c/000000.png?text=Kemeja+Linen+Cream",
+        "https://placehold.co/800x1000/a8c4dc/000000.png?text=Kemeja+Linen+Cream"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/efe6d2/000000.png?text=variant",
+        "https://placehold.co/800x1000/a9b79c/000000.png?text=variant",
+        "https://placehold.co/800x1000/a8c4dc/000000.png?text=variant"
+      ]
     },
-    "rating": 4.1,
-    "review_count": 34,
-    "is_new": false,
-    "featured": false,
-    "description": "Contrast collar and sleeve trim in a 70s style.",
-    "tags": [
-      "t-shirts",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-006",
-    "name": "Striped Tee Biru",
-    "category": "T-Shirts",
-    "price_idr": 125000,
-    "sale_price_idr": null,
-    "material": "Cotton Combed 30s",
-    "colors": [
-      "Blue/White",
-      "Black/White"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 5,
-      "M": 20,
-      "L": 15,
-      "XL": 12,
-      "XXL": 20
+    {
+      "id": "SH-006",
+      "name": "Flannel Kotak Merah",
+      "category": "Shirts",
+      "price_idr": 229000,
+      "sale_price_idr": null,
+      "material": "Cotton Flannel",
+      "colors": [
+        "Red",
+        "Blue"
+      ],
+      "sizes": [
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "stock_by_size": {
+        "M": 4,
+        "L": 9,
+        "XL": 6,
+        "XXL": 2
+      },
+      "is_new": false,
+      "featured": false,
+      "description": "Brushed cotton flannel with a classic check pattern. Soft on the skin and good for layering.",
+      "tags": [
+        "shirts",
+        "Man",
+        "flannel"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/a1262e/ffffff.png?text=Flannel+Kotak+Merah",
+        "https://placehold.co/800x1000/27407a/ffffff.png?text=Flannel+Kotak+Merah"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/a1262e/ffffff.png?text=variant",
+        "https://placehold.co/800x1000/27407a/ffffff.png?text=variant"
+      ]
     },
-    "rating": 4.5,
-    "review_count": 157,
-    "is_new": false,
-    "featured": false,
-    "description": "Horizontal stripes, relaxed fit.",
-    "tags": [
-      "t-shirts",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-007",
-    "name": "V-Neck Essential",
-    "category": "T-Shirts",
-    "price_idr": 95000,
-    "sale_price_idr": null,
-    "material": "Cotton Spandex",
-    "colors": [
-      "White",
-      "Grey",
-      "Black"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 5,
-      "M": 3,
-      "L": 5,
-      "XL": 2,
-      "XXL": 8
+    {
+      "id": "SH-007",
+      "name": "Long Sleeve Tee Hitam",
+      "category": "Long Sleeve",
+      "price_idr": 109000,
+      "sale_price_idr": 95000,
+      "material": "Cotton Combed 30s",
+      "colors": [
+        "Black",
+        "White",
+        "Brown"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "stock_by_size": {
+        "S": 10,
+        "M": 16,
+        "L": 13,
+        "XL": 5
+      },
+      "is_new": false,
+      "featured": false,
+      "description": "Everyday long sleeve tee with ribbed cuffs that keep their shape.",
+      "tags": [
+        "long-sleeve",
+        "Man",
+        "Woman"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/1e1e20/ffffff.png?text=Long+Sleeve+Tee+Hitam",
+        "https://placehold.co/800x1000/f5f5f5/000000.png?text=Long+Sleeve+Tee+Hitam",
+        "https://placehold.co/800x1000/5B3A29/ffffff.png?text=Long+Sleeve+Tee+Hitam"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/1e1e20/ffffff.png?text=variant",
+        "https://placehold.co/800x1000/f5f5f5/000000.png?text=variant",
+        "https://placehold.co/800x1000/5b3a29/ffffff.png?text=variant"
+      ]
     },
-    "rating": 4.9,
-    "review_count": 233,
-    "is_new": true,
-    "featured": false,
-    "description": "Soft stretch fabric, good for layering.",
-    "tags": [
-      "t-shirts",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-008",
-    "name": "Raglan Tee Abu",
-    "category": "T-Shirts",
-    "price_idr": 115000,
-    "sale_price_idr": null,
-    "material": "Cotton Combed 30s",
-    "colors": [
-      "Grey/Black",
-      "Grey/Navy"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 8,
-      "M": 2,
-      "L": 2,
-      "XL": 15,
-      "XXL": 3
+    {
+      "id": "SH-008",
+      "name": "Blazer Linen Sand",
+      "category": "Blazers",
+      "price_idr": 329000,
+      "sale_price_idr": null,
+      "material": "Linen Blend",
+      "colors": [
+        "Sand",
+        "Black"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "stock_by_size": {
+        "S": 4,
+        "M": 7,
+        "L": 5,
+        "XL": 2
+      },
+      "is_new": true,
+      "featured": false,
+      "description": "A lightweight linen-blend blazer for polished everyday layering.",
+      "tags": [
+        "Woman",
+        "blazer",
+        "linen"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/c9b69d/000000.png?text=Blazer+Linen+Sand",
+        "https://placehold.co/800x1000/292929/ffffff.png?text=Blazer+Linen+Black"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/c9b69d/000000.png?text=variant",
+        "https://placehold.co/800x1000/1e1e20/ffffff.png?text=variant"
+      ]
     },
-    "rating": 4.2,
-    "review_count": 254,
-    "is_new": false,
-    "featured": false,
-    "description": "Baseball-style sleeves with a sporty look.",
-    "tags": [
-      "t-shirts",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1529139574466-a303027c1d8?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-009",
-    "name": "Tee Garment Dye",
-    "category": "T-Shirts",
-    "price_idr": 139000,
-    "sale_price_idr": null,
-    "material": "Cotton 20s, garment dyed",
-    "colors": [
-      "Faded Olive",
-      "Faded Brick",
-      "Faded Blue"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 15,
-      "M": 0,
-      "L": 2,
-      "XL": 12,
-      "XXL": 12
+    {
+      "id": "SH-009",
+      "name": "Midi Dress Sage",
+      "category": "Dresses",
+      "price_idr": 249000,
+      "sale_price_idr": 219000,
+      "material": "Rayon Cotton",
+      "colors": [
+        "Sage",
+        "Navy"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "stock_by_size": {
+        "S": 6,
+        "M": 8,
+        "L": 5,
+        "XL": 3
+      },
+      "is_new": true,
+      "featured": false,
+      "description": "A relaxed midi dress in breathable fabric, made for warm days.",
+      "tags": [
+        "Woman",
+        "dress",
+        "casual"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/a9b79c/000000.png?text=Midi+Dress+Sage",
+        "https://placehold.co/800x1000/1f2a44/ffffff.png?text=Midi+Dress+Navy"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/a9b79c/000000.png?text=variant",
+        "https://placehold.co/800x1000/1f2a44/ffffff.png?text=variant"
+      ]
     },
-    "rating": 4.6,
-    "review_count": 300,
-    "is_new": false,
-    "featured": true,
-    "description": "Lived-in colour from garment dyeing.",
-    "tags": [
-      "t-shirts",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-010",
-    "name": "Slub Tee Natural",
-    "category": "T-Shirts",
-    "price_idr": 129000,
-    "sale_price_idr": null,
-    "material": "Slub Cotton",
-    "colors": [
-      "Oatmeal",
-      "Charcoal"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 20,
-      "M": 2,
-      "L": 2,
-      "XL": 8,
-      "XXL": 20
+    {
+      "id": "SH-010",
+      "name": "Denim Jeans Indigo",
+      "category": "Jeans",
+      "price_idr": 279000,
+      "sale_price_idr": null,
+      "material": "Cotton Denim",
+      "colors": [
+        "Indigo",
+        "Black"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "stock_by_size": {
+        "S": 5,
+        "M": 9,
+        "L": 8,
+        "XL": 4
+      },
+      "is_new": false,
+      "featured": false,
+      "description": "Classic straight-leg denim with a comfortable everyday fit.",
+      "tags": [
+        "Man",
+        "Woman",
+        "denim"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/344867/ffffff.png?text=Denim+Jeans+Indigo",
+        "https://placehold.co/800x1000/252525/ffffff.png?text=Denim+Jeans+Black"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/344867/ffffff.png?text=variant",
+        "https://placehold.co/800x1000/1e1e20/ffffff.png?text=variant"
+      ]
     },
-    "rating": 4.1,
-    "review_count": 162,
-    "is_new": false,
-    "featured": false,
-    "description": "Textured slub weave with a casual look.",
-    "tags": [
-      "t-shirts",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-011",
-    "name": "Oversized Tee Boxy",
-    "category": "Oversized",
-    "price_idr": 159000,
-    "sale_price_idr": null,
-    "material": "Cotton 240gsm",
-    "colors": [
-      "Black",
-      "White",
-      "Cream"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 20,
-      "M": 8,
-      "L": 15,
-      "XL": 12,
-      "XXL": 0
+    {
+      "id": "SH-011",
+      "name": "Utility Jacket Olive",
+      "category": "Jackets & Coats",
+      "price_idr": 359000,
+      "sale_price_idr": 319000,
+      "material": "Cotton Twill",
+      "colors": [
+        "Olive",
+        "Stone"
+      ],
+      "sizes": [
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "stock_by_size": {
+        "M": 4,
+        "L": 6,
+        "XL": 5,
+        "XXL": 2
+      },
+      "is_new": false,
+      "featured": false,
+      "description": "A practical cotton-twill layer with a relaxed fit and roomy pockets.",
+      "tags": [
+        "Man",
+        "Woman",
+        "outerwear"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/6b7048/ffffff.png?text=Utility+Jacket+Olive",
+        "https://placehold.co/800x1000/c5b9a4/000000.png?text=Utility+Jacket+Stone"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/6b7048/ffffff.png?text=variant",
+        "https://placehold.co/800x1000/c5b9a4/000000.png?text=variant"
+      ]
     },
-    "rating": 4.4,
-    "review_count": 316,
-    "is_new": false,
-    "featured": false,
-    "description": "Dropped shoulders and a boxy cut.",
-    "tags": [
-      "oversized",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-012",
-    "name": "Oversized Tee Washed",
-    "category": "Oversized",
-    "price_idr": 169000,
-    "sale_price_idr": 144000,
-    "material": "Washed Cotton 20s",
-    "colors": [
-      "Washed Black",
-      "Washed Grey"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 2,
-      "M": 20,
-      "L": 0,
-      "XL": 5,
-      "XXL": 8
+    {
+      "id": "SH-012",
+      "name": "Canvas Tote Natural",
+      "category": "Accessories",
+      "price_idr": 79000,
+      "sale_price_idr": null,
+      "material": "Cotton Canvas",
+      "colors": [
+        "Natural",
+        "Black"
+      ],
+      "sizes": [
+        "One Size"
+      ],
+      "stock_by_size": {
+        "One Size": 20
+      },
+      "is_new": false,
+      "featured": false,
+      "description": "A sturdy everyday canvas tote with room for your essentials.",
+      "tags": [
+        "accessories",
+        "Woman",
+        "Man",
+        "bag"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/d9c9a8/000000.png?text=Canvas+Tote+Natural",
+        "https://placehold.co/800x1000/252525/ffffff.png?text=Canvas+Tote+Black"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/d9c9a8/000000.png?text=variant",
+        "https://placehold.co/800x1000/1e1e20/ffffff.png?text=variant"
+      ]
     },
-    "rating": 4.2,
-    "review_count": 204,
-    "is_new": false,
-    "featured": false,
-    "description": "Vintage wash for a faded finish.",
-    "tags": [
-      "oversized",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-013",
-    "name": "Oversized Pocket Tee",
-    "category": "Oversized",
-    "price_idr": 165000,
-    "sale_price_idr": null,
-    "material": "Cotton 24s",
-    "colors": [
-      "Mocha",
-      "Black"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 20,
-      "M": 2,
-      "L": 3,
-      "XL": 20,
-      "XXL": 15
+    {
+      "id": "SH-013",
+      "name": "Basic Tee Hitam",
+      "category": "T-Shirts",
+      "price_idr": 89000,
+      "sale_price_idr": null,
+      "material": "Cotton Combed 30s",
+      "colors": [
+        "Black",
+        "Charcoal"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "stock_by_size": {
+        "S": 10,
+        "M": 15,
+        "L": 12,
+        "XL": 8,
+        "XXL": 3
+      },
+      "is_new": false,
+      "featured": false,
+      "description": "A versatile black cotton tee with a soft hand feel and a clean fit.",
+      "tags": [
+        "t-shirts",
+        "Man",
+        "Woman"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/242424/ffffff.png?text=Basic+Tee+Hitam"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/1e1e20/ffffff.png?text=variant",
+        "https://placehold.co/800x1000/3b3b3b/ffffff.png?text=variant"
+      ]
     },
-    "rating": 4.9,
-    "review_count": 224,
-    "is_new": false,
-    "featured": false,
-    "description": "Roomy fit with a large chest pocket.",
-    "tags": [
-      "oversized",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-014",
-    "name": "Longline Oversized",
-    "category": "Oversized",
-    "price_idr": 175000,
-    "sale_price_idr": 149000,
-    "material": "Cotton 240gsm",
-    "colors": [
-      "Black",
-      "Stone"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 8,
-      "M": 15,
-      "L": 12,
-      "XL": 15,
-      "XXL": 5
+    {
+      "id": "SH-014",
+      "name": "Pocket Tee Olive",
+      "category": "T-Shirts",
+      "price_idr": 99000,
+      "sale_price_idr": 89000,
+      "material": "Cotton Combed 24s",
+      "colors": [
+        "Olive",
+        "Cream"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "stock_by_size": {
+        "S": 8,
+        "M": 12,
+        "L": 9,
+        "XL": 4
+      },
+      "is_new": true,
+      "featured": false,
+      "description": "A relaxed everyday tee finished with a simple chest pocket.",
+      "tags": [
+        "t-shirts",
+        "Man",
+        "Woman",
+        "casual"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/6b7048/ffffff.png?text=Pocket+Tee+Olive"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/6b7048/ffffff.png?text=variant",
+        "https://placehold.co/800x1000/efe6d2/000000.png?text=variant"
+      ]
     },
-    "rating": 4.2,
-    "review_count": 122,
-    "is_new": true,
-    "featured": false,
-    "description": "Extra length, sits below the hip.",
-    "tags": [
-      "oversized",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-015",
-    "name": "Cropped Boxy Tee",
-    "category": "Oversized",
-    "price_idr": 149000,
-    "sale_price_idr": null,
-    "material": "Cotton Combed 30s",
-    "colors": [
-      "White",
-      "Lilac",
-      "Black"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 5,
-      "M": 0,
-      "L": 20,
-      "XL": 3,
-      "XXL": 8
+    {
+      "id": "SH-015",
+      "name": "Polo Classic Cream",
+      "category": "Polo Shirts",
+      "price_idr": 149000,
+      "sale_price_idr": null,
+      "material": "Lacoste Pique Cotton",
+      "colors": [
+        "Cream",
+        "Navy"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "stock_by_size": {
+        "S": 5,
+        "M": 11,
+        "L": 10,
+        "XL": 6
+      },
+      "is_new": false,
+      "featured": false,
+      "description": "A breathable pique polo with a neat collar and timeless shape.",
+      "tags": [
+        "polo",
+        "Man",
+        "Woman"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/efe6d2/000000.png?text=Polo+Classic+Cream"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/efe6d2/000000.png?text=variant",
+        "https://placehold.co/800x1000/1f2a44/ffffff.png?text=variant"
+      ]
     },
-    "rating": 4.1,
-    "review_count": 277,
-    "is_new": false,
-    "featured": false,
-    "description": "Short, wide cut for high-waist outfits.",
-    "tags": [
-      "oversized",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-016",
-    "name": "Oversized Tee Heather",
-    "category": "Oversized",
-    "price_idr": 155000,
-    "sale_price_idr": null,
-    "material": "Cotton Blend",
-    "colors": [
-      "Heather Grey",
-      "Heather Blue"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 12,
-      "M": 12,
-      "L": 3,
-      "XL": 0,
-      "XXL": 20
+    {
+      "id": "SH-016",
+      "name": "Oxford Shirt Sky",
+      "category": "Shirts",
+      "price_idr": 189000,
+      "sale_price_idr": 169000,
+      "material": "Cotton Oxford",
+      "colors": [
+        "Sky Blue",
+        "White"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "stock_by_size": {
+        "S": 6,
+        "M": 10,
+        "L": 8,
+        "XL": 5,
+        "XXL": 2
+      },
+      "is_new": true,
+      "featured": false,
+      "description": "A crisp cotton Oxford shirt suited to workdays and weekends.",
+      "tags": [
+        "shirts",
+        "Man",
+        "Woman"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/a8c4dc/000000.png?text=Oxford+Shirt+Sky"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/a8c4dc/000000.png?text=variant",
+        "https://placehold.co/800x1000/f5f5f5/000000.png?text=variant"
+      ]
     },
-    "rating": 4.8,
-    "review_count": 290,
-    "is_new": false,
-    "featured": false,
-    "description": "Soft melange fabric with a relaxed drape.",
-    "tags": [
-      "oversized",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-017",
-    "name": "Tee Sablon Kota Lama",
-    "category": "Graphic Tee",
-    "price_idr": 139000,
-    "sale_price_idr": null,
-    "material": "Cotton Combed 30s",
-    "colors": [
-      "White",
-      "Black"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 15,
-      "M": 15,
-      "L": 15,
-      "XL": 15,
-      "XXL": 2
+    {
+      "id": "SH-017",
+      "name": "Flannel Shirt Forest",
+      "category": "Shirts",
+      "price_idr": 229000,
+      "sale_price_idr": null,
+      "material": "Brushed Cotton Flannel",
+      "colors": [
+        "Forest Green",
+        "Navy"
+      ],
+      "sizes": [
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "stock_by_size": {
+        "M": 4,
+        "L": 7,
+        "XL": 5,
+        "XXL": 3
+      },
+      "is_new": false,
+      "featured": false,
+      "description": "Soft brushed flannel that works well as a shirt or light layer.",
+      "tags": [
+        "shirts",
+        "Man",
+        "flannel"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/315346/ffffff.png?text=Flannel+Shirt+Forest"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/1f4d36/ffffff.png?text=variant",
+        "https://placehold.co/800x1000/1f2a44/ffffff.png?text=variant"
+      ]
     },
-    "rating": 4.4,
-    "review_count": 101,
-    "is_new": false,
-    "featured": false,
-    "description": "Line drawing of old town buildings on the chest.",
-    "tags": [
-      "graphic-tee",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-018",
-    "name": "Tee Sablon Kopi Pagi",
-    "category": "Graphic Tee",
-    "price_idr": 135000,
-    "sale_price_idr": null,
-    "material": "Cotton Combed 30s",
-    "colors": [
-      "Cream",
-      "Brown"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 2,
-      "M": 5,
-      "L": 20,
-      "XL": 3,
-      "XXL": 2
+    {
+      "id": "SH-018",
+      "name": "Long Sleeve Tee Cream",
+      "category": "Long Sleeve",
+      "price_idr": 109000,
+      "sale_price_idr": null,
+      "material": "Cotton Combed 30s",
+      "colors": [
+        "Cream",
+        "Black"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "stock_by_size": {
+        "S": 7,
+        "M": 12,
+        "L": 9,
+        "XL": 4
+      },
+      "is_new": false,
+      "featured": false,
+      "description": "A comfortable long sleeve essential with a soft ribbed neckline.",
+      "tags": [
+        "long-sleeve",
+        "Man",
+        "Woman"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/efe6d2/000000.png?text=Long+Sleeve+Tee+Cream"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/efe6d2/000000.png?text=variant",
+        "https://placehold.co/800x1000/1e1e20/ffffff.png?text=variant"
+      ]
     },
-    "rating": 4.1,
-    "review_count": 4,
-    "is_new": false,
-    "featured": true,
-    "description": "Small coffee cup graphic with a morning slogan.",
-    "tags": [
-      "graphic-tee",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-019",
-    "name": "Tee Riau Tepi Sungai",
-    "category": "Graphic Tee",
-    "price_idr": 139000,
-    "sale_price_idr": null,
-    "material": "Cotton Combed 30s",
-    "colors": [
-      "Navy",
-      "White"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 3,
-      "M": 2,
-      "L": 12,
-      "XL": 0,
-      "XXL": 2
+    {
+      "id": "SH-019",
+      "name": "Linen Blazer Charcoal",
+      "category": "Blazers",
+      "price_idr": 349000,
+      "sale_price_idr": 319000,
+      "material": "Linen Cotton Blend",
+      "colors": [
+        "Charcoal",
+        "Sand"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "stock_by_size": {
+        "S": 3,
+        "M": 6,
+        "L": 5,
+        "XL": 2
+      },
+      "is_new": true,
+      "featured": false,
+      "description": "A breathable tailored layer with a relaxed, easy-to-style silhouette.",
+      "tags": [
+        "Woman",
+        "Man",
+        "blazer",
+        "linen"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/444444/ffffff.png?text=Linen+Blazer+Charcoal"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/3b3b3b/ffffff.png?text=variant",
+        "https://placehold.co/800x1000/c9b69d/000000.png?text=variant"
+      ]
     },
-    "rating": 4.6,
-    "review_count": 80,
-    "is_new": false,
-    "featured": false,
-    "description": "River scene print inspired by Sungai Siak.",
-    "tags": [
-      "graphic-tee",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-020",
-    "name": "Tee Retro Cassette",
-    "category": "Graphic Tee",
-    "price_idr": 145000,
-    "sale_price_idr": 123000,
-    "material": "Cotton Combed 30s",
-    "colors": [
-      "Black",
-      "Faded Red"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 8,
-      "M": 12,
-      "L": 12,
-      "XL": 20,
-      "XXL": 2
+    {
+      "id": "SH-020",
+      "name": "Wrap Dress Terracotta",
+      "category": "Dresses",
+      "price_idr": 259000,
+      "sale_price_idr": null,
+      "material": "Rayon",
+      "colors": [
+        "Terracotta",
+        "Black"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "stock_by_size": {
+        "S": 5,
+        "M": 7,
+        "L": 6,
+        "XL": 3
+      },
+      "is_new": false,
+      "featured": false,
+      "description": "A light wrap dress with an adjustable waist and an easy drape.",
+      "tags": [
+        "Woman",
+        "dress",
+        "casual"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/b96b50/ffffff.png?text=Wrap+Dress+Terracotta"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/b96b50/ffffff.png?text=variant",
+        "https://placehold.co/800x1000/1e1e20/ffffff.png?text=variant"
+      ]
     },
-    "rating": 4.5,
-    "review_count": 242,
-    "is_new": false,
-    "featured": false,
-    "description": "Cassette tape print with a vintage feel.",
-    "tags": [
-      "graphic-tee",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-021",
-    "name": "Tee Minimal Wave",
-    "category": "Graphic Tee",
-    "price_idr": 129000,
-    "sale_price_idr": 110000,
-    "material": "Cotton Combed 30s",
-    "colors": [
-      "White",
-      "Sage"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 20,
-      "M": 20,
-      "L": 8,
-      "XL": 2,
-      "XXL": 3
+    {
+      "id": "SH-021",
+      "name": "Straight Jeans Black",
+      "category": "Jeans",
+      "price_idr": 279000,
+      "sale_price_idr": 249000,
+      "material": "Cotton Denim",
+      "colors": [
+        "Black",
+        "Indigo"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "stock_by_size": {
+        "S": 4,
+        "M": 8,
+        "L": 7,
+        "XL": 5,
+        "XXL": 2
+      },
+      "is_new": false,
+      "featured": false,
+      "description": "Straight-leg denim with a versatile wash and comfortable everyday fit.",
+      "tags": [
+        "Man",
+        "Woman",
+        "denim"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/252525/ffffff.png?text=Straight+Jeans+Black"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/1e1e20/ffffff.png?text=variant",
+        "https://placehold.co/800x1000/344867/ffffff.png?text=variant"
+      ]
     },
-    "rating": 4.3,
-    "review_count": 139,
-    "is_new": true,
-    "featured": false,
-    "description": "Single wave line across the chest.",
-    "tags": [
-      "graphic-tee",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-022",
-    "name": "Tee Typo Santai",
-    "category": "Graphic Tee",
-    "price_idr": 125000,
-    "sale_price_idr": 106000,
-    "material": "Cotton Combed 30s",
-    "colors": [
-      "Black",
-      "Grey"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 20,
-      "M": 3,
-      "L": 0,
-      "XL": 5,
-      "XXL": 12
+    {
+      "id": "SH-022",
+      "name": "Denim Jacket Mid Blue",
+      "category": "Jackets & Coats",
+      "price_idr": 319000,
+      "sale_price_idr": null,
+      "material": "Cotton Denim",
+      "colors": [
+        "Mid Blue",
+        "Black"
+      ],
+      "sizes": [
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "stock_by_size": {
+        "M": 5,
+        "L": 8,
+        "XL": 6,
+        "XXL": 2
+      },
+      "is_new": true,
+      "featured": false,
+      "description": "A classic denim jacket designed for easy layering throughout the year.",
+      "tags": [
+        "Man",
+        "Woman",
+        "outerwear"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/56718b/ffffff.png?text=Denim+Jacket+Mid+Blue"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/56718b/ffffff.png?text=variant",
+        "https://placehold.co/800x1000/1e1e20/ffffff.png?text=variant"
+      ]
     },
-    "rating": 4.5,
-    "review_count": 17,
-    "is_new": false,
-    "featured": false,
-    "description": "Typographic print with a relaxed slogan.",
-    "tags": [
-      "graphic-tee",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-023",
-    "name": "Tee Motor Klasik",
-    "category": "Graphic Tee",
-    "price_idr": 149000,
-    "sale_price_idr": null,
-    "material": "Cotton Combed 24s",
-    "colors": [
-      "Off White",
-      "Black"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 8,
-      "M": 2,
-      "L": 8,
-      "XL": 12,
-      "XXL": 3
+    {
+      "id": "SH-023",
+      "name": "Canvas Crossbody Bag",
+      "category": "Accessories",
+      "price_idr": 129000,
+      "sale_price_idr": null,
+      "material": "Cotton Canvas",
+      "colors": [
+        "Natural",
+        "Olive"
+      ],
+      "sizes": [
+        "One Size"
+      ],
+      "stock_by_size": {
+        "One Size": 14
+      },
+      "is_new": false,
+      "featured": false,
+      "description": "A compact crossbody bag with an adjustable strap for daily essentials.",
+      "tags": [
+        "accessories",
+        "Woman",
+        "Man",
+        "bag"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/c4ad88/000000.png?text=Canvas+Crossbody+Bag"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/d9c9a8/000000.png?text=variant",
+        "https://placehold.co/800x1000/6b7048/ffffff.png?text=variant"
+      ]
     },
-    "rating": 4.2,
-    "review_count": 281,
-    "is_new": false,
-    "featured": false,
-    "description": "Illustrated classic motorbike on the back.",
-    "tags": [
-      "graphic-tee",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-024",
-    "name": "Tee Botanical",
-    "category": "Graphic Tee",
-    "price_idr": 139000,
-    "sale_price_idr": null,
-    "material": "Cotton Combed 30s",
-    "colors": [
-      "White",
-      "Olive"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 12,
-      "M": 5,
-      "L": 5,
-      "XL": 5,
-      "XXL": 15
+    {
+      "id": "SH-024",
+      "name": "Ribbed Tank Top",
+      "category": "T-Shirts",
+      "price_idr": 69000,
+      "sale_price_idr": null,
+      "material": "Cotton Rib",
+      "colors": [
+        "White",
+        "Black",
+        "Sage"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "stock_by_size": {
+        "S": 10,
+        "M": 14,
+        "L": 11,
+        "XL": 6
+      },
+      "is_new": true,
+      "featured": false,
+      "description": "A soft ribbed tank made for warm-weather layering and everyday wear.",
+      "tags": [
+        "t-shirts",
+        "Woman",
+        "casual"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/f5f5f5/000000.png?text=Ribbed+Tank+Top"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/f5f5f5/000000.png?text=variant",
+        "https://placehold.co/800x1000/1e1e20/ffffff.png?text=variant",
+        "https://placehold.co/800x1000/a9b79c/000000.png?text=variant"
+      ]
     },
-    "rating": 4.2,
-    "review_count": 269,
-    "is_new": false,
-    "featured": false,
-    "description": "Leaf illustration in a single-colour print.",
-    "tags": [
-      "graphic-tee",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-025",
-    "name": "Tee Anak Kos",
-    "category": "Graphic Tee",
-    "price_idr": 119000,
-    "sale_price_idr": null,
-    "material": "Cotton Combed 30s",
-    "colors": [
-      "Black",
-      "White"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 20,
-      "M": 12,
-      "L": 0,
-      "XL": 0,
-      "XXL": 8
+    {
+      "id": "SH-025",
+      "name": "Polo Stripe Sand",
+      "category": "Polo Shirts",
+      "price_idr": 159000,
+      "sale_price_idr": 139000,
+      "material": "Cotton Pique",
+      "colors": [
+        "Sand",
+        "Navy"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "stock_by_size": {
+        "S": 6,
+        "M": 9,
+        "L": 8,
+        "XL": 4
+      },
+      "is_new": false,
+      "featured": false,
+      "description": "A subtle striped polo in breathable cotton pique for smart casual looks.",
+      "tags": [
+        "polo",
+        "Man",
+        "Woman"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/c9b69d/000000.png?text=Polo+Stripe+Sand"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/c9b69d/000000.png?text=variant",
+        "https://placehold.co/800x1000/1f2a44/ffffff.png?text=variant"
+      ]
     },
-    "rating": 4.2,
-    "review_count": 313,
-    "is_new": false,
-    "featured": false,
-    "description": "Humour tee about student life.",
-    "tags": [
-      "graphic-tee",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-026",
-    "name": "Tee Pixel Cat",
-    "category": "Graphic Tee",
-    "price_idr": 129000,
-    "sale_price_idr": null,
-    "material": "Cotton Combed 30s",
-    "colors": [
-      "White",
-      "Navy"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 12,
-      "M": 20,
-      "L": 12,
-      "XL": 12,
-      "XXL": 2
+    {
+      "id": "SH-026",
+      "name": "Poplin Shirt White",
+      "category": "Shirts",
+      "price_idr": 179000,
+      "sale_price_idr": null,
+      "material": "Cotton Poplin",
+      "colors": [
+        "White",
+        "Light Blue"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "stock_by_size": {
+        "S": 7,
+        "M": 12,
+        "L": 10,
+        "XL": 6,
+        "XXL": 2
+      },
+      "is_new": false,
+      "featured": false,
+      "description": "A lightweight poplin shirt with a crisp finish and versatile styling.",
+      "tags": [
+        "shirts",
+        "Man",
+        "Woman"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/f5f5f5/000000.png?text=Poplin+Shirt+White"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/f5f5f5/000000.png?text=variant",
+        "https://placehold.co/800x1000/a8c4dc/000000.png?text=variant"
+      ]
     },
-    "rating": 4.2,
-    "review_count": 104,
-    "is_new": false,
-    "featured": false,
-    "description": "Small pixel-art cat on the chest.",
-    "tags": [
-      "graphic-tee",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-027",
-    "name": "Polo Pique Classic",
-    "category": "Polo",
-    "price_idr": 179000,
-    "sale_price_idr": null,
-    "material": "Cotton Pique",
-    "colors": [
-      "White",
-      "Navy",
-      "Black"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 12,
-      "M": 5,
-      "L": 20,
-      "XL": 0,
-      "XXL": 20
+    {
+      "id": "SH-027",
+      "name": "Thermal Long Sleeve Navy",
+      "category": "Long Sleeve",
+      "price_idr": 119000,
+      "sale_price_idr": null,
+      "material": "Cotton Jersey",
+      "colors": [
+        "Navy",
+        "Grey"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "stock_by_size": {
+        "S": 5,
+        "M": 10,
+        "L": 8,
+        "XL": 4
+      },
+      "is_new": false,
+      "featured": false,
+      "description": "A textured long sleeve layer with a comfortable regular fit.",
+      "tags": [
+        "long-sleeve",
+        "Man",
+        "Woman"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/1f2a44/ffffff.png?text=Thermal+Long+Sleeve+Navy"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/1f2a44/ffffff.png?text=variant",
+        "https://placehold.co/800x1000/9a9a9a/000000.png?text=variant"
+      ]
     },
-    "rating": 4.3,
-    "review_count": 47,
-    "is_new": false,
-    "featured": true,
-    "description": "Textured pique knit with a two-button placket.",
-    "tags": [
-      "polo",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-028",
-    "name": "Polo Stripe Smart",
-    "category": "Polo",
-    "price_idr": 195000,
-    "sale_price_idr": null,
-    "material": "Cotton Pique",
-    "colors": [
-      "Navy/White",
-      "Green/White"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 2,
-      "M": 15,
-      "L": 5,
-      "XL": 20,
-      "XXL": 3
+    {
+      "id": "SH-028",
+      "name": "Oversized Blazer Stone",
+      "category": "Blazers",
+      "price_idr": 369000,
+      "sale_price_idr": 339000,
+      "material": "Poly Linen Blend",
+      "colors": [
+        "Stone",
+        "Black"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "stock_by_size": {
+        "S": 3,
+        "M": 5,
+        "L": 4,
+        "XL": 2
+      },
+      "is_new": false,
+      "featured": false,
+      "description": "A modern oversized blazer with a soft structure and clean lapels.",
+      "tags": [
+        "Woman",
+        "Man",
+        "blazer"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/c5b9a4/000000.png?text=Oversized+Blazer+Stone"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/c5b9a4/000000.png?text=variant",
+        "https://placehold.co/800x1000/1e1e20/ffffff.png?text=variant"
+      ]
     },
-    "rating": 4.6,
-    "review_count": 48,
-    "is_new": true,
-    "featured": false,
-    "description": "Chest stripe polo for smart-casual wear.",
-    "tags": [
-      "polo",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-029",
-    "name": "Polo Knit Ribbed",
-    "category": "Polo",
-    "price_idr": 215000,
-    "sale_price_idr": 183000,
-    "material": "Cotton Knit",
-    "colors": [
-      "Cream",
-      "Dark Brown"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 15,
-      "M": 20,
-      "L": 15,
-      "XL": 2,
-      "XXL": 3
+    {
+      "id": "SH-029",
+      "name": "Knit Midi Dress Black",
+      "category": "Dresses",
+      "price_idr": 289000,
+      "sale_price_idr": null,
+      "material": "Viscose Knit",
+      "colors": [
+        "Black",
+        "Chocolate"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "stock_by_size": {
+        "S": 4,
+        "M": 7,
+        "L": 5,
+        "XL": 3
+      },
+      "is_new": true,
+      "featured": false,
+      "description": "A softly draped knit midi dress with a simple, flattering silhouette.",
+      "tags": [
+        "Woman",
+        "dress",
+        "occasion"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/242424/ffffff.png?text=Knit+Midi+Dress+Black"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/1e1e20/ffffff.png?text=variant",
+        "https://placehold.co/800x1000/5b3a29/ffffff.png?text=variant"
+      ]
     },
-    "rating": 4.1,
-    "review_count": 81,
-    "is_new": false,
-    "featured": false,
-    "description": "Ribbed knit polo with a retro look.",
-    "tags": [
-      "polo",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-030",
-    "name": "Polo Dry-Fit Sport",
-    "category": "Polo",
-    "price_idr": 169000,
-    "sale_price_idr": null,
-    "material": "Polyester Dry-Fit",
-    "colors": [
-      "Black",
-      "Royal Blue",
-      "Red"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 20,
-      "M": 3,
-      "L": 20,
-      "XL": 12,
-      "XXL": 3
+    {
+      "id": "SH-030",
+      "name": "Wide Leg Jeans Light Blue",
+      "category": "Jeans",
+      "price_idr": 299000,
+      "sale_price_idr": null,
+      "material": "Cotton Denim",
+      "colors": [
+        "Light Blue",
+        "Indigo"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "stock_by_size": {
+        "S": 5,
+        "M": 8,
+        "L": 6,
+        "XL": 3
+      },
+      "is_new": true,
+      "featured": false,
+      "description": "Relaxed wide-leg jeans with a soft wash and comfortable high rise.",
+      "tags": [
+        "Woman",
+        "Man",
+        "denim"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/a8c4dc/000000.png?text=Wide+Leg+Jeans+Light+Blue"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/a8c4dc/000000.png?text=variant",
+        "https://placehold.co/800x1000/344867/ffffff.png?text=variant"
+      ]
     },
-    "rating": 4.1,
-    "review_count": 11,
-    "is_new": false,
-    "featured": false,
-    "description": "Lightweight breathable fabric for active days.",
-    "tags": [
-      "polo",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-031",
-    "name": "Polo Linen Blend",
-    "category": "Polo",
-    "price_idr": 225000,
-    "sale_price_idr": 191000,
-    "material": "Linen Cotton Blend",
-    "colors": [
-      "Sand",
-      "Light Blue"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 2,
-      "M": 3,
-      "L": 15,
-      "XL": 5,
-      "XXL": 5
+    {
+      "id": "SH-031",
+      "name": "Coach Jacket Black",
+      "category": "Jackets & Coats",
+      "price_idr": 289000,
+      "sale_price_idr": null,
+      "material": "Water-Resistant Polyester",
+      "colors": [
+        "Black",
+        "Olive"
+      ],
+      "sizes": [
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "stock_by_size": {
+        "M": 6,
+        "L": 8,
+        "XL": 5,
+        "XXL": 2
+      },
+      "is_new": false,
+      "featured": false,
+      "description": "A lightweight coach jacket with snap buttons and an easy layering fit.",
+      "tags": [
+        "Man",
+        "Woman",
+        "outerwear"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/242424/ffffff.png?text=Coach+Jacket+Black"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/1e1e20/ffffff.png?text=variant",
+        "https://placehold.co/800x1000/6b7048/ffffff.png?text=variant"
+      ]
     },
-    "rating": 4.2,
-    "review_count": 260,
-    "is_new": false,
-    "featured": false,
-    "description": "Cool and airy for hot weather.",
-    "tags": [
-      "polo",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-032",
-    "name": "Polo Office Slim",
-    "category": "Polo",
-    "price_idr": 189000,
-    "sale_price_idr": 161000,
-    "material": "Cotton Pique",
-    "colors": [
-      "Grey",
-      "Navy"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 5,
-      "M": 12,
-      "L": 8,
-      "XL": 15,
-      "XXL": 3
+    {
+      "id": "SH-032",
+      "name": "Bucket Hat Olive",
+      "category": "Accessories",
+      "price_idr": 89000,
+      "sale_price_idr": null,
+      "material": "Cotton Twill",
+      "colors": [
+        "Olive",
+        "Beige"
+      ],
+      "sizes": [
+        "One Size"
+      ],
+      "stock_by_size": {
+        "One Size": 18
+      },
+      "is_new": false,
+      "featured": false,
+      "description": "A lightweight cotton bucket hat for sunny days and casual outfits.",
+      "tags": [
+        "accessories",
+        "Woman",
+        "Man",
+        "hat"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/6b7048/ffffff.png?text=Bucket+Hat+Olive"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/6b7048/ffffff.png?text=variant",
+        "https://placehold.co/800x1000/d9c9a8/000000.png?text=variant"
+      ]
     },
-    "rating": 4.7,
-    "review_count": 238,
-    "is_new": false,
-    "featured": false,
-    "description": "Tailored cut that works for work.",
-    "tags": [
-      "polo",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-033",
-    "name": "Kemeja Flannel Kotak",
-    "category": "Shirts",
-    "price_idr": 249000,
-    "sale_price_idr": null,
-    "material": "Cotton Flannel",
-    "colors": [
-      "Red Check",
-      "Green Check"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 15,
-      "M": 3,
-      "L": 3,
-      "XL": 0,
-      "XXL": 20
+    {
+      "id": "SH-033",
+      "name": "Relaxed Blouse Ivory",
+      "category": "Blouses",
+      "price_idr": 159000,
+      "sale_price_idr": null,
+      "material": "Rayon Crepe",
+      "colors": [
+        "Ivory",
+        "Sage"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "stock_by_size": {
+        "S": 6,
+        "M": 10,
+        "L": 8,
+        "XL": 4
+      },
+      "is_new": true,
+      "featured": false,
+      "description": "A soft draped blouse with a relaxed fit for everyday outfits.",
+      "tags": [
+        "Woman",
+        "blouse",
+        "casual"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/efe6d2/000000.png?text=Relaxed+Blouse+Ivory"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/efe6d2/000000.png?text=variant",
+        "https://placehold.co/800x1000/a9b79c/000000.png?text=variant"
+      ]
     },
-    "rating": 4.6,
-    "review_count": 80,
-    "is_new": false,
-    "featured": false,
-    "description": "Soft brushed flannel in a classic check.",
-    "tags": [
-      "shirts",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-034",
-    "name": "Kemeja Oxford Putih",
-    "category": "Shirts",
-    "price_idr": 269000,
-    "sale_price_idr": null,
-    "material": "Oxford Cotton",
-    "colors": [
-      "White",
-      "Light Blue"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 3,
-      "M": 3,
-      "L": 20,
-      "XL": 2,
-      "XXL": 0
+    {
+      "id": "SH-034",
+      "name": "Pleated Midi Skirt Black",
+      "category": "Skirts",
+      "price_idr": 199000,
+      "sale_price_idr": 179000,
+      "material": "Poly Crepe",
+      "colors": [
+        "Black",
+        "Camel"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "stock_by_size": {
+        "S": 5,
+        "M": 9,
+        "L": 7,
+        "XL": 3
+      },
+      "is_new": false,
+      "featured": false,
+      "description": "A flowing pleated midi skirt with an easy elastic waistband.",
+      "tags": [
+        "Woman",
+        "skirt",
+        "casual"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/242424/ffffff.png?text=Pleated+Midi+Skirt+Black"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/1e1e20/ffffff.png?text=variant",
+        "https://placehold.co/800x1000/bb9871/000000.png?text=variant"
+      ]
     },
-    "rating": 4.5,
-    "review_count": 288,
-    "is_new": false,
-    "featured": false,
-    "description": "Button-down collar, crisp and easy to iron.",
-    "tags": [
-      "shirts",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-035",
-    "name": "Kemeja Linen Lengan Pendek",
-    "category": "Shirts",
-    "price_idr": 239000,
-    "sale_price_idr": null,
-    "material": "Linen Blend",
-    "colors": [
-      "Beige",
-      "Olive"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 20,
-      "M": 2,
-      "L": 0,
-      "XL": 5,
-      "XXL": 5
+    {
+      "id": "SH-035",
+      "name": "Linen Wide-Leg Trousers",
+      "category": "Trousers",
+      "price_idr": 239000,
+      "sale_price_idr": null,
+      "material": "Linen Blend",
+      "colors": [
+        "Oat",
+        "Black"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "stock_by_size": {
+        "S": 4,
+        "M": 8,
+        "L": 7,
+        "XL": 3
+      },
+      "is_new": true,
+      "featured": false,
+      "description": "Breathable wide-leg trousers with a comfortable high waist.",
+      "tags": [
+        "Woman",
+        "trousers",
+        "linen"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/c9b69d/000000.png?text=Linen+Wide-Leg+Trousers"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/c9b69d/000000.png?text=variant",
+        "https://placehold.co/800x1000/1e1e20/ffffff.png?text=variant"
+      ]
     },
-    "rating": 4.8,
-    "review_count": 263,
-    "is_new": true,
-    "featured": false,
-    "description": "Short sleeve shirt that breathes well.",
-    "tags": [
-      "shirts",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-036",
-    "name": "Kemeja Denim Tipis",
-    "category": "Shirts",
-    "price_idr": 279000,
-    "sale_price_idr": null,
-    "material": "Light Denim",
-    "colors": [
-      "Light Wash",
-      "Indigo"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 20,
-      "M": 0,
-      "L": 2,
-      "XL": 20,
-      "XXL": 12
+    {
+      "id": "SH-036",
+      "name": "Cropped Cardigan Rose",
+      "category": "Knitwear",
+      "price_idr": 219000,
+      "sale_price_idr": 199000,
+      "material": "Cotton Knit",
+      "colors": [
+        "Rose",
+        "Cream"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "stock_by_size": {
+        "S": 5,
+        "M": 8,
+        "L": 6,
+        "XL": 2
+      },
+      "is_new": false,
+      "featured": false,
+      "description": "A lightweight cropped cardigan for adding a soft layer.",
+      "tags": [
+        "Woman",
+        "knitwear",
+        "layering"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/d9a3a3/000000.png?text=Cropped+Cardigan+Rose"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/d9a3a3/000000.png?text=variant",
+        "https://placehold.co/800x1000/efe6d2/000000.png?text=variant"
+      ]
     },
-    "rating": 4.5,
-    "review_count": 266,
-    "is_new": false,
-    "featured": true,
-    "description": "Lightweight denim shirt for layering.",
-    "tags": [
-      "shirts",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-037",
-    "name": "Kemeja Boxy Stripe",
-    "category": "Shirts",
-    "price_idr": 229000,
-    "sale_price_idr": null,
-    "material": "Cotton Poplin",
-    "colors": [
-      "Blue Stripe",
-      "Black Stripe"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 5,
-      "M": 8,
-      "L": 20,
-      "XL": 20,
-      "XXL": 5
+    {
+      "id": "SH-037",
+      "name": "Cotton Shirt Dress Blue",
+      "category": "Dresses",
+      "price_idr": 269000,
+      "sale_price_idr": null,
+      "material": "Cotton Poplin",
+      "colors": [
+        "Blue",
+        "White"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "stock_by_size": {
+        "S": 5,
+        "M": 9,
+        "L": 7,
+        "XL": 3
+      },
+      "is_new": true,
+      "featured": false,
+      "description": "A versatile button-front shirt dress with a removable waist tie.",
+      "tags": [
+        "Woman",
+        "dress",
+        "cotton"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/7892ac/ffffff.png?text=Cotton+Shirt+Dress+Blue"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/27407a/ffffff.png?text=variant",
+        "https://placehold.co/800x1000/f5f5f5/000000.png?text=variant"
+      ]
     },
-    "rating": 4.9,
-    "review_count": 136,
-    "is_new": false,
-    "featured": false,
-    "description": "Boxy cut with vertical stripes.",
-    "tags": [
-      "shirts",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-038",
-    "name": "Kemeja Cuban Collar",
-    "category": "Shirts",
-    "price_idr": 235000,
-    "sale_price_idr": null,
-    "material": "Rayon",
-    "colors": [
-      "Cream",
-      "Forest Green"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 5,
-      "M": 20,
-      "L": 3,
-      "XL": 15,
-      "XXL": 2
+    {
+      "id": "SH-038",
+      "name": "Soft Knit Top Ecru",
+      "category": "Knitwear",
+      "price_idr": 149000,
+      "sale_price_idr": null,
+      "material": "Viscose Blend",
+      "colors": [
+        "Ecru",
+        "Chocolate"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "stock_by_size": {
+        "S": 6,
+        "M": 10,
+        "L": 8,
+        "XL": 4
+      },
+      "is_new": false,
+      "featured": false,
+      "description": "A soft fine-knit top with a clean neckline and easy fit.",
+      "tags": [
+        "Woman",
+        "knitwear",
+        "top"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/dfd5c6/000000.png?text=Soft+Knit+Top+Ecru"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/dfd5c6/000000.png?text=variant",
+        "https://placehold.co/800x1000/5b3a29/ffffff.png?text=variant"
+      ]
     },
-    "rating": 4.3,
-    "review_count": 127,
-    "is_new": false,
-    "featured": false,
-    "description": "Open collar with a relaxed, resort feel.",
-    "tags": [
-      "shirts",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-039",
-    "name": "Batik Slim Parang",
-    "category": "Batik",
-    "price_idr": 299000,
-    "sale_price_idr": null,
-    "material": "Cotton Batik Print",
-    "colors": [
-      "Brown",
-      "Navy"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 15,
-      "M": 2,
-      "L": 5,
-      "XL": 8,
-      "XXL": 2
+    {
+      "id": "SH-039",
+      "name": "Denim Mini Skirt",
+      "category": "Skirts",
+      "price_idr": 189000,
+      "sale_price_idr": 169000,
+      "material": "Cotton Denim",
+      "colors": [
+        "Indigo",
+        "Washed Blue"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "stock_by_size": {
+        "S": 4,
+        "M": 8,
+        "L": 6,
+        "XL": 3
+      },
+      "is_new": false,
+      "featured": false,
+      "description": "A classic denim mini skirt with a comfortable everyday fit.",
+      "tags": [
+        "Woman",
+        "skirt",
+        "denim"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/344867/ffffff.png?text=Denim+Mini+Skirt"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/344867/ffffff.png?text=variant",
+        "https://placehold.co/800x1000/a8c4dc/000000.png?text=variant"
+      ]
     },
-    "rating": 4.2,
-    "review_count": 191,
-    "is_new": false,
-    "featured": false,
-    "description": "Parang motif in a modern slim cut.",
-    "tags": [
-      "batik",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-040",
-    "name": "Batik Kawung Modern",
-    "category": "Batik",
-    "price_idr": 289000,
-    "sale_price_idr": null,
-    "material": "Cotton Batik Print",
-    "colors": [
-      "Indigo",
-      "Maroon"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 3,
-      "M": 8,
-      "L": 3,
-      "XL": 20,
-      "XXL": 5
+    {
+      "id": "SH-040",
+      "name": "Tailored Ankle Pants",
+      "category": "Trousers",
+      "price_idr": 229000,
+      "sale_price_idr": null,
+      "material": "Cotton Twill",
+      "colors": [
+        "Stone",
+        "Navy"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "stock_by_size": {
+        "S": 5,
+        "M": 9,
+        "L": 7,
+        "XL": 3
+      },
+      "is_new": true,
+      "featured": false,
+      "description": "Smart ankle-length pants with a tapered leg and clean finish.",
+      "tags": [
+        "Woman",
+        "trousers",
+        "workwear"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/c5b9a4/000000.png?text=Tailored+Ankle+Pants"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/c5b9a4/000000.png?text=variant",
+        "https://placehold.co/800x1000/1f2a44/ffffff.png?text=variant"
+      ]
     },
-    "rating": 4.1,
-    "review_count": 253,
-    "is_new": false,
-    "featured": false,
-    "description": "Kawung pattern with a clean, simple collar.",
-    "tags": [
-      "batik",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-041",
-    "name": "Batik Mega Mendung",
-    "category": "Batik",
-    "price_idr": 319000,
-    "sale_price_idr": null,
-    "material": "Cotton Batik Print",
-    "colors": [
-      "Blue",
-      "Grey"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 3,
-      "M": 5,
-      "L": 3,
-      "XL": 15,
-      "XXL": 15
+    {
+      "id": "SH-041",
+      "name": "Lightweight Trench Coat",
+      "category": "Jackets & Coats",
+      "price_idr": 389000,
+      "sale_price_idr": 359000,
+      "material": "Cotton Blend",
+      "colors": [
+        "Camel",
+        "Olive"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "stock_by_size": {
+        "S": 3,
+        "M": 6,
+        "L": 5,
+        "XL": 2
+      },
+      "is_new": false,
+      "featured": false,
+      "description": "A lightweight double-breasted coat for effortless layering.",
+      "tags": [
+        "Woman",
+        "outerwear",
+        "coat"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/bb9871/000000.png?text=Lightweight+Trench+Coat"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/bb9871/000000.png?text=variant",
+        "https://placehold.co/800x1000/6b7048/ffffff.png?text=variant"
+      ]
     },
-    "rating": 4.2,
-    "review_count": 167,
-    "is_new": false,
-    "featured": false,
-    "description": "Cloud motif inspired by Cirebon batik.",
-    "tags": [
-      "batik",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1529139574466-a303027c1d8?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-042",
-    "name": "Batik Casual Tee",
-    "category": "Batik",
-    "price_idr": 159000,
-    "sale_price_idr": null,
-    "material": "Cotton Combed 30s",
-    "colors": [
-      "Black",
-      "Navy"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 2,
-      "M": 12,
-      "L": 0,
-      "XL": 12,
-      "XXL": 20
+    {
+      "id": "SH-042",
+      "name": "Sleeveless Midi Dress Sage",
+      "category": "Dresses",
+      "price_idr": 239000,
+      "sale_price_idr": null,
+      "material": "Rayon Cotton",
+      "colors": [
+        "Sage",
+        "Terracotta"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "stock_by_size": {
+        "S": 5,
+        "M": 8,
+        "L": 6,
+        "XL": 3
+      },
+      "is_new": true,
+      "featured": false,
+      "description": "A breezy sleeveless midi dress with a relaxed, flattering silhouette.",
+      "tags": [
+        "Woman",
+        "dress",
+        "summer"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/a9b79c/000000.png?text=Sleeveless+Midi+Dress+Sage"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/a9b79c/000000.png?text=variant",
+        "https://placehold.co/800x1000/b96b50/ffffff.png?text=variant"
+      ]
     },
-    "rating": 4.0,
-    "review_count": 173,
-    "is_new": true,
-    "featured": false,
-    "description": "T-shirt with a subtle batik panel on one side.",
-    "tags": [
-      "batik",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-043",
-    "name": "Batik Lengan Panjang Formal",
-    "category": "Batik",
-    "price_idr": 349000,
-    "sale_price_idr": 297000,
-    "material": "Cotton Batik",
-    "colors": [
-      "Brown",
-      "Dark Green"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 8,
-      "M": 2,
-      "L": 2,
-      "XL": 5,
-      "XXL": 2
+    {
+      "id": "SH-043",
+      "name": "Oxford Shirt Sand",
+      "category": "Shirts",
+      "price_idr": 189000,
+      "sale_price_idr": null,
+      "material": "Cotton Oxford",
+      "colors": [
+        "Sand",
+        "White"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "stock_by_size": {
+        "S": 5,
+        "M": 10,
+        "L": 9,
+        "XL": 6,
+        "XXL": 2
+      },
+      "is_new": true,
+      "featured": false,
+      "description": "A versatile Oxford shirt with a soft texture and button-down collar.",
+      "tags": [
+        "Man",
+        "shirts",
+        "workwear"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/c9b69d/000000.png?text=Oxford+Shirt+Sand"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/c9b69d/000000.png?text=variant",
+        "https://placehold.co/800x1000/f5f5f5/000000.png?text=variant"
+      ]
     },
-    "rating": 4.3,
-    "review_count": 96,
-    "is_new": false,
-    "featured": false,
-    "description": "Long sleeve batik for formal events.",
-    "tags": [
-      "batik",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-044",
-    "name": "Long Sleeve Basic",
-    "category": "Long Sleeve",
-    "price_idr": 129000,
-    "sale_price_idr": 110000,
-    "material": "Cotton Combed 30s",
-    "colors": [
-      "White",
-      "Black",
-      "Grey"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 8,
-      "M": 3,
-      "L": 15,
-      "XL": 8,
-      "XXL": 15
+    {
+      "id": "SH-044",
+      "name": "Chino Trousers Navy",
+      "category": "Trousers",
+      "price_idr": 219000,
+      "sale_price_idr": 199000,
+      "material": "Cotton Twill",
+      "colors": [
+        "Navy",
+        "Khaki"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "stock_by_size": {
+        "S": 4,
+        "M": 9,
+        "L": 8,
+        "XL": 5,
+        "XXL": 2
+      },
+      "is_new": false,
+      "featured": false,
+      "description": "Everyday chinos with a straight fit and comfortable stretch.",
+      "tags": [
+        "Man",
+        "trousers",
+        "casual"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/1f2a44/ffffff.png?text=Chino+Trousers+Navy"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/1f2a44/ffffff.png?text=variant",
+        "https://placehold.co/800x1000/b7a47d/000000.png?text=variant"
+      ]
     },
-    "rating": 4.9,
-    "review_count": 296,
-    "is_new": false,
-    "featured": false,
-    "description": "Plain long sleeve for layering.",
-    "tags": [
-      "long-sleeve",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-045",
-    "name": "Long Sleeve Waffle",
-    "category": "Long Sleeve",
-    "price_idr": 169000,
-    "sale_price_idr": null,
-    "material": "Waffle Knit Cotton",
-    "colors": [
-      "Cream",
-      "Charcoal"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 20,
-      "M": 12,
-      "L": 2,
-      "XL": 8,
-      "XXL": 0
+    {
+      "id": "SH-045",
+      "name": "Pique Polo Forest",
+      "category": "Polo Shirts",
+      "price_idr": 159000,
+      "sale_price_idr": null,
+      "material": "Cotton Pique",
+      "colors": [
+        "Forest Green",
+        "Black"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "stock_by_size": {
+        "S": 5,
+        "M": 10,
+        "L": 9,
+        "XL": 6,
+        "XXL": 2
+      },
+      "is_new": false,
+      "featured": false,
+      "description": "A breathable pique polo with a classic collar and easy regular fit.",
+      "tags": [
+        "Man",
+        "polo",
+        "casual"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/315346/ffffff.png?text=Pique+Polo+Forest"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/1f4d36/ffffff.png?text=variant",
+        "https://placehold.co/800x1000/1e1e20/ffffff.png?text=variant"
+      ]
     },
-    "rating": 4.2,
-    "review_count": 41,
-    "is_new": false,
-    "featured": true,
-    "description": "Textured waffle knit that traps warmth.",
-    "tags": [
-      "long-sleeve",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-046",
-    "name": "Long Sleeve Graphic",
-    "category": "Long Sleeve",
-    "price_idr": 159000,
-    "sale_price_idr": null,
-    "material": "Cotton Combed 30s",
-    "colors": [
-      "Black",
-      "White"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 8,
-      "M": 0,
-      "L": 2,
-      "XL": 8,
-      "XXL": 2
+    {
+      "id": "SH-046",
+      "name": "Utility Overshirt Khaki",
+      "category": "Shirts",
+      "price_idr": 239000,
+      "sale_price_idr": null,
+      "material": "Cotton Twill",
+      "colors": [
+        "Khaki",
+        "Olive"
+      ],
+      "sizes": [
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "stock_by_size": {
+        "M": 5,
+        "L": 8,
+        "XL": 6,
+        "XXL": 3
+      },
+      "is_new": true,
+      "featured": false,
+      "description": "A sturdy overshirt with practical pockets for relaxed layering.",
+      "tags": [
+        "Man",
+        "shirts",
+        "layering"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/b7a47d/000000.png?text=Utility+Overshirt+Khaki"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/b7a47d/000000.png?text=variant",
+        "https://placehold.co/800x1000/6b7048/ffffff.png?text=variant"
+      ]
     },
-    "rating": 4.2,
-    "review_count": 139,
-    "is_new": false,
-    "featured": false,
-    "description": "Back print with sleeve text detail.",
-    "tags": [
-      "long-sleeve",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-047",
-    "name": "Henley Long Sleeve",
-    "category": "Long Sleeve",
-    "price_idr": 185000,
-    "sale_price_idr": null,
-    "material": "Cotton Slub",
-    "colors": [
-      "Olive",
-      "Navy"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 2,
-      "M": 20,
-      "L": 0,
-      "XL": 12,
-      "XXL": 15
+    {
+      "id": "SH-047",
+      "name": "Heavyweight Tee Stone",
+      "category": "T-Shirts",
+      "price_idr": 109000,
+      "sale_price_idr": null,
+      "material": "Cotton Combed 20s",
+      "colors": [
+        "Stone",
+        "Black"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "stock_by_size": {
+        "S": 8,
+        "M": 13,
+        "L": 11,
+        "XL": 7,
+        "XXL": 3
+      },
+      "is_new": false,
+      "featured": false,
+      "description": "A substantial cotton tee with a structured shape and soft finish.",
+      "tags": [
+        "Man",
+        "t-shirts",
+        "oversized"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/c5b9a4/000000.png?text=Heavyweight+Tee+Stone"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/c5b9a4/000000.png?text=variant",
+        "https://placehold.co/800x1000/1e1e20/ffffff.png?text=variant"
+      ]
     },
-    "rating": 4.3,
-    "review_count": 70,
-    "is_new": false,
-    "featured": false,
-    "description": "Three-button placket and soft slub texture.",
-    "tags": [
-      "long-sleeve",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-048",
-    "name": "Sleeveless Gym Tank",
-    "category": "Active",
-    "price_idr": 99000,
-    "sale_price_idr": 84000,
-    "material": "Polyester Dry-Fit",
-    "colors": [
-      "Black",
-      "Grey"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 0,
-      "M": 5,
-      "L": 2,
-      "XL": 3,
-      "XXL": 8
+    {
+      "id": "SH-048",
+      "name": "Zip Hoodie Charcoal",
+      "category": "Sweatshirts",
+      "price_idr": 259000,
+      "sale_price_idr": 229000,
+      "material": "Cotton Fleece",
+      "colors": [
+        "Charcoal",
+        "Navy"
+      ],
+      "sizes": [
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "stock_by_size": {
+        "M": 4,
+        "L": 8,
+        "XL": 6,
+        "XXL": 2
+      },
+      "is_new": false,
+      "featured": false,
+      "description": "A comfortable zip hoodie with a brushed interior and roomy pockets.",
+      "tags": [
+        "Man",
+        "sweatshirt",
+        "casual"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/444444/ffffff.png?text=Zip+Hoodie+Charcoal"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/3b3b3b/ffffff.png?text=variant",
+        "https://placehold.co/800x1000/1f2a44/ffffff.png?text=variant"
+      ]
     },
-    "rating": 4.2,
-    "review_count": 163,
-    "is_new": false,
-    "featured": false,
-    "description": "Quick-dry tank for the gym.",
-    "tags": [
-      "active",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-049",
-    "name": "Rashguard Light",
-    "category": "Active",
-    "price_idr": 189000,
-    "sale_price_idr": null,
-    "material": "Lycra Blend",
-    "colors": [
-      "Black",
-      "Navy"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 8,
-      "M": 5,
-      "L": 8,
-      "XL": 20,
-      "XXL": 3
+    {
+      "id": "SH-049",
+      "name": "Straight Jeans Dark Wash",
+      "category": "Jeans",
+      "price_idr": 289000,
+      "sale_price_idr": null,
+      "material": "Cotton Denim",
+      "colors": [
+        "Dark Indigo",
+        "Black"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "stock_by_size": {
+        "S": 4,
+        "M": 8,
+        "L": 8,
+        "XL": 5,
+        "XXL": 2
+      },
+      "is_new": true,
+      "featured": false,
+      "description": "Classic straight-fit jeans in a dark wash for everyday wear.",
+      "tags": [
+        "Man",
+        "denim",
+        "casual"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/26354a/ffffff.png?text=Straight+Jeans+Dark+Wash"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/26354a/ffffff.png?text=variant",
+        "https://placehold.co/800x1000/1e1e20/ffffff.png?text=variant"
+      ]
     },
-    "rating": 4.8,
-    "review_count": 132,
-    "is_new": true,
-    "featured": false,
-    "description": "Close-fitting layer for sun and water.",
-    "tags": [
-      "active",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1538805060514-97d9cc17730c?auto=format&fit=crop&w=800&h=1000&q=80"
-  },
-  {
-    "id": "SH-050",
-    "name": "Running Tee Mesh",
-    "category": "Active",
-    "price_idr": 149000,
-    "sale_price_idr": null,
-    "material": "Polyester Mesh",
-    "colors": [
-      "Neon Green",
-      "Black"
-    ],
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "XXL"
-    ],
-    "stock_by_size": {
-      "S": 0,
-      "M": 0,
-      "L": 0,
-      "XL": 5,
-      "XXL": 20
+    {
+      "id": "SH-050",
+      "name": "Lightweight Bomber Jacket",
+      "category": "Jackets & Coats",
+      "price_idr": 329000,
+      "sale_price_idr": null,
+      "material": "Nylon Cotton Blend",
+      "colors": [
+        "Black",
+        "Olive"
+      ],
+      "sizes": [
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "stock_by_size": {
+        "M": 4,
+        "L": 7,
+        "XL": 5,
+        "XXL": 2
+      },
+      "is_new": false,
+      "featured": false,
+      "description": "A light bomber jacket with ribbed trims and a simple zip front.",
+      "tags": [
+        "Man",
+        "outerwear",
+        "jacket"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/242424/ffffff.png?text=Lightweight+Bomber+Jacket"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/1e1e20/ffffff.png?text=variant",
+        "https://placehold.co/800x1000/6b7048/ffffff.png?text=variant"
+      ]
     },
-    "rating": 4.4,
-    "review_count": 225,
-    "is_new": false,
-    "featured": false,
-    "description": "Breathable mesh back panels.",
-    "tags": [
-      "active",
-      "unisex"
-    ],
-    "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&h=1000&q=80"
-  }
-]
+    {
+      "id": "SH-051",
+      "name": "Leather Belt Tan",
+      "category": "Accessories",
+      "price_idr": 119000,
+      "sale_price_idr": null,
+      "material": "Genuine Leather",
+      "colors": [
+        "Tan",
+        "Black"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "stock_by_size": {
+        "S": 5,
+        "M": 8,
+        "L": 7,
+        "XL": 4
+      },
+      "is_new": false,
+      "featured": false,
+      "description": "A classic leather belt with a brushed metal buckle.",
+      "tags": [
+        "accessories",
+        "belt"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/a86f45/ffffff.png?text=Leather+Belt+Tan"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/a86f45/ffffff.png?text=variant",
+        "https://placehold.co/800x1000/1e1e20/ffffff.png?text=variant"
+      ]
+    },
+    {
+      "id": "SH-052",
+      "name": "Everyday Crossbody Bag",
+      "category": "Accessories",
+      "price_idr": 169000,
+      "sale_price_idr": 149000,
+      "material": "Faux Leather",
+      "colors": [
+        "Black",
+        "Taupe"
+      ],
+      "sizes": [
+        "One Size"
+      ],
+      "stock_by_size": {
+        "One Size": 12
+      },
+      "is_new": true,
+      "featured": false,
+      "description": "A compact crossbody bag with an adjustable strap and zip closure.",
+      "tags": [
+        "accessories",
+        "bag"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/242424/ffffff.png?text=Everyday+Crossbody+Bag"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/1e1e20/ffffff.png?text=variant",
+        "https://placehold.co/800x1000/c5b9a4/000000.png?text=variant"
+      ]
+    },
+    {
+      "id": "SH-053",
+      "name": "Classic Sunglasses Tortoise",
+      "category": "Accessories",
+      "price_idr": 99000,
+      "sale_price_idr": null,
+      "material": "Acetate",
+      "colors": [
+        "Tortoise",
+        "Black"
+      ],
+      "sizes": [
+        "One Size"
+      ],
+      "stock_by_size": {
+        "One Size": 20
+      },
+      "is_new": false,
+      "featured": false,
+      "description": "Timeless sunglasses with tinted lenses and a lightweight frame.",
+      "tags": [
+        "accessories",
+        "sunglasses"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/795548/ffffff.png?text=Classic+Sunglasses+Tortoise"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/795548/ffffff.png?text=variant",
+        "https://placehold.co/800x1000/1e1e20/ffffff.png?text=variant"
+      ]
+    },
+    {
+      "id": "SH-054",
+      "name": "Leather Card Holder",
+      "category": "Accessories",
+      "price_idr": 79000,
+      "sale_price_idr": null,
+      "material": "Genuine Leather",
+      "colors": [
+        "Black",
+        "Brown"
+      ],
+      "sizes": [
+        "One Size"
+      ],
+      "stock_by_size": {
+        "One Size": 18
+      },
+      "is_new": false,
+      "featured": false,
+      "description": "A slim card holder with multiple slots for daily essentials.",
+      "tags": [
+        "accessories",
+        "wallet"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/5b3a29/ffffff.png?text=Leather+Card+Holder"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/1e1e20/ffffff.png?text=variant",
+        "https://placehold.co/800x1000/5b3a29/ffffff.png?text=variant"
+      ]
+    },
+    {
+      "id": "SH-055",
+      "name": "Canvas Shopper Tote",
+      "category": "Accessories",
+      "price_idr": 89000,
+      "sale_price_idr": null,
+      "material": "Cotton Canvas",
+      "colors": [
+        "Natural",
+        "Navy"
+      ],
+      "sizes": [
+        "One Size"
+      ],
+      "stock_by_size": {
+        "One Size": 24
+      },
+      "is_new": false,
+      "featured": false,
+      "description": "A reusable canvas tote with sturdy handles and generous space.",
+      "tags": [
+        "accessories",
+        "bag"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/d9c9a8/000000.png?text=Canvas+Shopper+Tote"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/d9c9a8/000000.png?text=variant",
+        "https://placehold.co/800x1000/1f2a44/ffffff.png?text=variant"
+      ]
+    },
+    {
+      "id": "SH-056",
+      "name": "Ribbed Knit Beanie",
+      "category": "Accessories",
+      "price_idr": 69000,
+      "sale_price_idr": null,
+      "material": "Acrylic Knit",
+      "colors": [
+        "Charcoal",
+        "Cream"
+      ],
+      "sizes": [
+        "One Size"
+      ],
+      "stock_by_size": {
+        "One Size": 16
+      },
+      "is_new": true,
+      "featured": false,
+      "description": "A soft ribbed beanie that adds a warm finishing touch.",
+      "tags": [
+        "accessories",
+        "hat"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/444444/ffffff.png?text=Ribbed+Knit+Beanie"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/3b3b3b/ffffff.png?text=variant",
+        "https://placehold.co/800x1000/efe6d2/000000.png?text=variant"
+      ]
+    },
+    {
+      "id": "SH-057",
+      "name": "Minimalist Wristwatch",
+      "category": "Accessories",
+      "price_idr": 249000,
+      "sale_price_idr": 219000,
+      "material": "Stainless Steel",
+      "colors": [
+        "Silver",
+        "Gold"
+      ],
+      "sizes": [
+        "One Size"
+      ],
+      "stock_by_size": {
+        "One Size": 9
+      },
+      "is_new": false,
+      "featured": false,
+      "description": "A minimalist watch with a clean dial and adjustable metal strap.",
+      "tags": [
+        "accessories",
+        "watch"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/d0d0d0/000000.png?text=Minimalist+Wristwatch"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/d0d0d0/000000.png?text=variant",
+        "https://placehold.co/800x1000/d6b36a/000000.png?text=variant"
+      ]
+    },
+    {
+      "id": "SH-058",
+      "name": "Soft Wool Scarf",
+      "category": "Accessories",
+      "price_idr": 99000,
+      "sale_price_idr": null,
+      "material": "Wool Blend",
+      "colors": [
+        "Camel",
+        "Grey"
+      ],
+      "sizes": [
+        "One Size"
+      ],
+      "stock_by_size": {
+        "One Size": 14
+      },
+      "is_new": false,
+      "featured": false,
+      "description": "A soft lightweight scarf with a subtle woven texture.",
+      "tags": [
+        "accessories",
+        "scarf"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/bb9871/000000.png?text=Soft+Wool+Scarf"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/bb9871/000000.png?text=variant",
+        "https://placehold.co/800x1000/9a9a9a/000000.png?text=variant"
+      ]
+    },
+    {
+      "id": "SH-059",
+      "name": "Leather Bracelet",
+      "category": "Accessories",
+      "price_idr": 59000,
+      "sale_price_idr": null,
+      "material": "Leather and Stainless Steel",
+      "colors": [
+        "Black",
+        "Brown"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "stock_by_size": {
+        "S": 6,
+        "M": 10,
+        "L": 8
+      },
+      "is_new": false,
+      "featured": false,
+      "description": "A simple leather bracelet with a secure metal clasp.",
+      "tags": [
+        "accessories",
+        "jewelry"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/5b3a29/ffffff.png?text=Leather+Bracelet"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/1e1e20/ffffff.png?text=variant",
+        "https://placehold.co/800x1000/5b3a29/ffffff.png?text=variant"
+      ]
+    },
+    {
+      "id": "SH-060",
+      "name": "Slim Leather Wallet",
+      "category": "Accessories",
+      "price_idr": 109000,
+      "sale_price_idr": null,
+      "material": "Genuine Leather",
+      "colors": [
+        "Brown",
+        "Black"
+      ],
+      "sizes": [
+        "One Size"
+      ],
+      "stock_by_size": {
+        "One Size": 13
+      },
+      "is_new": true,
+      "featured": false,
+      "description": "A compact wallet with a slim profile and practical card storage.",
+      "tags": [
+        "accessories",
+        "wallet"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/795548/ffffff.png?text=Slim+Leather+Wallet"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/5b3a29/ffffff.png?text=variant",
+        "https://placehold.co/800x1000/1e1e20/ffffff.png?text=variant"
+      ]
+    },
+    {
+      "id": "SH-061",
+      "name": "Linen Camp Collar Shirt",
+      "category": "Shirts",
+      "price_idr": 179000,
+      "sale_price_idr": null,
+      "material": "Linen Cotton Blend",
+      "colors": [
+        "White",
+        "Olive"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "stock_by_size": {
+        "S": 4,
+        "M": 9,
+        "L": 8,
+        "XL": 5,
+        "XXL": 2
+      },
+      "is_new": false,
+      "featured": false,
+      "description": "A breathable camp-collar shirt with an easy fit for warm days.",
+      "tags": [
+        "Man",
+        "shirts",
+        "linen"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/efe6d2/000000.png?text=Linen+Camp+Collar+Shirt"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/f5f5f5/000000.png?text=variant",
+        "https://placehold.co/800x1000/6b7048/ffffff.png?text=variant"
+      ]
+    },
+    {
+      "id": "SH-062",
+      "name": "Textured Knit Sweater",
+      "category": "Knitwear",
+      "price_idr": 239000,
+      "sale_price_idr": 219000,
+      "material": "Cotton Acrylic Knit",
+      "colors": [
+        "Charcoal",
+        "Oat"
+      ],
+      "sizes": [
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "stock_by_size": {
+        "M": 4,
+        "L": 7,
+        "XL": 5,
+        "XXL": 2
+      },
+      "is_new": true,
+      "featured": false,
+      "description": "A soft textured sweater with a classic crew neck and relaxed fit.",
+      "tags": [
+        "Man",
+        "knitwear",
+        "layering"
+      ],
+      "main_image": [
+        "https://placehold.co/800x1000/444444/ffffff.png?text=Textured+Knit+Sweater"
+      ],
+      "product_Detail": [],
+      "variant_image": [
+        "https://placehold.co/800x1000/3b3b3b/ffffff.png?text=variant",
+        "https://placehold.co/800x1000/c9b69d/000000.png?text=variant"
+      ]
+    }
+  ]
+}

@@ -5,14 +5,14 @@ import { useGSAP } from '@gsap/react'
 
 import { FiChevronLeft, FiChevronRight, FiX } from 'react-icons/fi'
 
-import products from '../../Data.json'
+import siteData from '../../Data.json'
 
 type MenuProps = {
     isMenuOpen: boolean
     toggleMenu: () => void
 }
 
-type Product = { id: string; name: string; category: string; image: string }
+type Product = { id: string; name: string; category: string; variant_image: string[] }
 type NavLink = { label: string; to: string }
 type Section = {
     label: string
@@ -21,7 +21,7 @@ type Section = {
     links?: NavLink[]
 }
 
-const PRODUCTS = products as Product[]
+const PRODUCTS: Product[] = siteData.products
 const CATEGORIES = [...new Set(PRODUCTS.map((p) => p.category))]
 
 const categoryParam = (c: string) => encodeURIComponent(c)
@@ -295,7 +295,7 @@ export default function Menu({ isMenuOpen, toggleMenu }: MenuProps) {
                             <Link key={product.id} to={`/product/${product.id}`} onClick={close} className="group block">
                                 <div className="tile-img aspect-4/5 overflow-hidden bg-base-200">
                                     <img
-                                        src={product.image}
+                                        src={product.variant_image[0]}
                                         alt=""
                                         loading="lazy"
                                         onError={(e) => { e.currentTarget.style.visibility = 'hidden' }}

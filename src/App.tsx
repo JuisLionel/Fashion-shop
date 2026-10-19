@@ -1,11 +1,9 @@
 import { Routes, Route, Outlet, useLocation } from 'react-router'
-import { useState } from 'react'
-
-
+import siteData from '../Data.json'
 import Navbar from './Components/Navbar'
 import Promo from './Components/Promo'
 import Home from './page/Home'
-import Product from './page/Product'
+import Product from './page/Shop'
 import Wishlist from './page/Wishlist'
 import NotFound from './page/404'
 import Footers from './Components/Footers'
@@ -16,7 +14,7 @@ function Layout() {
 
   const isHome = pathname === '/'
 
-  const [isTherePromo, SetPromo] = useState(false)
+  const isTherePromo = siteData.site.promo.enabled
   
     return (
     <>  
@@ -41,7 +39,10 @@ function Placeholder({ title }: { title: string }) {
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-base-100 text-base-content">
+    <div
+      className="min-h-screen bg-base-100 text-base-content"
+      onDragStart={(event) => event.preventDefault()}
+    >
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
@@ -56,15 +57,12 @@ export default function App() {
           <Route path="/size-guide" element={<Placeholder title="Size Guide" />} />
           <Route path="/shipping" element={<Placeholder title="Shipping" />} />
           <Route path="/exchanges" element={<Placeholder title="Exchanges" />} />
-          <Route path="/about" element={<Placeholder title="Our Story" />} />
-          <Route path="/stores" element={<Placeholder title="Find a Store" />} />
-          <Route path="/sustainability" element={<Placeholder title="Sustainability" />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />
       </Routes>
 
-      {/* <Footers /> */}
+      <Footers />
     </div>
   )
 }

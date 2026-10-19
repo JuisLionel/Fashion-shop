@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router'
 
-import Search from './SeacrhMenu'
+import SearchMenu from './SeacrhMenu'
 import Menu from './Menu'
+import ContactMenu from './ContactMenu'
 
-import { RiAccountCircleLine } from 'react-icons/ri'
-import { FiMoon, FiSun, FiSearch, FiMenu, FiShoppingCart } from 'react-icons/fi'
+import siteData from '../../Data.json'
+
+import { PiHandbagSimpleLight } from 'react-icons/pi'
+import { FiMoon, FiSun, FiSearch, FiMenu, FiPlus, FiUser } from 'react-icons/fi'
 
 const THEME_STORAGE_KEY = 'shirt-shop-theme'
 type Theme = 'tepian-light' | 'tepian-dark'
@@ -21,10 +24,13 @@ function getInitialTheme(): Theme {
 
 export default function Navbar() {
   const [theme, setTheme] = useState<Theme>(getInitialTheme)
+  const isDark = theme === 'tepian-dark'
+
+  const [isScrolled, setIsScrolled] = useState(false)
+
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isSearchOpen, setIsSearchOpen] = useState(false)
-  const [isScrolled, setIsScrolled] = useState(false)
-  const isDark = theme === 'tepian-dark'
+  const [isContactOpen, setContactOpen] = useState(false)
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)
@@ -40,70 +46,86 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
+  const toggleSearch = () => setIsSearchOpen(!isSearchOpen)
+  const toggleContact = () => setContactOpen(!isContactOpen)
 
-  const toggleSearch = () => {
-    setIsSearchOpen(!isSearchOpen)
-  }
+  const color = isScrolled ? '!text-base-content' : '!text-[#111111]'
 
   const textButton =
-    'btn btn-ghost btn-sm h-10 min-h-10 w-10 cursor-pointer justify-center gap-2 rounded-full px-0 font-josefin text-xl leading-none hover:text-accent md:btn-md md:h-12 md:min-h-12 md:w-auto md:justify-start md:px-3'
+    `btn btn-ghost btn-sm inline-flex h-10 min-h-10 w-10 min-w-10 cursor-pointer items-center justify-center gap-2 rounded-full p-0 font-jost text-xl font-normal leading-none hover:!text-accent md:btn-md md:h-12 md:min-h-12 md:w-auto md:min-w-0 md:px-3 ${color}`
 
-  const iconButton = 'btn btn-ghost btn-circle btn-sm hover:text-accent md:btn-md'
+  const iconButton =
+    `btn btn-ghost btn-sm inline-flex h-10 min-h-10 w-10 min-w-10 items-center justify-center rounded-full p-0 hover:!text-accent md:btn-md md:h-12 md:min-h-12 md:w-12 md:min-w-12 ${color}`
 
   return (
     <>
-      {/* Navbar */}
       <div className="sticky top-0 z-50 h-0">
-
-        <header className={`navbar main-head absolute inset-x-0 top-0 flex items-center justify-between gap-1 px-4 py-2 text-base-content md:px-6 md:py-4 ${isScrolled ? 'bg-base-100 slidedown' : 'bg-base-100/0'}`}>
-          <div className="contents md:flex md:items-center md:gap-6" id="Right">
+        <header
+          className={`navbar main-head absolute inset-x-0 top-0 flex flex-nowrap items-center justify-between gap-1 px-4 py-2 md:px-6 md:py-4 ${isScrolled ? 'bg-base-100 text-base-content slidedown' : 'bg-base-100/0 text-[#111111]'
+            }`}
+        >
+          <div className="flex items-center gap-1 max-md:contents md:gap-6" id="Right">
             <button onClick={toggleMenu} aria-label="Menu" className={`order-5 ${textButton}`}>
-              <FiMenu className="h-6 w-6 shrink-0 md:h-5 md:w-5" aria-hidden="true" />
-              <span className="hidden h-6 items-center md:inline-flex">Menu</span>
+              <FiMenu className="h-6 w-6 shrink-0 md:h-5 md:w-5" strokeWidth={1.5} aria-hidden="true" />
+              <span className="hidden leading-none md:block">menu</span>
             </button>
 
             <button onClick={toggleSearch} aria-label="Search" className={`order-4 ${textButton}`}>
-              <FiSearch className="h-6 w-6 shrink-0 md:h-5 md:w-5" aria-hidden="true" />
-              <span className="hidden h-6 items-center md:inline-flex">Search</span>
+              <FiSearch className="h-6 w-6 shrink-0 md:h-5 md:w-5" strokeWidth={1.5} aria-hidden="true" />
+              <span className="hidden leading-none md:block">search</span>
             </button>
           </div>
 
           <h1
             id="center"
-            className="order-1 mr-auto whitespace-nowrap font-jost text-base font-bold uppercase tracking-[0.18em] min-[400px]:text-xl md:order-0 md:mr-0 md:pt-5 md:text-3xl md:tracking-[0.3em] lg:text-3xl"
+            className="whitespace-nowrap font-jost text-xl font-bold uppercase tracking-[0.25em] max-md:order-1 md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:text-3xl md:tracking-[0.3em]"
           >
-            Fashion Shop
+            <span className="md:hidden">Fashion</span>
+            <span className="hidden md:inline">{siteData.site.brand.name}</span>
           </h1>
 
-          <div className="contents md:flex md:items-center md:justify-end md:gap-4" id="Left">
-            <Link to="/Wishlist" aria-label="Cart" className={`order-2 md:order-0 ${iconButton}`}>
-              <FiShoppingCart className="h-6 w-6" aria-hidden="true" />
+          <div className="flex items-center justify-end gap-1 max-md:contents md:gap-4" id="Left">
+            <button onClick={toggleContact} aria-label="Contact" className={`max-md:hidden ${textButton}`}>
+              <FiPlus className="h-6 w-6 shrink-0 md:h-5 md:w-5" strokeWidth={1.5} aria-hidden="true" />
+              <span className="hidden leading-none md:block">contact us</span>
+            </button>
+
+            <Link to="/Wishlist" aria-label="Wishlist" className={`order-2 max-md:ml-auto md:order-0 ${iconButton}`}>
+              <PiHandbagSimpleLight className="h-6 w-6" aria-hidden="true" />
             </Link>
 
-            <div className="dropdown dropdown-hover dropdown-bottom dropdown-end order-3 md:dropdown-center md:order-0">
+            <div className="dropdown dropdown-hover dropdown-bottom dropdown-end order-3 md:order-0">
               <button tabIndex={0} role="button" aria-label="Account" className={iconButton}>
-                <RiAccountCircleLine className="h-6 w-6" aria-hidden="true" />
+                <FiUser className="h-6 w-6" strokeWidth={1.5} aria-hidden="true" />
               </button>
 
-              <ul tabIndex={-1} className="dropdown-content menu bg-base-100 rounded-box z-1 w-30 p-2 border border-base-300 shadow-lg">
+              <ul
+                tabIndex={-1}
+                className="dropdown-content menu z-1 w-44 rounded-box border border-base-300 bg-base-100 p-2 text-base-content shadow-lg"
+              >
                 <li><a href="/sign-in">Sign In</a></li>
                 <li><a href="/sign-up">Sign Up</a></li>
+
+                <li className="mt-1 border-t border-base-300 pt-1">
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      setTheme(isDark ? 'tepian-light' : 'tepian-dark')
+                      e.currentTarget.blur()
+                    }}
+                    aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
+                  >
+                    {isDark ? (
+                      <FiMoon className="h-4 w-4 shrink-0" aria-hidden="true" />
+                    ) : (
+                      <FiSun className="h-4 w-4 shrink-0" aria-hidden="true" />
+                    )}
+                    {isDark ? 'Dark' : 'Light'}
+                  </button>
+                </li>
               </ul>
             </div>
-
-            <label className={`swap swap-rotate max-md:hidden ${iconButton}`}>
-              <input
-                type="checkbox"
-                checked={isDark}
-                onChange={(e) => setTheme(e.target.checked ? 'tepian-dark' : 'tepian-light')}
-                aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
-              />
-              <FiSun className="swap-off h-6 w-6" aria-hidden="true" />
-              <FiMoon className="swap-on h-6 w-6" aria-hidden="true" />
-            </label>
           </div>
         </header>
       </div>
@@ -112,7 +134,10 @@ export default function Navbar() {
       <Menu isMenuOpen={isMenuOpen} toggleMenu={toggleMenu} />
 
       {/* Search */}
-      <Search isSearchOpen={isSearchOpen} toggleSearch={toggleSearch} />
+      <SearchMenu isSearchOpen={isSearchOpen} toggleSearch={toggleSearch} />
+
+      {/* Contact */}
+      <ContactMenu isOpen={isContactOpen} onClose={toggleContact} />
     </>
   )
 }
