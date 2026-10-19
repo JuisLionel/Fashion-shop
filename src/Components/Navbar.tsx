@@ -31,7 +31,10 @@ export default function Navbar({ isHome }: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const [isContactOpen, setContactOpen] = useState(false)
-  const { isSignedIn, signOut } = useAuth()
+  const { account, isSignedIn, signOut } = useAuth()
+  const cartCount = account?.user.cart
+    .filter((item) => Number.isInteger(item.quantity) && item.quantity > 0)
+    .reduce((total, item) => total + item.quantity, 0) ?? 0
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)
@@ -61,7 +64,7 @@ export default function Navbar({ isHome }: NavbarProps) {
   const color = navIsScrolled || !isHome ? '!text-base-content' : '!text-[#111111]'
 
   const textButton =
-    `btn btn-ghost btn-sm inline-flex h-10 min-h-10 w-10 min-w-10 cursor-pointer items-center justify-center gap-2 rounded-none p-0 font-outfit text-xl font-normal leading-none hover:!text-accent md:btn-md md:h-12 md:min-h-12 md:w-auto md:min-w-0 md:px-3 ${color}`
+    `btn btn-ghost btn-sm inline-flex h-10 min-h-10 w-10 min-w-10 cursor-pointer items-center justify-center gap-2 rounded-none p-0 font-jost text-sm font-light tracking-wide leading-none hover:!text-accent md:btn-md md:h-12 md:min-h-12 md:w-auto md:min-w-0 md:px-3 ${color}`
 
   const iconButton =
     `btn btn-ghost btn-sm flex h-10 min-h-10 w-10 min-w-10 items-center justify-center rounded-none p-0 hover:!text-accent md:btn-md md:h-12 md:min-h-12 md:w-12 md:min-w-12 ${color}`
@@ -99,10 +102,14 @@ export default function Navbar({ isHome }: NavbarProps) {
               <span className="hidden leading-none [text-box:trim-both_cap_alphabetic] md:block">Contact us</span>
             </button>
 
-            <Link to="/Wishlist" aria-label="Wishlist" className={`order-2 max-md:ml-auto md:order-0 ${iconButton}`}>
+            <Link to="/cart" aria-label={`Shopping bag${cartCount ? `, ${cartCount} items` : ''}`} className={`relative order-2 max-md:ml-auto md:order-0 ${iconButton}`}>
               <PiHandbagSimpleLight className="h-6 w-6" aria-hidden="true" />
+              {cartCount > 0 && (
+                <span className="absolute right-0.5 top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-base-content px-1 font-jost text-[10px] text-base-100">
+                  {cartCount}
+                </span>
+              )}
             </Link>
-
             <div className="dropdown dropdown-hover dropdown-bottom dropdown-end order-3 md:order-0">
               <button tabIndex={0} role="button" aria-label="Account" className={iconButton}>
                 <FiUser className="h-6 w-6" strokeWidth={1.5} aria-hidden="true" />
@@ -115,6 +122,7 @@ export default function Navbar({ isHome }: NavbarProps) {
                 {isSignedIn ? (
                   <>
                     <li><Link to="/orders" className="font-jost text-sm uppercase tracking-wide">My orders</Link></li>
+                    <li><Link to="/wishlist" className="font-jost text-sm uppercase tracking-wide">My Wishlist</Link></li>
                     <li><Link to="/account" className="font-jost text-sm uppercase tracking-wide">My account settings</Link></li>
                     <li><Link to="/account/wallet" className="font-jost text-sm uppercase tracking-wide">My wallet</Link></li>
                     <li className="mt-1 border-t border-base-300 pt-1">

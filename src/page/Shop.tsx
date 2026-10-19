@@ -1,5 +1,8 @@
+import { useState } from 'react'
 import { Link, useSearchParams } from 'react-router'
+import { FiHeart, FiShoppingBag } from 'react-icons/fi'
 import siteData from '../../Data.json'
+import { useAuth } from '../auth/useAuth'
 
 type Product = {
   id: string
@@ -109,23 +112,39 @@ function FilterDropdown({
 }
 
 function ShopProductCard({ product }: { product: Product }) {
+  const { account, addToCart, toggleWishlist } = useAuth()
+  const [errorMessage, setErrorMessage] = useState('')
+  const inCart = account?.user.cart.some((item) => item.productId === product.id) ?? false
+  const isWishlisted = account?.user.wishlist.includes(product.id) ?? false
+
+  const handleProductAction = (action: () => void) => {
+    try {
+      action()
+      setErrorMessage('')
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : 'Could not update this product.')
+    }
+  }
+
   return (
-    <Link to={`/product/${product.id}`} className="group block min-w-0">
+    <article className="group block min-w-0">
       <div className="relative aspect-3/4 overflow-hidden bg-base-200">
-        <figure className="hover-gallery h-full w-full">
-          {product.main_image.map((image, index) => (
-            <img
-              key={`${product.id}-${index}`}
-              src={image}
-              alt={index === 0 ? product.name : ''}
-              loading="lazy"
-              onError={(event) => {
-                event.currentTarget.style.visibility = 'hidden'
-              }}
-              className="h-full w-full object-cover"
-            />
-          ))}
-        </figure>
+        <Link to={`/product/${product.id}`} aria-label={product.name} className="block h-full w-full">
+          <figure className="hover-gallery h-full w-full">
+            {product.main_image.map((image, index) => (
+              <img
+                key={`${product.id}-${index}`}
+                src={image}
+                alt={index === 0 ? product.name : ''}
+                loading="lazy"
+                onError={(event) => {
+                  event.currentTarget.style.visibility = 'hidden'
+                }}
+                className="h-full w-full object-cover"
+              />
+            ))}
+          </figure>
+        </Link>
         {product.is_new && (
           <span className="absolute left-3 top-3 bg-base-content px-2 py-1 font-jost text-[10px] uppercase tracking-[0.2em] text-base-100">
             New
@@ -136,10 +155,30 @@ function ShopProductCard({ product }: { product: Product }) {
             Sale
           </span>
         )}
+        <div className="absolute bottom-3 right-3 flex gap-2">
+          <button
+            type="button"
+            aria-label={`Add ${product.name} to cart`}
+            onClick={() => handleProductAction(() => addToCart(product.id))}
+            className={`flex h-10 w-10 items-center justify-center rounded-full bg-base-100 text-base-content shadow-sm transition-colors hover:bg-base-content hover:text-base-100 ${inCart ? '!bg-base-content !text-base-100' : ''}`}
+          >
+            <FiShoppingBag className="h-4 w-4" aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            aria-label={`${isWishlisted ? 'Remove' : 'Add'} ${product.name} ${isWishlisted ? 'from' : 'to'} wishlist`}
+            aria-pressed={isWishlisted}
+            onClick={() => handleProductAction(() => toggleWishlist(product.id))}
+            className={`flex h-10 w-10 items-center justify-center rounded-full bg-base-100 text-base-content shadow-sm transition-colors hover:bg-base-content hover:text-base-100 ${isWishlisted ? '!bg-base-content !text-base-100' : ''}`}
+          >
+            <FiHeart className={`h-4 w-4 ${isWishlisted ? 'fill-current' : ''}`} aria-hidden="true" />
+          </button>
+        </div>
       </div>
 
       <div className="pt-4 font-jost">
-        <p className="truncate text-sm transition-colors duration-300 group-hover:text-accent">{product.name}</p>
+        {errorMessage && <p role="status" className="mb-2 text-xs text-error">{errorMessage}</p>}
+        <Link to={`/product/${product.id}`} className="block truncate text-sm transition-colors duration-300 group-hover:text-accent">{product.name}</Link>
         <p className="mt-1 text-[11px] uppercase tracking-[0.2em] text-base-content/50">{product.category}</p>
         <p className="mt-2 text-sm">
           {product.sale_price_idr ? (
@@ -155,7 +194,7 @@ function ShopProductCard({ product }: { product: Product }) {
           <p className="mt-1 text-xs text-base-content/50">{product.purchases.toLocaleString('id-ID')} sold</p>
         )}
       </div>
-    </Link>
+    </article>
   )
 }
 

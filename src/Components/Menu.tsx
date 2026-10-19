@@ -260,7 +260,8 @@ export default function Menu({ isMenuOpen, toggleMenu }: MenuProps) {
                                             { label: 'My account settings', to: '/account/settings' },
                                             { label: 'My address book', to: '/account/addresses' },
                                             { label: 'My wallet', to: '/account/wallet' },
-                                            { label: 'My saved items', to: '/wishlist' },
+                                            { label: 'My shopping bag', to: '/cart' },
+                                            { label: 'My wishlist', to: '/wishlist' },
                                             { label: 'My appointments', to: '/account/appointments' },
                                         ].map((link) => (
                                             <li key={link.label} className="lvl1-item">

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react'
-import { AuthContext, type Account, type AuthContextValue } from './authContext'
+import { AuthContext, type Account, type AuthContextValue, type CartItem } from './authContext'
 
 const ACCOUNT_KEY = 'fashion-shop-account'
 const CREDENTIAL_KEY = 'fashion-shop-credential'
@@ -37,7 +37,7 @@ function getInitialAuthState(): { account: Account | null; storageError: string 
   } catch {
     return {
       account: null,
-      storageError: 'Saved account data could not be read. Clear this site’s local storage to start again.',
+      storageError: 'We couldn’t load your account information. Please try again or contact support if the problem continues.',
     }
   }
 }
@@ -86,6 +86,13 @@ function isAccount(value: unknown): value is Account {
     'email' in user.contact && typeof user.contact.email === 'string'
 }
 
+function isCartItem(value: unknown): value is CartItem {
+  if (typeof value !== 'object' || value === null) return false
+  return 'productId' in value && typeof value.productId === 'string' &&
+    'quantity' in value && typeof value.quantity === 'number' &&
+    Number.isInteger(value.quantity) && value.quantity > 0
+}
+
 function isCredential(value: unknown): value is Credential {
   if (typeof value !== 'object' || value === null) return false
   return 'email' in value && typeof value.email === 'string' &&
@@ -105,7 +112,7 @@ function getStoredAccounts(): StoredAccount[] {
   const storedAccounts = parseStoredJson<unknown>(ACCOUNTS_KEY)
   if (Array.isArray(storedAccounts)) {
     if (!storedAccounts.every(isStoredAccount)) {
-      throw new Error('Saved account data is invalid. Clear this site’s local storage to start again.')
+      throw new Error('Your account information is unavailable. Please try again or contact support if the problem continues.')
     }
     return storedAccounts
   }
@@ -202,7 +209,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const storedAccount = accounts.find(({ account }) => account.user.contact.email === email)
 
       if (!storedAccount) {
-        throw new Error('No local account was found for this email. Create an account first.')
+        throw new Error('We couldn’t find an account with this email. Check the address or create an account.')
       }
       const { account, credential: credentialValue } = storedAccount
       if (credentialValue.email !== email || account.user.contact.email !== email) {
@@ -240,6 +247,123 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     signOut() {
       localStorage.removeItem(SESSION_KEY)
       setAuthState({ account: null, storageError: null })
+    },
+    addToCart(productId) {
+      const currentAccount = authState.account
+      if (!currentAccount) {
+        throw new Error('Sign in to add products to your cart.')
+      }
+
+      const accounts = getStoredAccounts()
+      const storedAccount = accounts.find(
+        ({ account }) => account.user.id === currentAccount.user.id
+      )
+      if (!storedAccount) {
+        throw new Error('We couldn’t find your account. Please sign in again.')
+      }
+
+      const cart = Array.isArray(storedAccount.account.user.cart)
+        ? storedAccount.account.user.cart.filter(isCartItem)
+        : []
+      const existingItem = cart.find((item) => item.productId === productId)
+      const nextCart = existingItem
+        ? cart.map((item) => item.productId === productId
+          ? { ...item, quantity: item.quantity + 1 }
+          : item)
+        : [...cart, { productId, quantity: 1 }]
+      const updatedAccount: Account = {
+        ...storedAccount.account,
+        user: {
+          ...storedAccount.account.user,
+          cart: nextCart,
+        },
+      }
+      const updatedAccounts = accounts.map((entry) =>
+        entry.account.user.id === currentAccount.user.id
+          ? { ...entry, account: updatedAccount }
+          : entry
+      )
+
+      localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(updatedAccounts))
+      setAuthState({ account: updatedAccount, storageError: null })
+    },
+    setCartQuantity(productId, quantity) {
+      const currentAccount = authState.account
+      if (!currentAccount) {
+        throw new Error('Sign in to update your cart.')
+      }
+
+      if (!Number.isInteger(quantity) || quantity < 0) {
+        throw new Error('Cart quantity must be a non-negative whole number.')
+      }
+
+      const accounts = getStoredAccounts()
+      const storedAccount = accounts.find(
+        ({ account }) => account.user.id === currentAccount.user.id
+      )
+      if (!storedAccount) {
+        throw new Error('We couldn’t find your account. Please sign in again.')
+      }
+
+      const cart = Array.isArray(storedAccount.account.user.cart)
+        ? storedAccount.account.user.cart.filter(isCartItem)
+        : []
+      const nextCart = quantity === 0
+        ? cart.filter((item) => item.productId !== productId)
+        : cart.some((item) => item.productId === productId)
+          ? cart.map((item) => item.productId === productId ? { ...item, quantity } : item)
+          : [...cart, { productId, quantity }]
+      const updatedAccount: Account = {
+        ...storedAccount.account,
+        user: {
+          ...storedAccount.account.user,
+          cart: nextCart,
+        },
+      }
+      const updatedAccounts = accounts.map((entry) =>
+        entry.account.user.id === currentAccount.user.id
+          ? { ...entry, account: updatedAccount }
+          : entry
+      )
+
+      localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(updatedAccounts))
+      setAuthState({ account: updatedAccount, storageError: null })
+    },
+    toggleWishlist(productId) {
+      const currentAccount = authState.account
+      if (!currentAccount) {
+        throw new Error('Sign in to save products to your wishlist.')
+      }
+
+      const accounts = getStoredAccounts()
+      const storedAccount = accounts.find(
+        ({ account }) => account.user.id === currentAccount.user.id
+      )
+      if (!storedAccount) {
+        throw new Error('We couldn’t find your account. Please sign in again.')
+      }
+
+      const wishlist = Array.isArray(storedAccount.account.user.wishlist)
+        ? storedAccount.account.user.wishlist.filter((id): id is string => typeof id === 'string')
+        : []
+      const nextWishlist = wishlist.includes(productId)
+        ? wishlist.filter((id) => id !== productId)
+        : [...wishlist, productId]
+      const updatedAccount: Account = {
+        ...storedAccount.account,
+        user: {
+          ...storedAccount.account.user,
+          wishlist: nextWishlist,
+        },
+      }
+      const updatedAccounts = accounts.map((entry) =>
+        entry.account.user.id === currentAccount.user.id
+          ? { ...entry, account: updatedAccount }
+          : entry
+      )
+
+      localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(updatedAccounts))
+      setAuthState({ account: updatedAccount, storageError: null })
     },
   }), [authState])
 

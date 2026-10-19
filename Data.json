@@ -9,6 +9,33 @@
       "enabled": false,
       "text": "20% off all shirts with code TEPIAN20"
     },
+    "faqTitle": "Questions? We have answers",
+    "faqs": [
+      {
+        "question": "How long does delivery take?",
+        "answer": "Orders ship within 1 to 2 working days. Delivery usually takes 2 to 5 days across Indonesia, depending on your courier and location."
+      },
+      {
+        "question": "Is shipping free?",
+        "answer": "Yes, shipping is free on orders over Rp 300.000. Below that, the fee depends on your address and courier."
+      },
+      {
+        "question": "Which couriers do you use?",
+        "answer": "We ship with JNE, J&T and SiCepat. Every order comes with a tracking number so you can follow your package."
+      },
+      {
+        "question": "What if the size doesn't fit?",
+        "answer": "You can exchange it once for free within 7 days of receiving it. The item must be unworn and have its tags."
+      },
+      {
+        "question": "Will the shirt shrink after washing?",
+        "answer": "No. Our cotton is pre-shrunk, so the size stays true. For best results, wash cold and dry in the shade."
+      },
+      {
+        "question": "How do I choose my size?",
+        "answer": "Each product page lists the available sizes and stock. If you're between two sizes, message us and we will help you find your fit."
+      }
+    ],
     "home": {
       "benefits": [
         {

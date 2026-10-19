@@ -28,7 +28,6 @@ type SearchItem = {
 
 const SEARCH_ITEMS: SearchItem[] = siteData.products.map((product) => ({
     ...product,
-    // hover-gallery supports up to 10 images
     images: product.main_image.slice(0, 10),
     rating: 0,
     review_count: 0,
@@ -44,7 +43,6 @@ const TRENDING = SEARCH_CATEGORIES
     .slice(0, 5)
     .map((item) => item.category)
 
-// Sidebar: only these two sections
 const SIDEBAR = [
     {
         title: 'New in',
@@ -54,10 +52,10 @@ const SIDEBAR = [
         ],
     },
     {
-        title: 'Suggestions',
+        title: 'Social Media',
         links: [
-            { label: 'Personalization', to: '/personalization' },
-            { label: 'Store Locator', to: '/store-locator' },
+            { label: 'Instagram', to: 'https://www.instagram.com/' },
+            { label: 'Facebook', to: 'https://www.facebook.com/' },
         ],
     },
 ]

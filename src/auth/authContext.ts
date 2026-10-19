@@ -1,5 +1,10 @@
 import { createContext } from 'react'
 
+export type CartItem = {
+  productId: string
+  quantity: number
+}
+
 export type Account = {
   user: {
     id: string
@@ -16,7 +21,7 @@ export type Account = {
     addresses: unknown[]
     Shipping_status: unknown[]
     orders: unknown[]
-    cart: unknown[]
+    cart: CartItem[]
     preferences: {
       sizes: {
         top: string | null
@@ -31,7 +36,7 @@ export type Account = {
         sms: boolean | null
       }
     }
-    wishlist: unknown[]
+    wishlist: string[]
     last_search: {
       query: string | null
       searched_at: string | null
@@ -60,6 +65,9 @@ export type AuthContextValue = {
   signUp: (details: SignUpDetails) => Promise<void>
   signIn: (email: string, password: string) => Promise<void>
   signOut: () => void
+  addToCart: (productId: string) => void
+  setCartQuantity: (productId: string, quantity: number) => void
+  toggleWishlist: (productId: string) => void
 }
 
 export const AuthContext = createContext<AuthContextValue | null>(null)

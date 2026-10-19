@@ -5,6 +5,7 @@ import Promo from './Components/Promo'
 import Home from './page/Home'
 import ShopPage  from './page/Shop'
 import Product from './page/Product'
+import Cart from './page/Cart'
 import Wishlist from './page/Wishlist'
 import NotFound from './page/404'
 import Footers from './Components/Footers'
@@ -52,6 +53,7 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="/shop" element={<ShopPage />} />
             <Route path="/product/:id" element={<Product />} />
+            <Route path="/cart" element={<Cart />} />
             <Route path="/wishlist" element={<Wishlist />} />
 
             <Route path="/sign-in" element={<SignInPage />} />
