@@ -27,7 +27,9 @@ export default function Cart() {
     : []
   const productsInCart = cartItems.flatMap((item) => {
     const product = PRODUCTS.find((entry) => entry.id === item.productId)
-    return product ? [{ product, quantity: item.quantity }] : []
+    return product
+      ? [{ product, quantity: item.quantity, size: item.size, color: item.color }]
+      : []
   })
   const subtotal = productsInCart.reduce(
     (total, { product, quantity }) => total + (product.sale_price_idr ?? product.price_idr) * quantity,
@@ -35,9 +37,13 @@ export default function Cart() {
   )
   const itemCount = productsInCart.reduce((total, item) => total + item.quantity, 0)
 
-  const changeQuantity = (productId: string, quantity: number) => {
+  const changeQuantity = (
+    productId: string,
+    quantity: number,
+    variant: { size?: string; color?: string } = {},
+  ) => {
     try {
-      setCartQuantity(productId, quantity)
+      setCartQuantity(productId, quantity, variant)
       setErrorMessage('')
     } catch (error) {
       setErrorMessage(error instanceof Error ? error.message : 'Could not update your cart.')
@@ -99,25 +105,31 @@ export default function Cart() {
               </div>
 
               <ul className="divide-y divide-base-300">
-                {productsInCart.map(({ product, quantity }) => {
+                {productsInCart.map(({ product, quantity, size, color }) => {
                   const image = Array.isArray(product.main_image) ? product.main_image[0] : product.main_image
                   const price = product.sale_price_idr ?? product.price_idr
+                  const variant = { size, color }
 
                   return (
-                    <li key={product.id} className="grid grid-cols-[5.5rem_minmax(0,1fr)] gap-4 py-5 sm:grid-cols-[7rem_minmax(0,1fr)_auto] sm:gap-6">
+                    <li key={`${product.id}-${size ?? ''}-${color ?? ''}`} className="grid grid-cols-[5.5rem_minmax(0,1fr)] gap-4 py-5 sm:grid-cols-[7rem_minmax(0,1fr)_auto] sm:gap-6">
                       <Link to={`/product/${product.id}`} className="block aspect-3/4 overflow-hidden bg-base-200">
                         <img src={image} alt={product.name} loading="lazy" className="h-full w-full object-cover" />
                       </Link>
                       <div className="min-w-0 font-jost">
                         <Link to={`/product/${product.id}`} className="font-medium hover:text-accent">{product.name}</Link>
                         <p className="mt-1 text-xs text-base-content/60">{product.category}</p>
+                        {(size || color) && (
+                          <p className="mt-1 text-xs text-base-content/60">
+                            {[color && `Color: ${color}`, size && `Size: ${size}`].filter(Boolean).join(' · ')}
+                          </p>
+                        )}
                         <p className="mt-3 text-sm sm:hidden">{formatPrice(price * quantity)}</p>
                         <div className="mt-4 flex flex-wrap items-center gap-4">
                           <div className="inline-flex items-center border border-base-300">
                             <button
                               type="button"
                               aria-label={`Decrease ${product.name} quantity`}
-                              onClick={() => changeQuantity(product.id, quantity - 1)}
+                              onClick={() => changeQuantity(product.id, quantity - 1, variant)}
                               className="p-2 hover:text-accent"
                             >
                               {quantity === 1 ? <FiTrash2 className="h-3.5 w-3.5" /> : <FiMinus className="h-3.5 w-3.5" />}
@@ -126,7 +138,7 @@ export default function Cart() {
                             <button
                               type="button"
                               aria-label={`Increase ${product.name} quantity`}
-                              onClick={() => changeQuantity(product.id, quantity + 1)}
+                              onClick={() => changeQuantity(product.id, quantity + 1, variant)}
                               className="p-2 hover:text-accent"
                             >
                               <FiPlus className="h-3.5 w-3.5" />
@@ -134,7 +146,7 @@ export default function Cart() {
                           </div>
                           <button
                             type="button"
-                            onClick={() => changeQuantity(product.id, 0)}
+                            onClick={() => changeQuantity(product.id, 0, variant)}
                             className="font-jost text-xs underline underline-offset-4 hover:text-accent"
                           >
                             Remove

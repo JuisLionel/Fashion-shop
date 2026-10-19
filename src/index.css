@@ -1,6 +1,25 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
+*,
+*::before,
+*::after {
+    border-radius: 0 !important;
+}
+
+.btn-neutral {
+    background-color: var(--color-neutral);
+    background-image: none;
+    border-color: var(--color-neutral);
+    box-shadow: none;
+    color: var(--color-neutral-content);
+}
+
+.btn-neutral:hover:not(:disabled) {
+    background-color: var(--color-neutral);
+    border-color: var(--color-neutral);
+}
+
 img, a {
   -webkit-user-drag: none;
   -khtml-user-drag: none;

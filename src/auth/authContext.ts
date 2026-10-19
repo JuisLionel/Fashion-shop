@@ -3,7 +3,11 @@ import { createContext } from 'react'
 export type CartItem = {
   productId: string
   quantity: number
+  size?: string
+  color?: string
 }
+
+export type CartVariant = Pick<CartItem, 'size' | 'color'>
 
 export type Account = {
   user: {
@@ -65,8 +69,8 @@ export type AuthContextValue = {
   signUp: (details: SignUpDetails) => Promise<void>
   signIn: (email: string, password: string) => Promise<void>
   signOut: () => void
-  addToCart: (productId: string) => void
-  setCartQuantity: (productId: string, quantity: number) => void
+  addToCart: (productId: string, variant?: CartVariant) => void
+  setCartQuantity: (productId: string, quantity: number, variant?: CartVariant) => void
   toggleWishlist: (productId: string) => void
 }
 

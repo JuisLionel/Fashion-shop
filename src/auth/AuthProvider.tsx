@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react'
-import { AuthContext, type Account, type AuthContextValue, type CartItem } from './authContext'
+import { AuthContext, type Account, type AuthContextValue, type CartItem, type CartVariant } from './authContext'
 
 const ACCOUNT_KEY = 'fashion-shop-account'
 const CREDENTIAL_KEY = 'fashion-shop-credential'
@@ -90,7 +90,9 @@ function isCartItem(value: unknown): value is CartItem {
   if (typeof value !== 'object' || value === null) return false
   return 'productId' in value && typeof value.productId === 'string' &&
     'quantity' in value && typeof value.quantity === 'number' &&
-    Number.isInteger(value.quantity) && value.quantity > 0
+    Number.isInteger(value.quantity) && value.quantity > 0 &&
+    (!('size' in value) || typeof value.size === 'string') &&
+    (!('color' in value) || typeof value.color === 'string')
 }
 
 function isCredential(value: unknown): value is Credential {
@@ -248,7 +250,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       localStorage.removeItem(SESSION_KEY)
       setAuthState({ account: null, storageError: null })
     },
-    addToCart(productId) {
+    addToCart(productId, variant = {}) {
       const currentAccount = authState.account
       if (!currentAccount) {
         throw new Error('Sign in to add products to your cart.')
@@ -265,12 +267,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const cart = Array.isArray(storedAccount.account.user.cart)
         ? storedAccount.account.user.cart.filter(isCartItem)
         : []
-      const existingItem = cart.find((item) => item.productId === productId)
+      const matchesVariant = (item: CartItem) =>
+        item.productId === productId && item.size === variant.size && item.color === variant.color
+      const existingItem = cart.find(matchesVariant)
       const nextCart = existingItem
-        ? cart.map((item) => item.productId === productId
+        ? cart.map((item) => matchesVariant(item)
           ? { ...item, quantity: item.quantity + 1 }
           : item)
-        : [...cart, { productId, quantity: 1 }]
+        : [...cart, { productId, quantity: 1, ...variant }]
       const updatedAccount: Account = {
         ...storedAccount.account,
         user: {
@@ -287,7 +291,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(updatedAccounts))
       setAuthState({ account: updatedAccount, storageError: null })
     },
-    setCartQuantity(productId, quantity) {
+    setCartQuantity(productId, quantity, variant: CartVariant = {}) {
       const currentAccount = authState.account
       if (!currentAccount) {
         throw new Error('Sign in to update your cart.')
@@ -308,11 +312,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const cart = Array.isArray(storedAccount.account.user.cart)
         ? storedAccount.account.user.cart.filter(isCartItem)
         : []
+      const matchesVariant = (item: CartItem) =>
+        item.productId === productId && item.size === variant.size && item.color === variant.color
       const nextCart = quantity === 0
-        ? cart.filter((item) => item.productId !== productId)
-        : cart.some((item) => item.productId === productId)
-          ? cart.map((item) => item.productId === productId ? { ...item, quantity } : item)
-          : [...cart, { productId, quantity }]
+        ? cart.filter((item) => !matchesVariant(item))
+        : cart.some(matchesVariant)
+          ? cart.map((item) => matchesVariant(item) ? { ...item, quantity } : item)
+          : [...cart, { productId, quantity, ...variant }]
       const updatedAccount: Account = {
         ...storedAccount.account,
         user: {
