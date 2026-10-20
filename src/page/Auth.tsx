@@ -1,8 +1,11 @@
 import { useState, type FormEvent, type InputHTMLAttributes, type ReactNode } from 'react'
 import { Link, Navigate, useNavigate } from 'react-router'
+import { FiLogOut } from 'react-icons/fi'
 import { useAuth } from '../auth/useAuth'
+import { getPhoneInput, parsePhoneInput, PHONE_COUNTRIES, type CountryCode } from '../auth/phone'
 import { FaApple, FaGoogle } from 'react-icons/fa'
 import Silk from '../Components/Silk'
+import AccountSidebar from '../Components/AccountSidebar'
 
 function AuthLayout({
   children,
@@ -147,6 +150,52 @@ function SocialAuthButtons({ onUnavailable }: { onUnavailable: (provider: string
   )
 }
 
+function PhoneField({
+  country,
+  value,
+  onCountryChange,
+  onChange,
+}: {
+  country: CountryCode
+  value: string
+  onCountryChange: (country: CountryCode) => void
+  onChange: (value: string) => void
+}) {
+  const inputClass = 'w-full min-w-0 bg-transparent px-3 py-3 font-jost text-sm outline-none'
+
+  return (
+    <label className="block">
+      <span className="mb-2 block font-jost text-[11px] uppercase tracking-[0.2em] text-base-content/60">
+        Mobile number
+      </span>
+      <span className="flex border border-base-content/20 focus-within:border-accent">
+        <select
+          aria-label="Phone country code"
+          autoComplete="tel-country-code"
+          value={country}
+          onChange={(event) => onCountryChange(event.target.value as CountryCode)}
+          className="w-32 max-w-[42%] shrink-0 border-r border-base-content/15 bg-transparent px-1.5 font-jost text-xs outline-none sm:w-36"
+        >
+          {PHONE_COUNTRIES.map((item) => (
+            <option key={item.code} value={item.code}>
+              {item.name} (+{item.callingCode})
+            </option>
+          ))}
+        </select>
+        <input
+          type="tel"
+          inputMode="tel"
+          autoComplete="tel-national"
+          value={value}
+          onChange={(event) => onChange(event.target.value)}
+          placeholder="e.g. 812 3456 7890"
+          className={`${inputClass} placeholder:text-base-content/45`}
+        />
+      </span>
+    </label>
+  )
+}
+
 export function SignInPage() {
   const { isSignedIn, signIn } = useAuth()
   const navigate = useNavigate()
@@ -223,6 +272,7 @@ export function SignUpPage() {
     birthDate: '',
     email: '',
     phone: '',
+    phoneCountry: 'ID' as CountryCode,
     password: '',
     confirmPassword: '',
   })
@@ -255,9 +305,17 @@ export function SignUpPage() {
       return
     }
 
+    let phone: string | null
+    try {
+      phone = form.phone.trim() ? parsePhoneInput(form.phone, form.phoneCountry).number : null
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : 'Enter a valid phone number.')
+      return
+    }
+
     setIsSubmitting(true)
     try {
-      await signUp(form)
+      await signUp({ ...form, phone: phone ?? '' })
       navigate('/account')
     } catch (reason) {
       setError(reason instanceof Error ? reason.message : 'Unable to create the account.')
@@ -309,13 +367,11 @@ export function SignUpPage() {
           value={form.birthDate}
           onChange={(event) => update('birthDate', event.target.value)}
         />
-        <Field
-          label="Phone"
-          hint="Optional"
-          type="tel"
-          autoComplete="tel"
+        <PhoneField
+          country={form.phoneCountry}
           value={form.phone}
-          onChange={(event) => update('phone', event.target.value)}
+          onCountryChange={(country) => update('phoneCountry', country)}
+          onChange={(value) => update('phone', value)}
         />
         <Field
           label="Password"
@@ -350,43 +406,104 @@ export function SignUpPage() {
 }
 
 export function AccountPage() {
-  const { account, signOut } = useAuth()
+  const { account, signOut, updateProfile } = useAuth()
+  const [firstName, setFirstName] = useState(() => account?.user.profile.full_name?.trim().split(/\s+/)[0] ?? '')
+  const [lastName, setLastName] = useState(() => account?.user.profile.full_name?.trim().split(/\s+/).slice(1).join(' ') ?? '')
+  const [username, setUsername] = useState(() => account?.user.profile.username ?? '')
+  const [email, setEmail] = useState(() => account?.user.contact.email ?? '')
+  const [birthDate, setBirthDate] = useState(() => account?.user.profile.birth_date ?? '')
+  const [phoneCountry, setPhoneCountry] = useState<CountryCode>(() => getPhoneInput(account?.user.contact.phone ?? null).country)
+  const [phone, setPhone] = useState(() => getPhoneInput(account?.user.contact.phone ?? null).nationalNumber)
+  const [error, setError] = useState('')
+  const [message, setMessage] = useState('')
   if (!account) return <Navigate to="/sign-in" replace />
 
-  const { profile } = account.user
+  const saveProfile = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    setError('')
+    setMessage('')
+    try {
+      const normalizedPhone = phone.trim() ? parsePhoneInput(phone, phoneCountry).number : ''
+      updateProfile({
+        username,
+        fullName: [firstName.trim(), lastName.trim()].filter(Boolean).join(' '),
+        birthDate,
+        email,
+        phone: normalizedPhone,
+      })
+      setPhone(normalizedPhone ? getPhoneInput(normalizedPhone, phoneCountry).nationalNumber : '')
+      setMessage('Your profile details have been saved.')
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : 'Could not save your profile.')
+    }
+  }
 
+  const inputClass = 'mt-1.5 w-full border border-base-content/15 bg-base-100 px-3 py-3 font-jost text-sm outline-none transition-colors placeholder:text-base-content/35 focus:border-accent'
   return (
-    <section className="mx-auto max-w-3xl px-6 py-16 md:py-24">
-      <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
+    <section className="mx-auto max-w-6xl px-5 py-10 sm:px-8 md:py-14">
+      <div className="mb-8 flex flex-col justify-between gap-5 border-b border-base-content/10 pb-6 sm:flex-row sm:items-end">
         <div>
           <p className="font-jost text-xs uppercase tracking-[0.25em] text-accent">My account</p>
-          <h1 className="mt-3 font-jost text-3xl font-light md:text-4xl">
-            Welcome, {profile.full_name || profile.username}
-          </h1>
+          <h1 className="mt-2 font-jost text-3xl font-light md:text-4xl">Account settings</h1>
+          <p className="mt-2 font-jost text-sm text-base-content/60">
+            Welcome, {account.user.profile.full_name || account.user.profile.username}
+          </p>
         </div>
-        <button onClick={() => { signOut(); window.location.assign('/') }} className="btn btn-outline rounded-none font-jost uppercase tracking-widest">
+        <button type="button" onClick={() => { signOut(); window.location.assign('/') }} className="btn btn-outline btn-sm rounded-none font-jost uppercase tracking-widest">
+          <FiLogOut aria-hidden="true" />
           Sign out
         </button>
       </div>
 
-      <dl className="mt-10 grid gap-5 border-t border-base-300 pt-6 sm:grid-cols-2">
-        <div>
-          <dt className="font-jost text-xs uppercase tracking-wider text-base-content/60">Username</dt>
-          <dd className="mt-1 font-jost">{profile.username}</dd>
-        </div>
-        <div>
-          <dt className="font-jost text-xs uppercase tracking-wider text-base-content/60">Email</dt>
-          <dd className="mt-1 font-jost">{account.user.contact.email}</dd>
-        </div>
-        <div>
-          <dt className="font-jost text-xs uppercase tracking-wider text-base-content/60">Full name</dt>
-          <dd className="mt-1 font-jost">{profile.full_name || 'Not provided'}</dd>
-        </div>
-        <div>
-          <dt className="font-jost text-xs uppercase tracking-wider text-base-content/60">Birth date</dt>
-          <dd className="mt-1 font-jost">{profile.birth_date || 'Not provided'}</dd>
-        </div>
-      </dl>
+      <div className="grid gap-5 lg:grid-cols-[13rem_minmax(0,1fr)]">
+        <AccountSidebar active="profile" />
+
+        <section className="border border-base-content/10 bg-base-100 p-5 sm:p-8" aria-labelledby="profile-settings-heading">
+          <h2 id="profile-settings-heading" className="font-jost text-xl font-medium">Profile settings</h2>
+          <p className="mt-1 font-jost text-sm text-base-content/55">Update the contact details used for your account and orders.</p>
+          <form onSubmit={saveProfile} className="mt-7 grid gap-x-5 gap-y-5 sm:grid-cols-2">
+            <label className="block font-jost text-xs">
+              First name
+              <input className={inputClass} autoComplete="given-name" value={firstName} onChange={(event) => setFirstName(event.target.value)} />
+            </label>
+            <label className="block font-jost text-xs">
+              Last name
+              <input className={inputClass} autoComplete="family-name" value={lastName} onChange={(event) => setLastName(event.target.value)} />
+            </label>
+            <label className="block font-jost text-xs">
+              Username
+              <input className={inputClass} autoComplete="username" required value={username} onChange={(event) => setUsername(event.target.value)} />
+            </label>
+            <label className="block font-jost text-xs">
+              Email
+              <input className={inputClass} type="email" autoComplete="email" required value={email} onChange={(event) => setEmail(event.target.value)} />
+            </label>
+            <div className="grid gap-5 sm:col-span-2 sm:grid-cols-2">
+              <PhoneField
+                country={phoneCountry}
+                value={phone}
+                onCountryChange={setPhoneCountry}
+                onChange={setPhone}
+              />
+              <label className="block font-jost text-xs">
+                Birth date
+                <input
+                  className={inputClass}
+                  type="date"
+                  autoComplete="bday"
+                  value={birthDate}
+                  onChange={(event) => setBirthDate(event.target.value)}
+                />
+              </label>
+            </div>
+            {error && <p role="alert" className="font-jost text-sm text-error sm:col-span-2">{error}</p>}
+            {message && <p role="status" className="font-jost text-sm text-success sm:col-span-2">{message}</p>}
+            <div className="flex flex-wrap items-center gap-4 sm:col-span-2">
+              <button type="submit" className="btn btn-neutral rounded-none px-8 font-jost normal-case">Save changes</button>
+            </div>
+          </form>
+        </section>
+      </div>
     </section>
   )
 }
@@ -470,11 +587,8 @@ export function WalletPage() {
   }
 
   return (
-    <section className="mx-auto max-w-5xl px-6 py-12 md:px-10 md:py-20">
-      <Link to="/account" className="font-jost text-sm underline underline-offset-4 hover:text-accent">
-        My account
-      </Link>
-      <div className="mt-6 flex flex-col justify-between gap-6 border-b border-base-300 pb-8 sm:flex-row sm:items-end">
+    <section className="mx-auto max-w-6xl px-5 py-10 sm:px-8 md:py-14">
+      <div className="mb-8 flex flex-col justify-between gap-6 border-b border-base-content/15 pb-8 sm:flex-row sm:items-end">
         <div>
           <p className="font-jost text-xs uppercase tracking-[0.25em] text-accent">Account wallet</p>
           <h1 className="mt-3 font-jost text-3xl font-light md:text-4xl">My wallet</h1>
@@ -484,89 +598,94 @@ export function WalletPage() {
         </Link>
       </div>
 
-      <div className="mt-8 border border-base-content/15 bg-base-200/40 p-6 sm:p-8">
-        <p className="font-jost text-xs uppercase tracking-[0.2em] text-base-content/60">Available balance</p>
-        <p className="mt-3 font-jost text-4xl font-light sm:text-5xl">
-          Rp {account.user.wallet.balance.toLocaleString('id-ID')}
-        </p>
-        <button
-          type="button"
-          onClick={() => { setIsTopUpOpen((open) => !open); setMessage(''); setError('') }}
-          className="btn btn-neutral mt-6 rounded-none font-jost uppercase tracking-widest"
-        >
-          {isTopUpOpen ? 'Cancel top up' : 'Top up'}
-        </button>
-      </div>
+      <div className="grid gap-5 lg:grid-cols-[13rem_minmax(0,1fr)]">
+        <AccountSidebar active="wallet" />
+        <div className="min-w-0">
+          <div className="border border-base-content/15 bg-base-200/40 p-6 sm:p-8">
+            <p className="font-jost text-xs uppercase tracking-[0.2em] text-base-content/60">Available balance</p>
+            <p className="mt-3 font-jost text-4xl font-light sm:text-5xl">
+              Rp {account.user.wallet.balance.toLocaleString('id-ID')}
+            </p>
+            <button
+              type="button"
+              onClick={() => { setIsTopUpOpen((open) => !open); setMessage(''); setError('') }}
+              className="btn btn-neutral mt-6 rounded-none font-jost uppercase tracking-widest"
+            >
+              {isTopUpOpen ? 'Cancel top up' : 'Top up'}
+            </button>
+          </div>
 
-      {isTopUpOpen && (
-        <section className="mt-6 border border-base-content/15 p-6" aria-labelledby="wallet-top-up-title">
-          <h2 id="wallet-top-up-title" className="font-jost text-lg font-medium">Choose or enter an amount</h2>
-          <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
-            {presetAmounts.map((presetAmount) => (
-              <button
-                key={presetAmount}
-                type="button"
-                aria-pressed={topUpAmount === String(presetAmount)}
-                onClick={() => setTopUpAmount(String(presetAmount))}
-                className={`btn rounded-none font-jost ${topUpAmount === String(presetAmount) ? 'btn-neutral' : 'btn-outline'}`}
-              >
-                Rp {presetAmount.toLocaleString('id-ID')}
+          {isTopUpOpen && (
+            <section className="mt-6 border border-base-content/15 p-6" aria-labelledby="wallet-top-up-title">
+              <h2 id="wallet-top-up-title" className="font-jost text-lg font-medium">Choose or enter an amount</h2>
+              <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                {presetAmounts.map((presetAmount) => (
+                  <button
+                    key={presetAmount}
+                    type="button"
+                    aria-pressed={topUpAmount === String(presetAmount)}
+                    onClick={() => setTopUpAmount(String(presetAmount))}
+                    className={`btn rounded-none font-jost ${topUpAmount === String(presetAmount) ? 'btn-neutral' : 'btn-outline'}`}
+                  >
+                    Rp {presetAmount.toLocaleString('id-ID')}
+                  </button>
+                ))}
+              </div>
+              <label htmlFor="wallet-top-up-amount" className="mt-5 block font-jost text-sm font-medium">
+                Custom amount (IDR)
+              </label>
+              <div className="mt-2 flex max-w-md items-center border border-base-content/20">
+                <span className="px-3 font-jost text-sm text-base-content/60">Rp</span>
+                <input
+                  id="wallet-top-up-amount"
+                  type="number"
+                  inputMode="numeric"
+                  min="1"
+                  max={Number.MAX_SAFE_INTEGER - account.user.wallet.balance}
+                  step="1"
+                  value={topUpAmount}
+                  onChange={(event) => setTopUpAmount(event.target.value)}
+                  className="min-w-0 flex-1 bg-transparent px-3 py-3 font-jost text-sm outline-none"
+                  aria-describedby="wallet-top-up-note"
+                />
+              </div>
+              <p id="wallet-top-up-note" className="mt-4 font-jost text-xs text-base-content/60">
+                Wallet credit is added immediately; payment processing is not connected.
+              </p>
+              {error && <p role="alert" className="mt-3 font-jost text-sm text-error">{error}</p>}
+              <button type="button" onClick={submitTopUp} className="btn btn-neutral mt-4 rounded-none font-jost">
+                Add Rp {Number.isSafeInteger(amount) && amount > 0 ? amount.toLocaleString('id-ID') : '—'}
               </button>
-            ))}
-          </div>
-          <label htmlFor="wallet-top-up-amount" className="mt-5 block font-jost text-sm font-medium">
-            Custom amount (IDR)
-          </label>
-          <div className="mt-2 flex max-w-md items-center border border-base-content/20">
-            <span className="px-3 font-jost text-sm text-base-content/60">Rp</span>
-            <input
-              id="wallet-top-up-amount"
-              type="number"
-              inputMode="numeric"
-              min="1"
-              max={Number.MAX_SAFE_INTEGER - account.user.wallet.balance}
-              step="1"
-              value={topUpAmount}
-              onChange={(event) => setTopUpAmount(event.target.value)}
-              className="min-w-0 flex-1 bg-transparent px-3 py-3 font-jost text-sm outline-none"
-              aria-describedby="wallet-top-up-note"
-            />
-          </div>
-          <p id="wallet-top-up-note" className="mt-4 font-jost text-xs text-base-content/60">
-            Wallet credit is added immediately; payment processing is not connected.
-          </p>
-          {error && <p role="alert" className="mt-3 font-jost text-sm text-error">{error}</p>}
-          <button type="button" onClick={submitTopUp} className="btn btn-neutral mt-4 rounded-none font-jost">
-            Add Rp {Number.isSafeInteger(amount) && amount > 0 ? amount.toLocaleString('id-ID') : '—'}
-          </button>
-        </section>
-      )}
-      {message && <p role="status" className="mt-4 font-jost text-sm text-success">{message}</p>}
+            </section>
+          )}
+          {message && <p role="status" className="mt-4 font-jost text-sm text-success">{message}</p>}
 
-      <div className="mt-10">
-        <h2 className="font-jost text-xl font-medium">Recent activity</h2>
-        {transactions.length > 0 ? (
-          <ul className="mt-4 divide-y divide-base-300 border-y border-base-300">
-            {transactions.map((transaction) => (
-              <li key={transaction.id} className="flex flex-wrap items-center justify-between gap-3 py-4 font-jost">
-                <div>
-                  <p className="text-sm font-medium">{transaction.description}</p>
-                  <p className="mt-1 text-xs text-base-content/60">
-                    {new Date(transaction.createdAt).toLocaleString()}
-                    {transaction.orderId && <> · <Link to={`/orders/${encodeURIComponent(transaction.orderId)}`} className="underline">View order</Link></>}
-                  </p>
-                </div>
-                <p className={`text-sm font-medium ${transaction.type === 'credit' ? 'text-success' : ''}`}>
-                  {transaction.type === 'credit' ? '+' : '−'} Rp {transaction.amount.toLocaleString('id-ID')}
-                </p>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="mt-4 border-y border-base-300 py-6 font-jost text-sm text-base-content/65">
-            No wallet activity yet.
-          </p>
-        )}
+          <div className="mt-10">
+            <h2 className="font-jost text-xl font-medium">Recent activity</h2>
+            {transactions.length > 0 ? (
+              <ul className="mt-4 divide-y divide-base-300 border-y border-base-300">
+                {transactions.map((transaction) => (
+                  <li key={transaction.id} className="flex flex-wrap items-center justify-between gap-3 py-4 font-jost">
+                    <div>
+                      <p className="text-sm font-medium">{transaction.description}</p>
+                      <p className="mt-1 text-xs text-base-content/60">
+                        {new Date(transaction.createdAt).toLocaleString()}
+                        {transaction.orderId && <> · <Link to={`/orders/${encodeURIComponent(transaction.orderId)}`} className="underline">View order</Link></>}
+                      </p>
+                    </div>
+                    <p className={`text-sm font-medium ${transaction.type === 'credit' ? 'text-success' : ''}`}>
+                      {transaction.type === 'credit' ? '+' : '−'} Rp {transaction.amount.toLocaleString('id-ID')}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="mt-4 border-y border-base-300 py-6 font-jost text-sm text-base-content/65">
+                No wallet activity yet.
+              </p>
+            )}
+          </div>
+        </div>
       </div>
     </section>
   )

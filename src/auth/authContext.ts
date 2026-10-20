@@ -76,6 +76,14 @@ export type SignUpDetails = {
   password: string
 }
 
+export type UpdateProfileDetails = {
+  username: string
+  fullName: string
+  birthDate: string
+  email: string
+  phone: string
+}
+
 export type CheckoutOrder = {
   id: string
   createdAt: string
@@ -106,6 +114,7 @@ export type AuthContextValue = {
   signUp: (details: SignUpDetails) => Promise<void>
   signIn: (email: string, password: string) => Promise<void>
   signOut: () => void
+  updateProfile: (details: UpdateProfileDetails) => void
   addToCart: (productId: string, variant?: CartVariant) => void
   setCartQuantity: (productId: string, quantity: number, variant?: CartVariant) => void
   changeCartItemVariant: (

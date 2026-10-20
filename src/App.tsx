@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Routes, Route, Outlet, Navigate, useLocation } from 'react-router'
+import { Routes, Route, Outlet, Navigate, Link, useLocation } from 'react-router'
 import siteData from '../Data.json'
 import Navbar from './Components/Navbar'
 import Promo from './Components/Promo'
@@ -26,6 +26,7 @@ function Layout() {
   }, [pathname])
 
   const isHome = pathname === '/'
+  const isAccountPage = pathname === '/account'
 
   const isTherePromo = siteData.site.promo.enabled
 
@@ -38,8 +39,16 @@ function Layout() {
       sparkRadius={30}
       duration={500}
     >
-      {isTherePromo && <Promo />}
-      <Navbar isHome={isHome} />
+      {isTherePromo && !isAccountPage && <Promo />}
+      {isAccountPage ? (
+        <header className="border-t border-base-300 px-6 py-5 text-center">
+          <Link to="/" aria-label="Fashion Shop home" className="font-jost text-2xl font-bold uppercase tracking-[0.18em]">
+            {siteData.site.brand.name}
+          </Link>
+        </header>
+      ) : (
+        <Navbar isHome={isHome} />
+      )}
       <main>
         <Outlet />
       </main>

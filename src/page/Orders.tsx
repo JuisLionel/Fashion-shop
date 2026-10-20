@@ -89,43 +89,40 @@ export function OrdersPage() {
 
   return (
     <section className="mx-auto max-w-5xl px-6 py-12 md:px-10 md:py-20">
-      <Link to="/account" className="font-jost text-sm underline underline-offset-4 hover:text-accent">
-        My account
-      </Link>
-      <div className="mt-6 flex flex-wrap items-end justify-between gap-4 border-b border-base-300 pb-8">
-        <div>
-          <p className="font-jost text-xs uppercase tracking-[0.25em] text-accent">Account</p>
-          <h1 className="mt-3 font-jost text-3xl font-light md:text-4xl">My orders</h1>
-        </div>
-        <Link to="/shop" className="btn btn-outline rounded-none font-jost uppercase tracking-widest">Continue shopping</Link>
-      </div>
+          <div className="flex flex-wrap items-end justify-between gap-4 border-b border-base-300 pb-8">
+            <div>
+              <p className="font-jost text-xs uppercase tracking-[0.25em] text-accent">Account</p>
+              <h1 className="mt-3 font-jost text-3xl font-light md:text-4xl">My orders</h1>
+            </div>
+            <Link to="/shop" className="btn btn-outline rounded-none font-jost uppercase tracking-widest">Continue shopping</Link>
+          </div>
 
-      {orders.length > 0 ? (
-        <ul className="mt-8 divide-y divide-base-300 border-y border-base-300">
-          {orders.map((order) => (
-            <li key={order.id} className="flex flex-col gap-4 py-5 sm:flex-row sm:items-center sm:justify-between">
-              <div className="font-jost">
-                <p className="text-sm font-medium">Order {order.id}</p>
-                <p className="mt-1 text-xs text-base-content/60">
-                  {new Date(order.createdAt).toLocaleString()} · {order.items.reduce((count, item) => count + item.quantity, 0)} item(s)
-                </p>
-                <p className="mt-1 text-sm">{formatPrice(order.total)} · {order.paymentMethod}</p>
-              </div>
-              <div className="flex items-center justify-between gap-4 sm:justify-end">
-                <OrderStatus status={order.status} />
-                <Link to={`/orders/${encodeURIComponent(order.id)}`} className="btn btn-outline btn-sm rounded-none font-jost">
-                  View order
-                </Link>
-              </div>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <div className="mt-8 border-y border-base-300 py-10 text-center">
-          <p className="font-jost text-base-content/65">You haven’t placed any orders yet.</p>
-          <Link to="/shop" className="btn btn-neutral mt-5 rounded-none font-jost uppercase tracking-widest">Start shopping</Link>
-        </div>
-      )}
+          {orders.length > 0 ? (
+            <ul className="mt-8 divide-y divide-base-300 border-y border-base-300">
+              {orders.map((order) => (
+                <li key={order.id} className="flex flex-col gap-4 py-5 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="font-jost">
+                    <p className="text-sm font-medium">Order {order.id}</p>
+                    <p className="mt-1 text-xs text-base-content/60">
+                      {new Date(order.createdAt).toLocaleString()} · {order.items.reduce((count, item) => count + item.quantity, 0)} item(s)
+                    </p>
+                    <p className="mt-1 text-sm">{formatPrice(order.total)} · {order.paymentMethod}</p>
+                  </div>
+                  <div className="flex items-center justify-between gap-4 sm:justify-end">
+                    <OrderStatus status={order.status} />
+                    <Link to={`/orders/${encodeURIComponent(order.id)}`} className="btn btn-outline btn-sm rounded-none font-jost">
+                      View order
+                    </Link>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <div className="mt-8 border-y border-base-300 py-10 text-center">
+              <p className="font-jost text-base-content/65">You haven’t placed any orders yet.</p>
+              <Link to="/shop" className="btn btn-neutral mt-5 rounded-none font-jost uppercase tracking-widest">Start shopping</Link>
+            </div>
+          )}
     </section>
   )
 }
@@ -150,98 +147,98 @@ export function OrderDetailsPage() {
 
   return (
     <section className="mx-auto max-w-5xl px-6 py-12 md:px-10 md:py-20">
-      <Link to="/orders" className="font-jost text-sm underline underline-offset-4 hover:text-accent">Back to orders</Link>
-      <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-b border-base-300 pb-6">
-        <div>
-          <p className="font-jost text-xs uppercase tracking-[0.25em] text-accent">Order details</p>
-          <h1 className="mt-3 font-jost text-2xl font-light md:text-3xl">{order.id}</h1>
-          <p className="mt-2 font-jost text-sm text-base-content/60">{new Date(order.createdAt).toLocaleString()}</p>
-        </div>
-        <OrderStatus status={order.status} />
-      </div>
-
-      <div className="mt-8 grid gap-10 lg:grid-cols-[minmax(0,1fr)_20rem]">
-        <section>
-          <div className="mb-8 border border-base-300">
-            <div className="flex flex-wrap items-start justify-between gap-3 p-5">
-              <div>
-                <p className="font-jost text-xs uppercase tracking-[0.2em] text-accent">Tracking preview</p>
-                <h2 className="mt-2 font-jost text-lg font-medium">{tracking.status}</h2>
-                <p className="mt-1 font-jost text-sm text-base-content/65">{tracking.location.name}</p>
-              </div>
-              <span className="border border-base-content/20 px-2.5 py-1 font-jost text-xs text-base-content/60">
-                Sample updates
-              </span>
+          <Link to="/orders" className="font-jost text-sm underline underline-offset-4 hover:text-accent">Back to orders</Link>
+          <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-b border-base-300 pb-6">
+            <div>
+              <p className="font-jost text-xs uppercase tracking-[0.25em] text-accent">Order details</p>
+              <h1 className="mt-3 font-jost text-2xl font-light md:text-3xl">{order.id}</h1>
+              <p className="mt-2 font-jost text-sm text-base-content/60">{new Date(order.createdAt).toLocaleString()}</p>
             </div>
-            <iframe
-              title={`Sample shipment map near ${tracking.location.name}`}
-              src={getMapEmbedUrl(tracking.location.latitude, tracking.location.longitude)}
-              className="h-72 w-full border-0 bg-base-200 sm:h-96"
-              loading="lazy"
-              referrerPolicy="strict-origin-when-cross-origin"
-            />
-            <p className="p-4 font-jost text-xs text-base-content/55">
-              Sample tracking data · not connected to a carrier.
-            </p>
+            <OrderStatus status={order.status} />
           </div>
 
-          <h2 className="font-jost text-lg font-medium">Items</h2>
-          <ul className="mt-4 divide-y divide-base-300 border-y border-base-300">
-            {order.items.map((item, index) => {
-              const product = PRODUCTS.find((entry) => entry.id === item.productId)
-              return (
-                <li key={`${item.productId}-${item.size ?? ''}-${item.color ?? ''}-${index}`} className="flex gap-4 py-4">
-                  {product && (
-                    <img src={product.main_image[0]} alt="" className="h-24 w-18 object-cover" />
-                  )}
-                  <div className="flex flex-1 justify-between gap-4 font-jost text-sm">
-                    <div>
-                      <p className="font-medium">{product?.name ?? item.productId}</p>
-                      <p className="mt-1 text-xs text-base-content/60">
-                        {[item.size, item.color].filter(Boolean).join(' · ') || 'Standard'} · Qty {item.quantity}
-                      </p>
-                    </div>
+          <div className="mt-8 grid gap-10 lg:grid-cols-[minmax(0,1fr)_20rem]">
+            <section>
+              <div className="mb-8 border border-base-300">
+                <div className="flex flex-wrap items-start justify-between gap-3 p-5">
+                  <div>
+                    <p className="font-jost text-xs uppercase tracking-[0.2em] text-accent">Tracking preview</p>
+                    <h2 className="mt-2 font-jost text-lg font-medium">{tracking.status}</h2>
+                    <p className="mt-1 font-jost text-sm text-base-content/65">{tracking.location.name}</p>
                   </div>
-                </li>
-              )
-            })}
-          </ul>
-          <h2 className="mt-8 font-jost text-lg font-medium">Delivery address</h2>
-          <address className="mt-3 space-y-1 font-jost text-sm not-italic text-base-content/70">
-            <p>{order.shippingAddress.fullName}</p>
-            <p>{order.shippingAddress.address}</p>
-            <p>{order.shippingAddress.city}, {order.shippingAddress.postalCode}, {order.shippingAddress.country}</p>
-            <p>{order.shippingAddress.phone} · {order.shippingAddress.email}</p>
-          </address>
-        </section>
+                  <span className="border border-base-content/20 px-2.5 py-1 font-jost text-xs text-base-content/60">
+                    Sample updates
+                  </span>
+                </div>
+                <iframe
+                  title={`Sample shipment map near ${tracking.location.name}`}
+                  src={getMapEmbedUrl(tracking.location.latitude, tracking.location.longitude)}
+                  className="h-72 w-full border-0 bg-base-200 sm:h-96"
+                  loading="lazy"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                />
+                <p className="p-4 font-jost text-xs text-base-content/55">
+                  Sample tracking data · not connected to a carrier.
+                </p>
+              </div>
 
-        <aside className="h-fit border border-base-300 p-5 font-jost">
-          <h2 className="border-b border-base-300 pb-4 text-sm font-medium uppercase tracking-widest">Summary</h2>
-          <dl className="mt-4 space-y-3 text-sm">
-            <div className="flex justify-between gap-3"><dt className="text-base-content/65">Subtotal</dt><dd>{formatPrice(order.subtotal)}</dd></div>
-            {(order.discount ?? 0) > 0 && (
-              <div className="flex justify-between gap-3 text-success">
-                <dt>Discount{order.promoCode ? ` · ${order.promoCode}` : ''}</dt>
-                <dd>−{formatPrice(order.discount ?? 0)}</dd>
-              </div>
-            )}
-            {order.promoCode && (order.discount ?? 0) === 0 && (
-              <div className="flex justify-between gap-3 text-success">
-                <dt>Promo · {order.promoCode}</dt>
-                <dd>Applied</dd>
-              </div>
-            )}
-            <div className="flex justify-between gap-3"><dt className="text-base-content/65">Shipping · {order.deliveryMethod}</dt><dd>{order.shipping === 0 ? 'Free' : formatPrice(order.shipping ?? 0)}</dd></div>
-            <div className="flex justify-between gap-3 border-t border-base-300 pt-4 font-medium"><dt>Total</dt><dd>{formatPrice(order.total)}</dd></div>
-          </dl>
-          <p className="mt-4 border-t border-base-300 pt-4 text-sm">Payment: {order.paymentMethod}</p>
-          {order.status === 'pending' && (
-            <p className="mt-3 text-xs leading-relaxed text-warning">
-              Payment for this order is pending. This storefront preview does not process external payment methods.
-            </p>
-          )}
-        </aside>
-      </div>
+              <h2 className="font-jost text-lg font-medium">Items</h2>
+              <ul className="mt-4 divide-y divide-base-300 border-y border-base-300">
+                {order.items.map((item, index) => {
+                  const product = PRODUCTS.find((entry) => entry.id === item.productId)
+                  return (
+                    <li key={`${item.productId}-${item.size ?? ''}-${item.color ?? ''}-${index}`} className="flex gap-4 py-4">
+                      {product && (
+                        <img src={product.main_image[0]} alt="" className="h-24 w-18 object-cover" />
+                      )}
+                      <div className="flex flex-1 justify-between gap-4 font-jost text-sm">
+                        <div>
+                          <p className="font-medium">{product?.name ?? item.productId}</p>
+                          <p className="mt-1 text-xs text-base-content/60">
+                            {[item.size, item.color].filter(Boolean).join(' · ') || 'Standard'} · Qty {item.quantity}
+                          </p>
+                        </div>
+                      </div>
+                    </li>
+                  )
+                })}
+              </ul>
+              <h2 className="mt-8 font-jost text-lg font-medium">Delivery address</h2>
+              <address className="mt-3 space-y-1 font-jost text-sm not-italic text-base-content/70">
+                <p>{order.shippingAddress.fullName}</p>
+                <p>{order.shippingAddress.address}</p>
+                <p>{order.shippingAddress.city}, {order.shippingAddress.postalCode}, {order.shippingAddress.country}</p>
+                <p>{order.shippingAddress.phone} · {order.shippingAddress.email}</p>
+              </address>
+            </section>
+
+            <aside className="h-fit border border-base-300 p-5 font-jost">
+              <h2 className="border-b border-base-300 pb-4 text-sm font-medium uppercase tracking-widest">Summary</h2>
+              <dl className="mt-4 space-y-3 text-sm">
+                <div className="flex justify-between gap-3"><dt className="text-base-content/65">Subtotal</dt><dd>{formatPrice(order.subtotal)}</dd></div>
+                {(order.discount ?? 0) > 0 && (
+                  <div className="flex justify-between gap-3 text-success">
+                    <dt>Discount{order.promoCode ? ` · ${order.promoCode}` : ''}</dt>
+                    <dd>−{formatPrice(order.discount ?? 0)}</dd>
+                  </div>
+                )}
+                {order.promoCode && (order.discount ?? 0) === 0 && (
+                  <div className="flex justify-between gap-3 text-success">
+                    <dt>Promo · {order.promoCode}</dt>
+                    <dd>Applied</dd>
+                  </div>
+                )}
+                <div className="flex justify-between gap-3"><dt className="text-base-content/65">Shipping · {order.deliveryMethod}</dt><dd>{order.shipping === 0 ? 'Free' : formatPrice(order.shipping ?? 0)}</dd></div>
+                <div className="flex justify-between gap-3 border-t border-base-300 pt-4 font-medium"><dt>Total</dt><dd>{formatPrice(order.total)}</dd></div>
+              </dl>
+              <p className="mt-4 border-t border-base-300 pt-4 text-sm">Payment: {order.paymentMethod}</p>
+              {order.status === 'pending' && (
+                <p className="mt-3 text-xs leading-relaxed text-warning">
+                  Payment for this order is pending. This storefront preview does not process external payment methods.
+                </p>
+              )}
+            </aside>
+          </div>
     </section>
   )
 }

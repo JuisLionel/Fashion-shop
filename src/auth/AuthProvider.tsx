@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { AuthContext, type Account, type AuthContextValue, type CartItem, type CartVariant, type CheckoutOrder, type WalletTransaction } from './authContext'
+import { normalizePhoneNumber } from './phone'
 
 const ACCOUNT_KEY = 'fashion-shop-account'
 const CREDENTIAL_KEY = 'fashion-shop-credential'
@@ -184,6 +185,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     async signUp(details) {
       const email = details.email.trim().toLowerCase()
       const username = details.username.trim()
+      const phone = normalizePhoneNumber(details.phone)
       if (!username || !email || !details.password) {
         throw new Error('Please complete the required fields.')
       }
@@ -211,7 +213,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           },
           contact: {
             email,
-            phone: details.phone.trim() || null,
+            phone,
           },
           addresses: [],
           Shipping_status: [],
@@ -294,6 +296,72 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     signOut() {
       localStorage.removeItem(SESSION_KEY)
       setAuthState({ account: null, storageError: null })
+    },
+    updateProfile(details) {
+      const currentAccount = authState.account
+      if (!currentAccount) {
+        throw new Error('Sign in to update your account.')
+      }
+
+      const username = details.username.trim()
+      const email = details.email.trim().toLowerCase()
+      if (!username) {
+        throw new Error('Enter a username.')
+      }
+      if (!EMAIL_PATTERN.test(email)) {
+        throw new Error('Enter a valid email address, such as name@example.com.')
+      }
+
+      const accounts = getStoredAccounts()
+      const storedAccount = accounts.find(
+        ({ account }) => account.user.id === currentAccount.user.id
+      )
+      if (!storedAccount) {
+        throw new Error('We couldn’t find your account. Please sign in again.')
+      }
+      if (accounts.some(({ account }) =>
+        account.user.id !== currentAccount.user.id &&
+        account.user.contact.email.toLowerCase() === email
+      )) {
+        throw new Error('An account with this email already exists.')
+      }
+      if (accounts.some(({ account }) =>
+        account.user.id !== currentAccount.user.id &&
+        account.user.profile.username.toLowerCase() === username.toLowerCase()
+      )) {
+        throw new Error('That username is already in use.')
+      }
+
+      const updatedAccount: Account = {
+        ...storedAccount.account,
+        user: {
+          ...storedAccount.account.user,
+          profile: {
+            ...storedAccount.account.user.profile,
+            username,
+            full_name: details.fullName.trim() || null,
+            birth_date: details.birthDate || null,
+          },
+          contact: {
+            ...storedAccount.account.user.contact,
+            email,
+            phone: normalizePhoneNumber(details.phone),
+          },
+        },
+      }
+      const updatedAccounts = accounts.map((entry) =>
+        entry.account.user.id === currentAccount.user.id
+          ? {
+              ...entry,
+              account: updatedAccount,
+              credential: { ...entry.credential, email },
+            }
+          : entry
+      )
+
+      localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(updatedAccounts))
+      localStorage.setItem(SESSION_KEY, JSON.stringify({ email }))
+      setAuthState({ account: updatedAccount, storageError: null })
     },
     addToCart(productId, variant = {}) {
       const currentAccount = authState.account
