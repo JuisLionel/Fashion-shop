@@ -6,8 +6,9 @@
       "since": "Thoughtfully curated, driven by individuality, and inspired by the art of everyday dressing since 2026."
     },
     "promo": {
-      "enabled": false,
-      "text": "20% off all shirts with code TEPIAN20"
+      "enabled": true,
+      "type": "promo",
+      "text": "10% off all shirts with code FASHION10"
     },
     "faqs": [
       {

@@ -219,7 +219,7 @@ function ProductCard({ product }: { product: Product }) {
               pulseIcon(event.currentTarget)
               handleProductAction(() => toggleWishlist(product.id))
             }}
-            className={`${iconButton} ${isWishlisted ? 'bg-base-content! text-base-100!' : ''}`}
+            className={`${iconButton} bg-base-content!}`}
           >
             <FiHeart
               className={`h-4 w-4 ${isWishlisted ? 'fill-current text-red-500' : ''}`}

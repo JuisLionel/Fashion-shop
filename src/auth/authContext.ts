@@ -82,6 +82,8 @@ export type CheckoutOrder = {
   status: 'pending' | 'paid'
   items: CartItem[]
   subtotal: number
+  discount?: number
+  promoCode?: string
   shipping: number | null
   total: number
   shippingAddress: {

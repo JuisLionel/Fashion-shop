@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { Link, Navigate } from 'react-router'
-import { FiMinus, FiPlus, FiTrash2 } from 'react-icons/fi'
+import { FiMapPin, FiMinus, FiPlus, FiTrash2 } from 'react-icons/fi'
 import siteData from '../../Data.json'
 import { useAuth } from '../auth/useAuth'
 import type { CartVariant, CheckoutOrder } from '../auth/authContext'
@@ -53,12 +53,21 @@ export default function Checkout() {
   const [checkoutStep, setCheckoutStep] = useState<'shipping' | 'payment'>('shipping')
   const [deliveryMethod, setDeliveryMethod] = useState<DeliveryMethod>('regular')
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('wallet')
+  const [promoInput, setPromoInput] = useState('')
+  const [appliedPromo, setAppliedPromo] = useState<'FASHION10' | 'FREESHIP' | null>(null)
+  const [promoMessage, setPromoMessage] = useState('')
+  const [detectedLocation, setDetectedLocation] = useState('')
+  const [locationMessage, setLocationMessage] = useState('')
+  const [isLocating, setIsLocating] = useState(false)
   const [error, setError] = useState('')
   const [orderId, setOrderId] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const shipping = subtotal > FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_PRICES[deliveryMethod]
-  const total = subtotal + shipping
+  const discount = appliedPromo === 'FASHION10' ? Math.round(subtotal * 0.1) : 0
+  const shipping = subtotal > FREE_SHIPPING_THRESHOLD || appliedPromo === 'FREESHIP'
+    ? 0
+    : SHIPPING_PRICES[deliveryMethod]
+  const total = Math.max(0, subtotal - discount) + shipping
 
   if (!isSignedIn) {
     return (
@@ -93,6 +102,57 @@ export default function Checkout() {
   if (products.length === 0) return <Navigate to="/cart" replace />
 
   const updateAddress = (field: keyof Address, value: string) => setAddress((current) => ({ ...current, [field]: value }))
+  const detectLocation = () => {
+    setDetectedLocation('')
+    setLocationMessage('')
+    if (!globalThis.isSecureContext) {
+      setLocationMessage('Location detection requires a secure HTTPS connection. You can still enter your address manually.')
+      return
+    }
+    if (!navigator.geolocation) {
+      setLocationMessage('Location detection is not supported by this browser. Enter your address manually.')
+      return
+    }
+
+    setIsLocating(true)
+    navigator.geolocation.getCurrentPosition(
+      ({ coords }) => {
+        setDetectedLocation(
+          `${coords.latitude.toFixed(5)}, ${coords.longitude.toFixed(5)} (±${Math.round(coords.accuracy)} m)`
+        )
+        setIsLocating(false)
+      },
+      (reason) => {
+        setLocationMessage(
+          reason.code === 1
+            ? 'Location permission was denied. Allow location access in your browser to try again.'
+            : reason.code === 2
+              ? 'Your current location is unavailable. Try again or enter your address manually.'
+              : 'Location detection timed out. Try again or enter your address manually.'
+        )
+        setIsLocating(false)
+      },
+      { enableHighAccuracy: false, maximumAge: 60_000, timeout: 12_000 }
+    )
+  }
+
+  const applyPromo = () => {
+    const normalizedCode = promoInput.trim().toUpperCase()
+    if (normalizedCode !== 'FASHION10' && normalizedCode !== 'FREESHIP') {
+      setPromoMessage('That promo code is not valid.')
+      return
+    }
+    setAppliedPromo(normalizedCode)
+    setPromoInput(normalizedCode)
+    setPromoMessage(normalizedCode === 'FASHION10' ? '10% off your items has been applied.' : 'Free shipping has been applied.')
+  }
+
+  const removePromo = () => {
+    setAppliedPromo(null)
+    setPromoInput('')
+    setPromoMessage('')
+  }
+
   const changeQuantity = (productId: string, quantity: number, variant: CartVariant) => {
     try {
       setCartQuantity(productId, quantity, variant)
@@ -142,6 +202,8 @@ export default function Checkout() {
         id,
         status: paymentMethod === 'wallet' ? 'paid' : 'pending',
         subtotal,
+        discount,
+        promoCode: appliedPromo ?? undefined,
         shipping,
         total,
         shippingAddress: address,
@@ -172,22 +234,35 @@ export default function Checkout() {
 
   return (
     <AnimatedContent distance={24} duration={0.6} className="mx-auto max-w-360 px-6 py-10 md:px-12 md:py-14">
-      <nav aria-label="Checkout progress" className="mb-6 flex items-center gap-2 font-jost text-xs text-base-content/55">
-        <Link to="/cart" className="hover:text-accent">Cart</Link>
-        <span aria-hidden="true">›</span>
-        <span className={checkoutStep === 'shipping' ? 'font-medium text-accent' : ''} aria-current={checkoutStep === 'shipping' ? 'step' : undefined}>
-          Shipping
-        </span>
-        <span aria-hidden="true">›</span>
-        <span className={checkoutStep === 'payment' ? 'font-medium text-accent' : ''} aria-current={checkoutStep === 'payment' ? 'step' : undefined}>
-          Payment
-        </span>
-      </nav>
       <form onSubmit={submit} className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_26rem] lg:items-start">
         <div className="space-y-8 rounded-lg border border-base-content/15 bg-base-100 p-6 sm:p-8">
           {checkoutStep === 'shipping' ? (
             <section>
-              <h1 className="font-jost text-xl font-medium">Shipping address</h1>
+              <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
+                <h1 className="font-jost text-xl font-medium">Shipping address</h1>
+                <button
+                  type="button"
+                  onClick={detectLocation}
+                  disabled={isLocating}
+                  className="btn btn-outline btn-sm rounded-md font-jost normal-case disabled:opacity-60"
+                >
+                  <FiMapPin aria-hidden="true" />
+                  {isLocating ? 'Detecting location…' : 'Detect my location'}
+                </button>
+              </div>
+              <p className="mt-2 font-jost text-xs text-base-content/55">
+                Uses your device location to show coordinates only. Your location is not sent to an address lookup service.
+              </p>
+              {detectedLocation && (
+                <p role="status" className="mt-2 font-jost text-sm text-success">
+                  Location detected: {detectedLocation}. Enter your delivery address below.
+                </p>
+              )}
+              {locationMessage && (
+                <p role="status" className="mt-2 font-jost text-sm text-warning">
+                  {locationMessage}
+                </p>
+              )}
               <div className="mt-5 grid gap-x-5 gap-y-4 sm:grid-cols-2">
                 {fields.map(({ field, label, type, span, autoComplete }) => (
                   <label key={field} className={`${labelClass} ${span ? 'sm:col-span-2' : ''}`}>
@@ -210,7 +285,9 @@ export default function Checkout() {
                   { id: 'regular', label: 'Regular', description: 'Estimated delivery in 3–5 business days' },
                   { id: 'express', label: 'Express', description: 'Estimated delivery in 1–2 business days' },
                 ] as const).map((method) => {
-                  const price = subtotal > FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_PRICES[method.id]
+                  const price = subtotal > FREE_SHIPPING_THRESHOLD || appliedPromo === 'FREESHIP'
+                    ? 0
+                    : SHIPPING_PRICES[method.id]
                   return (
                     <label key={method.id} className={optionClass(deliveryMethod === method.id)}>
                       <input
@@ -368,8 +445,47 @@ export default function Checkout() {
             })}
           </ul>
 
+          <section className="mt-6 border-y border-base-content/10 py-5" aria-labelledby="promo-code-title">
+            <h3 id="promo-code-title" className="font-jost text-sm font-medium">Promo code</h3>
+            <div className="mt-3 flex gap-2">
+              <input
+                type="text"
+                aria-label="Promo code"
+                autoComplete="off"
+                value={promoInput}
+                onChange={(event) => {
+                  setPromoInput(event.target.value)
+                  if (!appliedPromo) setPromoMessage('')
+                }}
+                readOnly={appliedPromo !== null}
+                placeholder="Enter code"
+                className="min-w-0 flex-1 rounded-md border border-base-content/20 bg-base-200/40 px-3 py-2 font-jost text-sm uppercase outline-none focus:border-accent"
+              />
+              {appliedPromo ? (
+                <button type="button" onClick={removePromo} className="btn btn-outline btn-sm rounded-md font-jost normal-case">
+                  Remove
+                </button>
+              ) : (
+                <button type="button" onClick={applyPromo} disabled={!promoInput.trim()} className="btn btn-neutral btn-sm rounded-md font-jost normal-case disabled:opacity-50">
+                  Apply
+                </button>
+              )}
+            </div>
+            {promoMessage && (
+              <p role={appliedPromo ? 'status' : 'alert'} className={`mt-2 font-jost text-xs ${appliedPromo ? 'text-success' : 'text-error'}`}>
+                {promoMessage}
+              </p>
+            )}
+          </section>
+
           <dl className="mt-6 space-y-3 border-t border-base-content/10 pt-5 font-jost text-sm">
             <div className="flex justify-between"><dt className="text-base-content/60">Subtotal</dt><dd>{formatPrice(subtotal)}</dd></div>
+            {discount > 0 && (
+              <div className="flex justify-between gap-4 text-success">
+                <dt>Discount · {appliedPromo}</dt>
+                <dd>−{formatPrice(discount)}</dd>
+              </div>
+            )}
             <div className="flex justify-between gap-4">
               <dt className="text-base-content/60">Shipping</dt>
               <dd className="text-right">{shipping === 0 ? 'Free' : formatPrice(shipping)}</dd>

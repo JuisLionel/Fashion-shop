@@ -219,6 +219,18 @@ export function OrderDetailsPage() {
           <h2 className="border-b border-base-300 pb-4 text-sm font-medium uppercase tracking-widest">Summary</h2>
           <dl className="mt-4 space-y-3 text-sm">
             <div className="flex justify-between gap-3"><dt className="text-base-content/65">Subtotal</dt><dd>{formatPrice(order.subtotal)}</dd></div>
+            {(order.discount ?? 0) > 0 && (
+              <div className="flex justify-between gap-3 text-success">
+                <dt>Discount{order.promoCode ? ` · ${order.promoCode}` : ''}</dt>
+                <dd>−{formatPrice(order.discount ?? 0)}</dd>
+              </div>
+            )}
+            {order.promoCode === 'FREESHIP' && (
+              <div className="flex justify-between gap-3 text-success">
+                <dt>Promo · FREESHIP</dt>
+                <dd>Applied</dd>
+              </div>
+            )}
             <div className="flex justify-between gap-3"><dt className="text-base-content/65">Shipping · {order.deliveryMethod}</dt><dd>{order.shipping === 0 ? 'Free' : formatPrice(order.shipping ?? 0)}</dd></div>
             <div className="flex justify-between gap-3 border-t border-base-300 pt-4 font-medium"><dt>Total</dt><dd>{formatPrice(order.total)}</dd></div>
           </dl>

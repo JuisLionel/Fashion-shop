@@ -76,7 +76,7 @@ function FilterDropdown({
 
   const select = (next: string) => {
     onChange(next)
-    ;(document.activeElement as HTMLElement | null)?.blur() // closes the dropdown
+      ; (document.activeElement as HTMLElement | null)?.blur() // closes the dropdown
   }
 
   return (
@@ -164,7 +164,7 @@ function ShopProductCard({ product }: { product: Product }) {
               pulseIcon(event.currentTarget)
               handleProductAction(() => addToCart(product.id))
             }}
-            className={`flex h-10 w-10 items-center justify-center rounded-full bg-base-100 text-base-content shadow-sm transition-colors hover:bg-base-content hover:text-base-100 ${inCart ? '!bg-base-content !text-base-100' : ''}`}
+            className={`flex h-10 w-10 items-center justify-center rounded-full bg-base-100 text-base-content shadow-sm transition-colors hover:bg-base-content hover:text-base-100 ${inCart ? 'text-green-600!' : ''}`}
           >
             <FiShoppingBag className="h-4 w-4" aria-hidden="true" />
           </button>
@@ -176,7 +176,7 @@ function ShopProductCard({ product }: { product: Product }) {
               pulseIcon(event.currentTarget)
               handleProductAction(() => toggleWishlist(product.id))
             }}
-            className={`flex h-10 w-10 items-center justify-center rounded-full bg-base-100 text-base-content shadow-sm transition-colors hover:bg-base-content hover:text-base-100 ${isWishlisted ? '!bg-base-content !text-base-100' : ''}`}
+            className={`flex h-10 w-10 items-center justify-center rounded-full text-base-content shadow-sm transition-colors hover:bg-base-content hover:text-base-100 bg-base-100`}
           >
             <FiHeart
               className={`h-4 w-4 ${isWishlisted ? 'fill-current text-red-500' : ''}`}
@@ -239,11 +239,10 @@ function Pagination({
                 onClick={() => onChange(item)}
                 aria-current={item === page ? 'page' : undefined}
                 aria-label={`Page ${item}`}
-                className={`size-10 border-b font-jost text-sm transition-colors ${
-                  item === page
+                className={`size-10 border-b font-jost text-sm transition-colors ${item === page
                     ? 'border-base-content text-base-content'
                     : 'border-transparent text-base-content/50 hover:text-accent'
-                }`}
+                  }`}
               >
                 {item}
               </button>
@@ -302,7 +301,7 @@ export default function ShopPage() {
     const nextParams = new URLSearchParams(searchParams)
     if (value && value !== 'all') nextParams.set(key, value)
     else nextParams.delete(key)
-    nextParams.delete('page') // any filter change goes back to page 1
+    nextParams.delete('page')
     setSearchParams(nextParams)
   }
 
@@ -332,7 +331,6 @@ export default function ShopPage() {
 
   return (
     <section className="mx-auto max-w-360 px-6 py-12 md:px-12 md:py-16">
-      {/* Header */}
       <header className="border-b border-base-content/10 pb-8">
         <p className="font-jost text-xs uppercase tracking-[0.25em] text-accent">Fashion Shop</p>
         <h1 className="mt-3 font-jost text-4xl font-light capitalize md:text-5xl">{title}</h1>
@@ -341,7 +339,6 @@ export default function ShopPage() {
         </p>
       </header>
 
-      {/* Toolbar */}
       <div className="flex items-center justify-between gap-3 border-b border-base-content/10 py-4">
         <FilterDropdown
           label="Category"
@@ -358,7 +355,6 @@ export default function ShopPage() {
         />
       </div>
 
-      {/* Grid */}
       {pageProducts.length > 0 ? (
         <>
           <p className="mt-6 font-jost text-xs text-base-content/50">
