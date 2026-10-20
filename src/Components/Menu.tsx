@@ -13,7 +13,9 @@ type MenuProps = {
     toggleMenu: () => void
 }
 
-type Product = { id: string; name: string; category: string; variant_image: string[] }
+type Product = {
+    main_image: any; id: string; name: string; category: string; variant_image: string[]
+}
 type NavLink = { label: string; to: string }
 type Section = {
     label: string
@@ -321,7 +323,7 @@ export default function Menu({ isMenuOpen, toggleMenu }: MenuProps) {
                             <Link key={product.id} to={`/product/${product.id}`} onClick={close} className="group block">
                                 <div className="tile-img aspect-4/5 overflow-hidden bg-base-200">
                                     <img
-                                        src={product.variant_image[0]}
+                                        src={product.main_image[0]}
                                         alt=""
                                         loading="lazy"
                                         onError={(e) => { e.currentTarget.style.visibility = 'hidden' }}
