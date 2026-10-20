@@ -377,7 +377,7 @@ export default function Checkout() {
             {products.map((item) => {
               const unitPrice = item.product.sale_price_idr ?? item.product.price_idr
               return (
-                <li key={`${item.productId}-${item.size ?? ''}-${item.color ?? ''}`} className="flex items-start gap-3">
+                <li key={`${item.productId}-${item.size ?? ''}-${item.color ?? ''}`} className="grid grid-cols-[4rem_minmax(0,1fr)] items-start gap-3">
                   <div className="relative shrink-0">
                     <img
                       src={Array.isArray(item.product.main_image) ? item.product.main_image[0] : item.product.main_image}
@@ -387,16 +387,19 @@ export default function Checkout() {
                     <span className="absolute -right-2 -top-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-neutral px-1 font-jost text-[11px] text-neutral-content">{item.quantity}</span>
                   </div>
                   <div className="min-w-0 flex-1 font-jost text-sm">
-                    <p className="truncate font-medium">{item.product.name}</p>
+                    <div className="flex items-start justify-between gap-2">
+                      <p className="min-w-0 truncate font-medium">{item.product.name}</p>
+                      <p className="shrink-0 text-xs font-medium">{formatPrice(unitPrice * item.quantity)}</p>
+                    </div>
                     <p className="mt-0.5 text-xs text-base-content/55">{[item.size, item.color].filter(Boolean).join(' · ') || 'Standard'}</p>
-                    <div className="mt-2 flex flex-wrap items-center gap-3">
+                    <div className="mt-2 flex flex-nowrap items-center gap-2">
                       {item.size && item.product.sizes.length > 0 && (
-                        <label className="flex items-center gap-2 text-xs text-base-content/65">
+                        <label className="flex shrink-0 items-center gap-1 text-xs text-base-content/65">
                           Size
                           <select
                             value={item.size}
                             onChange={(event) => changeSize(item.productId, item.quantity, item.color, item.size, event.target.value)}
-                            className="select select-xs min-h-7 rounded-none border-base-content/20 bg-base-100"
+                            className="select select-xs min-h-7 w-14 min-w-0 rounded-none border-base-content/20 bg-base-100 px-1"
                             aria-label={`Change ${item.product.name} size`}
                           >
                             {item.product.sizes.map((size) => {
@@ -411,7 +414,7 @@ export default function Checkout() {
                           </select>
                         </label>
                       )}
-                      <div className="inline-flex items-center border border-base-content/15">
+                      <div className="inline-flex shrink-0 items-center border border-base-content/15">
                         <button
                           type="button"
                           aria-label={`Decrease ${item.product.name} quantity`}
@@ -437,7 +440,6 @@ export default function Checkout() {
                       </div>
                     </div>
                   </div>
-                  <p className="shrink-0 font-jost text-sm font-medium">{formatPrice(unitPrice * item.quantity)}</p>
                 </li>
               )
             })}
