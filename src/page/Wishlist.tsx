@@ -6,6 +6,7 @@ import { useAuth } from '../auth/useAuth'
 import { pulseIcon } from '../Components/pulseIcon'
 import { useNotifications } from '../Components/useNotifications'
 import ProductCartButton from '../Components/ProductCartButton'
+import { TabTitle } from '../utils/GeneralFunction'
 
 type Product = {
   id: string
@@ -20,6 +21,8 @@ const PRODUCTS: Product[] = siteData.products
 const formatPrice = (value: number) => `Rp ${value.toLocaleString('id-ID')}`
 
 export default function Wishlist() {
+  TabTitle('Wishlist | Fashion Shop')
+
   const { account, isSignedIn, toggleWishlist } = useAuth()
   const { notifyError } = useNotifications()
   const savedIds = Array.isArray(account?.user.wishlist) ? account.user.wishlist : []

@@ -6,6 +6,7 @@ import { useAuth } from '../auth/useAuth'
 import type { CartVariant, CheckoutOrder } from '../auth/authContext'
 import { getPhoneInput, parsePhoneInput, PHONE_COUNTRIES, type CountryCode } from '../auth/phone'
 import AnimatedContent from '../Components/animated-content'
+import { TabTitle } from '../utils/GeneralFunction'
 
 type CheckoutProduct = {
   id: string
@@ -223,6 +224,8 @@ export default function Checkout() {
     { field: 'city', label: 'City', type: 'text', autoComplete: 'address-level2' },
     { field: 'postalCode', label: 'Postal code', type: 'text', autoComplete: 'postal-code' },
   ]
+
+  TabTitle('Checkout | Fashion Shop')
 
   return (
     <AnimatedContent distance={24} duration={0.6} className="mx-auto max-w-360 px-6 py-10 md:px-12 md:py-14">

@@ -2,6 +2,7 @@ import { Link, Navigate, useParams } from 'react-router'
 import siteData from '../../Data.json'
 import { useAuth } from '../auth/useAuth'
 import type { CartItem, CheckoutOrder } from '../auth/authContext'
+import { TabTitle } from '../utils/GeneralFunction'
 
 type OrderProduct = { id: string; name: string; main_image: string[] }
 const PRODUCTS = siteData.products as OrderProduct[]
@@ -80,6 +81,8 @@ function OrderStatus({ status }: { status: CheckoutOrder['status'] }) {
 }
 
 export function OrdersPage() {
+  TabTitle('My Orders | Fashion Shop')
+
   const { account } = useAuth()
   if (!account) return <Navigate to="/sign-in" replace />
 

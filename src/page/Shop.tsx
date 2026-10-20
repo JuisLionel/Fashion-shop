@@ -7,6 +7,7 @@ import { useAuth } from '../auth/useAuth'
 import { pulseIcon } from '../Components/pulseIcon'
 import { useNotifications } from '../Components/useNotifications'
 import ProductCartButton from '../Components/ProductCartButton'
+import { TabTitle } from '../utils/GeneralFunction'
 
 type Product = {
   id: string
@@ -65,6 +66,7 @@ function FilterDropdown({
     onChange(next)
       ; (document.activeElement as HTMLElement | null)?.blur() // closes the dropdown
   }
+
 
   return (
     <div className={`dropdown ${align === 'end' ? 'dropdown-end' : 'dropdown-start'}`}>
@@ -189,6 +191,8 @@ function ShopProductCard({ product }: { product: Product }) {
 }
 
 export default function ShopPage() {
+  TabTitle('Shop | Fashion Shop')
+
   const [searchParams, setSearchParams] = useSearchParams()
   const selectedCategory = searchParams.get('category') ?? ''
   const selectedSort = searchParams.get('sort') ?? 'all'

@@ -13,7 +13,10 @@ import { OrderDetailsPage, OrdersPage } from './page/Orders'
 import NotFound from './page/404'
 import Footers from './Components/Footers'
 import { AuthProvider } from './auth/AuthProvider'
-import { AccountPage, SignInPage, SignUpPage, WalletPage } from './page/Auth'
+import AccountPage from './page/auth/AccountPage'
+import SignInPage from './page/auth/SignInPage'
+import SignUpPage from './page/auth/SignUpPage'
+import WalletPage from './page/auth/WalletPage'
 
 import ClickSpark from './Components/ClickSpark'
 import { NotificationsProvider } from './Components/Notifications'
@@ -26,7 +29,6 @@ function Layout() {
   }, [pathname])
 
   const isHome = pathname === '/'
-  const isAccountPage = pathname === '/account'
   const hidePromo = ['/wishlist', '/account', '/account/wallet', '/cart'].includes(pathname)
 
   const isTherePromo = siteData.site.promo.enabled
@@ -41,29 +43,12 @@ function Layout() {
       duration={500}
     >
       {isTherePromo && !hidePromo && <Promo />}
-      {isAccountPage ? (
-        <header className="border-t border-base-300 px-6 py-5 text-center">
-          <Link to="/" aria-label="Fashion Shop home" className="font-jost text-2xl font-bold uppercase tracking-[0.18em]">
-            {siteData.site.brand.name}
-          </Link>
-        </header>
-      ) : (
-        <Navbar isHome={isHome} />
-      )}
+      <Navbar isHome={isHome} />
       <main>
         <Outlet />
       </main>
       <Footers />
     </ClickSpark>
-  )
-}
-
-function Placeholder({ title }: { title: string }) {
-  return (
-    <section className="mx-auto max-w-3xl px-6 py-20 text-center">
-      <h1 className="font-jost text-4xl font-bold">{title}</h1>
-      <p className="mt-4 font-jost font-light text-base-content/70">This page is coming soon.</p>
-    </section>
   )
 }
 
@@ -91,10 +76,6 @@ export default function App() {
               <Route path="/orders" element={<OrdersPage />} />
               <Route path="/orders/:id" element={<OrderDetailsPage />} />
               <Route path="/account/wallet" element={<WalletPage />} />
-
-              <Route path="/size-guide" element={<Placeholder title="Size Guide" />} />
-              <Route path="/shipping" element={<Placeholder title="Shipping" />} />
-              <Route path="/exchanges" element={<Placeholder title="Exchanges" />} />
             </Route>
 
             <Route path="*" element={<NotFound />} />

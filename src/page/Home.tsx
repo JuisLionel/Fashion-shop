@@ -13,6 +13,7 @@ import {
   FiHeart,
   FiStar,
 } from 'react-icons/fi'
+import { TabTitle } from '../utils/GeneralFunction'
 
 type Product = {
   id: string
@@ -570,6 +571,8 @@ function BestSellers() {
 }
 
 export default function Home() {
+  TabTitle('Home | Fashion Shop')
+
   return (
     <div>
       <Welcome />

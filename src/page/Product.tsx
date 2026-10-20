@@ -6,6 +6,7 @@ import { useAuth } from '../auth/useAuth'
 import AnimatedContent from '../Components/animated-content'
 import { pulseIcon } from '../Components/pulseIcon'
 import { useNotifications } from '../Components/useNotifications'
+import { TabTitle } from '../utils/GeneralFunction'
 
 type ProductRecord = {
   id: string
@@ -235,6 +236,8 @@ export default function Product() {
     const variantSlide = slides.findIndex((slide) => slide.colorIndex === index)
     if (variantSlide !== -1) goTo(variantSlide)
   }
+
+  TabTitle(`${product.name} | Fashion Shop`)
 
   return (
     <main className="bg-base-100 text-base-content">

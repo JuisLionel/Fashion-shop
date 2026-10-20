@@ -92,12 +92,6 @@ The starter checkout codes in `Data.json` are:
 
 The discount, promo code, shipping cost, and total are saved on the order and shown in the order details. Wallet payment updates the local wallet balance. Other payment methods create a pending demo order and do not take payment.
 
-### Address suggestions
-
-Type at least three characters in the street address field to search free address suggestions, then select a result to fill the street, city, postal code, and country. Suggestions are provided by Photon using OpenStreetMap data. The address query is sent to the shop server, which requests results from Photon. If a result is missing or incorrect, the shipping fields remain editable. No provider key is needed for this demo.
-
-Photon coverage depends on OpenStreetMap data and cannot guarantee every building or unit number. This public service is intended here for a low-traffic demo. For production or higher traffic, use a dedicated provider and review its terms.
-
 ## Routes
 
 | Route | Page |

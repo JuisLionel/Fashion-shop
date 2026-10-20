@@ -3,7 +3,11 @@ import { FiArrowUpRight } from 'react-icons/fi'
 import Silk from '../Components/Silk'
 import FuzzyText from '../Components/fuzzyText'
 
+import { TabTitle } from '../utils/GeneralFunction'
+
 export default function NotFound() {
+  TabTitle('404 - Page Not Found | Fashion Shop')
+
   return (
     <section className="relative isolate flex min-h-dvh items-center justify-center overflow-hidden bg-[#171615] px-6 py-16 text-[#f5f2ec]">
       <div className="absolute inset-0 z-0">

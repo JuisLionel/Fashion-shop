@@ -4,6 +4,7 @@ import { FiMinus, FiPlus, FiTrash2 } from 'react-icons/fi'
 import siteData from '../../Data.json'
 import { useAuth } from '../auth/useAuth'
 import { useNotifications } from '../Components/useNotifications'
+import { TabTitle } from '../utils/GeneralFunction'
 
 type Product = {
   id: string
@@ -48,6 +49,8 @@ export default function Cart() {
       notifyError(error instanceof Error ? error.message : 'Could not update your cart.')
     }
   }
+
+  TabTitle('Shopping Bag | Fashion Shop')
 
   if (!isSignedIn) {
     return (
