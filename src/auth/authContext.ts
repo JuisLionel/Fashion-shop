@@ -113,6 +113,7 @@ export type AuthContextValue = {
   storageError: string | null
   signUp: (details: SignUpDetails) => Promise<void>
   signIn: (email: string, password: string) => Promise<void>
+  changePassword: (currentPassword: string, newPassword: string) => Promise<void>
   signOut: () => void
   updateProfile: (details: UpdateProfileDetails) => void
   addToCart: (productId: string, variant?: CartVariant) => void

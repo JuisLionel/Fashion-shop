@@ -1,11 +1,11 @@
-import { useEffect, useState, type FormEvent } from 'react'
+import { useState, type FormEvent } from 'react'
 import { Link, Navigate } from 'react-router'
 import { FiMinus, FiPlus, FiTrash2 } from 'react-icons/fi'
 import siteData from '../../Data.json'
 import { useAuth } from '../auth/useAuth'
 import type { CartVariant, CheckoutOrder } from '../auth/authContext'
+import { getPhoneInput, parsePhoneInput, PHONE_COUNTRIES, type CountryCode } from '../auth/phone'
 import AnimatedContent from '../Components/animated-content'
-import type { AddressSuggestion } from '../types/addressSearch.js'
 
 type CheckoutProduct = {
   id: string
@@ -57,15 +57,15 @@ export default function Checkout() {
     postalCode: '',
     country: '',
   })
+  const [phoneInput, setPhoneInput] = useState(() =>
+    getPhoneInput(account?.user.contact.phone ?? null)
+  )
   const [checkoutStep, setCheckoutStep] = useState<'shipping' | 'payment'>('shipping')
   const [deliveryMethod, setDeliveryMethod] = useState<DeliveryMethod>('regular')
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('wallet')
   const [promoInput, setPromoInput] = useState('')
   const [appliedPromoCode, setAppliedPromoCode] = useState<string | null>(null)
   const [promoMessage, setPromoMessage] = useState('')
-  const [addressQuery, setAddressQuery] = useState('')
-  const [addressSuggestions, setAddressSuggestions] = useState<AddressSuggestion[]>([])
-  const [addressSearchStatus, setAddressSearchStatus] = useState('')
   const [error, setError] = useState('')
   const [orderId, setOrderId] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -81,61 +81,7 @@ export default function Checkout() {
     : SHIPPING_PRICES[deliveryMethod]
   const total = Math.max(0, subtotal - discount) + shipping
 
-  useEffect(() => {
-    const query = addressQuery.trim()
-    if (query.length < 3) return
-
-    const controller = new AbortController()
-    const timeoutId = window.setTimeout(() => {
-      void fetch(`/api/address-search?q=${encodeURIComponent(query)}`, { signal: controller.signal })
-        .then(async (response) => {
-          const result = await response.json() as {
-            suggestions?: AddressSuggestion[]
-            error?: unknown
-          }
-          if (!response.ok) {
-            throw new Error(typeof result.error === 'string' ? result.error : 'Address search is unavailable.')
-          }
-          setAddressSuggestions(Array.isArray(result.suggestions) ? result.suggestions : [])
-          setAddressSearchStatus(result.suggestions?.length ? 'Choose an address from the suggestions.' : 'No matching addresses found.')
-        })
-        .catch((reason: unknown) => {
-          if (controller.signal.aborted) return
-          setAddressSuggestions([])
-          setAddressSearchStatus(reason instanceof Error ? reason.message : 'Address search is unavailable.')
-        })
-    }, 400)
-
-    return () => {
-      window.clearTimeout(timeoutId)
-      controller.abort()
-    }
-  }, [addressQuery])
-
   const updateAddress = (field: keyof Address, value: string) => setAddress((current) => ({ ...current, [field]: value }))
-  const selectAddressSuggestion = (suggestion: AddressSuggestion) => {
-    const typedHouseNumber = addressQuery.match(/\b(?:no\.?|nomor|#)\s*(\d+[a-z]?(?:[-/]\w+)?)/i)?.[1]
-    const suggestionStreet = suggestion.street || address.address
-    const streetIncludesHouseNumber = typedHouseNumber && new RegExp(`\\b${typedHouseNumber}\\b`, 'i').test(suggestionStreet)
-    const street = typedHouseNumber && !streetIncludesHouseNumber
-      ? `${suggestionStreet} No. ${typedHouseNumber}`
-      : suggestionStreet
-
-    setAddress((current) => ({
-      ...current,
-      address: street,
-      city: suggestion.city || current.city,
-      postalCode: suggestion.postalCode || current.postalCode,
-      country: suggestion.country || current.country,
-    }))
-    setAddressQuery('')
-    setAddressSuggestions([])
-    setAddressSearchStatus(
-      typedHouseNumber
-        ? 'Address selected. Your house number was kept from your search; confirm it is correct.'
-        : 'Address selected. Review the details before continuing.'
-    )
-  }
   if (!isSignedIn) {
     return (
       <section className="mx-auto flex min-h-96 max-w-3xl flex-col items-center justify-center px-6 py-20 text-center">
@@ -230,6 +176,13 @@ export default function Checkout() {
     event.preventDefault()
     setError('')
     if (checkoutStep === 'shipping') {
+      try {
+        const phone = parsePhoneInput(phoneInput.nationalNumber, phoneInput.country).number
+        setAddress((current) => ({ ...current, phone }))
+      } catch (reason) {
+        setError(reason instanceof Error ? reason.message : 'Enter a valid phone number.')
+        return
+      }
       setCheckoutStep('payment')
       return
     }
@@ -279,50 +232,40 @@ export default function Checkout() {
             <section>
               <h1 className="font-jost text-xl font-medium">Shipping address</h1>
               <div className="mt-5 grid gap-x-5 gap-y-4 sm:grid-cols-2">
-                {fields.map(({ field, label, type, span, autoComplete }) => field === 'address' ? (
-                  <div key={field} className="relative sm:col-span-2">
-                    <label className={labelClass}>
-                      {label}<span className="text-error">*</span>
-                      <input
-                        className={inputClass}
-                        type={type}
-                        autoComplete={autoComplete}
-                        placeholder=""
-                        required
-                        role="combobox"
-                        aria-autocomplete="list"
-                        aria-expanded={addressSuggestions.length > 0}
-                        value={addressQuery || address.address}
-                        onChange={(event) => {
-                          const value = event.target.value
-                          updateAddress('address', value)
-                          setAddressQuery(value)
-                          setAddressSuggestions([])
-                          setAddressSearchStatus(value.trim().length >= 3 ? 'Searching addresses…' : '')
-                        }}
-                      />
-                    </label>
-                    {addressSuggestions.length > 0 && (
-                      <ul role="listbox" className="absolute z-20 mt-1 max-h-60 w-full overflow-y-auto border border-base-content/20 bg-base-100 shadow-lg">
-                        {addressSuggestions.map((suggestion) => (
-                          <li key={suggestion.id} role="option" aria-selected="false">
-                            <button
-                              type="button"
-                              onClick={() => selectAddressSuggestion(suggestion)}
-                              className="w-full px-3 py-2.5 text-left font-jost text-sm hover:bg-base-200"
-                            >
-                              {suggestion.label}
-                            </button>
-                          </li>
+                {fields.map(({ field, label, type, span, autoComplete }) => field === 'phone' ? (
+                  <label key={field} className={labelClass}>
+                    {label}<span className="text-error">*</span>
+                    <span className="mt-1.5 flex rounded-md border border-base-content/20 bg-base-200/40 focus-within:border-accent">
+                      <select
+                        aria-label="Phone country code"
+                        autoComplete="tel-country-code"
+                        value={phoneInput.country}
+                        onChange={(event) => setPhoneInput((current) => ({
+                          ...current,
+                          country: event.target.value as CountryCode,
+                        }))}
+                        className="w-32 max-w-[42%] shrink-0 rounded-l-md border-r border-base-content/15 bg-transparent px-1.5 font-jost text-xs outline-none sm:w-36"
+                      >
+                        {PHONE_COUNTRIES.map((item) => (
+                          <option key={item.code} value={item.code}>
+                            {item.name} (+{item.callingCode})
+                          </option>
                         ))}
-                      </ul>
-                    )}
-                    {addressSearchStatus && (
-                      <p role="status" className="mt-1 font-jost text-xs text-base-content/55">
-                        {addressSearchStatus}
-                      </p>
-                    )}
-                  </div>
+                      </select>
+                      <input
+                        className="w-full min-w-0 bg-transparent px-3 py-2.5 font-jost text-sm outline-none placeholder:text-base-content/35"
+                        type="tel"
+                        inputMode="tel"
+                        autoComplete="tel-national"
+                        required
+                        value={phoneInput.nationalNumber}
+                        onChange={(event) => setPhoneInput((current) => ({
+                          ...current,
+                          nationalNumber: event.target.value,
+                        }))}
+                      />
+                    </span>
+                  </label>
                 ) : (
                   <label key={field} className={`${labelClass} ${span ? 'sm:col-span-2' : ''}`}>
                     {label}<span className="text-error">*</span>

@@ -293,6 +293,46 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       localStorage.setItem(SESSION_KEY, JSON.stringify({ email }))
       setAuthState({ account: updatedAccount, storageError: null })
     },
+    async changePassword(currentPassword, newPassword) {
+      const currentAccount = authState.account
+      if (!currentAccount) {
+        throw new Error('Sign in to change your password.')
+      }
+      if (!currentPassword) {
+        throw new Error('Enter your current password.')
+      }
+      if (newPassword.length < 8) {
+        throw new Error('Your new password must be at least 8 characters.')
+      }
+
+      const accounts = getStoredAccounts()
+      const storedAccount = accounts.find(
+        ({ account }) => account.user.id === currentAccount.user.id
+      )
+      if (!storedAccount) {
+        throw new Error('We couldn’t find your account. Please sign in again.')
+      }
+
+      const suppliedHash = await hashPassword(
+        currentPassword,
+        base64ToBytes(storedAccount.credential.salt),
+        storedAccount.credential.iterations
+      )
+      if (!equalBytes(suppliedHash, base64ToBytes(storedAccount.credential.passwordHash))) {
+        throw new Error('Your current password is incorrect.')
+      }
+
+      const credential = await createCredential(
+        storedAccount.account.user.contact.email,
+        newPassword
+      )
+      const updatedAccounts = accounts.map((entry) =>
+        entry.account.user.id === currentAccount.user.id
+          ? { ...entry, credential }
+          : entry
+      )
+      localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(updatedAccounts))
+    },
     signOut() {
       localStorage.removeItem(SESSION_KEY)
       setAuthState({ account: null, storageError: null })
