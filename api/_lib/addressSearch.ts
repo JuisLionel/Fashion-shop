@@ -85,19 +85,18 @@ function parseSuggestions(payload: unknown): AddressSuggestion[] {
   })
 }
 
-export async function searchAddresses(query: string, bias?: SearchBias): Promise<AddressSuggestion[]> {
+export async function searchAddresses(query: string): Promise<AddressSuggestion[]> {
   const normalizedQuery = normalizeAddressQuery(query)
   const queries = [...new Set([query, normalizedQuery].filter((value) => value.length >= 3))]
 
-  // Without a bias, Photon ranks results worldwide, so "Jalan Sudirman" can come
-  // back from any city. Bias toward the user's location (or a configured default).
+  // Without a configured bias, Photon ranks results worldwide.
   const envLat = Number(process.env.ADDRESS_SEARCH_BIAS_LAT)
   const envLon = Number(process.env.ADDRESS_SEARCH_BIAS_LON)
-  const effectiveBias: SearchBias | undefined = bias
-    ?? (process.env.ADDRESS_SEARCH_BIAS_LAT && process.env.ADDRESS_SEARCH_BIAS_LON
+  const effectiveBias: SearchBias | undefined =
+    process.env.ADDRESS_SEARCH_BIAS_LAT && process.env.ADDRESS_SEARCH_BIAS_LON
       && Number.isFinite(envLat) && Number.isFinite(envLon)
       ? { latitude: envLat, longitude: envLon }
-      : undefined)
+      : undefined
 
   for (const searchQuery of queries) {
     const url = new URL('https://photon.komoot.io/api/')
