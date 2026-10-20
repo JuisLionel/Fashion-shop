@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Routes, Route, Outlet, Navigate, Link, useLocation } from 'react-router'
+import { Routes, Route, Outlet, Navigate, useLocation } from 'react-router'
 import siteData from '../Data.json'
 import Navbar from './Components/Navbar'
 import Promo from './Components/Promo'
