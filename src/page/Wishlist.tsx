@@ -1,10 +1,11 @@
 import AnimatedContent from '../Components/animated-content'
 import { Link } from 'react-router'
-import { FiHeart, FiShoppingBag } from 'react-icons/fi'
+import { FiHeart } from 'react-icons/fi'
 import siteData from '../../Data.json'
 import { useAuth } from '../auth/useAuth'
 import { pulseIcon } from '../Components/pulseIcon'
 import { useNotifications } from '../Components/useNotifications'
+import ProductCartButton from '../Components/ProductCartButton'
 
 type Product = {
   id: string
@@ -19,7 +20,7 @@ const PRODUCTS: Product[] = siteData.products
 const formatPrice = (value: number) => `Rp ${value.toLocaleString('id-ID')}`
 
 export default function Wishlist() {
-  const { account, isSignedIn, addToCart, toggleWishlist } = useAuth()
+  const { account, isSignedIn, toggleWishlist } = useAuth()
   const { notifyError } = useNotifications()
   const savedIds = Array.isArray(account?.user.wishlist) ? account.user.wishlist : []
   const savedProducts = PRODUCTS.filter((product) => savedIds.includes(product.id))
@@ -60,7 +61,6 @@ export default function Wishlist() {
         <div className="grid grid-cols-2 gap-x-4 gap-y-10 lg:grid-cols-4">
           {savedProducts.map((product) => {
             const image = Array.isArray(product.main_image) ? product.main_image[0] : product.main_image
-
             return (
               <article key={product.id} className="group font-jost">
                 <div className="relative aspect-3/4 overflow-hidden rounded-xl bg-base-200">
@@ -79,17 +79,7 @@ export default function Wishlist() {
                     >
                       <FiHeart className="h-4 w-4 fill-current text-red-500" aria-hidden="true" />
                     </button>
-                    <button
-                      type="button"
-                      aria-label={`Add ${product.name} to cart`}
-                      onClick={(event) => {
-                        pulseIcon(event.currentTarget)
-                        runAction(() => addToCart(product.id))
-                      }}
-                      className="flex h-9 w-9 items-center justify-center rounded-full bg-base-100 text-base-content transition-colors hover:bg-base-content hover:text-base-100"
-                    >
-                      <FiShoppingBag className="h-4 w-4" aria-hidden="true" />
-                    </button>
+                    <ProductCartButton productId={product.id} productName={product.name} />
                   </div>
                 </div>
                 <p className="mt-4 text-xs text-base-content/60">{product.category}</p>

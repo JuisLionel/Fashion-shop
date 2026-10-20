@@ -1,10 +1,12 @@
-import { useState, type FormEvent } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
 import { Link, Navigate } from 'react-router'
 import { FiMapPin, FiMinus, FiPlus, FiTrash2 } from 'react-icons/fi'
 import siteData from '../../Data.json'
 import { useAuth } from '../auth/useAuth'
 import type { CartVariant, CheckoutOrder } from '../auth/authContext'
 import AnimatedContent from '../Components/animated-content'
+import { useNotifications } from '../Components/useNotifications'
+import type { AddressSuggestion } from '../../api/_lib/addressSearch.js'
 
 type CheckoutProduct = {
   id: string
@@ -17,14 +19,20 @@ type CheckoutProduct = {
 }
 
 const PRODUCTS = siteData.products as CheckoutProduct[]
+const PROMO_CODES = siteData.site.checkoutPromoCodes
 const formatPrice = (value: number) => `Rp ${value.toLocaleString('id-ID')}`
 
 type Address = CheckoutOrder['shippingAddress']
 type DeliveryMethod = 'regular' | 'express'
 type PaymentMethod = 'wallet' | 'bank-transfer' | 'cash-on-delivery' | 'card' | 'e-wallet'
+type CheckoutPromoCode = (typeof PROMO_CODES)[number]
 
 const FREE_SHIPPING_THRESHOLD = 300_000
+const FREE_EXPRESS_SHIPPING_THRESHOLD = 900_000
 const SHIPPING_PRICES: Record<DeliveryMethod, number> = { regular: 25_000, express: 50_000 }
+const isShippingFree = (subtotal: number, method: DeliveryMethod, promo: CheckoutPromoCode | null) =>
+  promo?.type === 'free-shipping' ||
+  subtotal > (method === 'express' ? FREE_EXPRESS_SHIPPING_THRESHOLD : FREE_SHIPPING_THRESHOLD)
 const PAYMENT_METHODS: { id: PaymentMethod; label: string; description: string }[] = [
   { id: 'wallet', label: 'Wallet', description: 'Pay using your available wallet balance.' },
   { id: 'bank-transfer', label: 'Bank transfer', description: 'Place the order as pending; transfer instructions are not connected.' },
@@ -35,6 +43,7 @@ const PAYMENT_METHODS: { id: PaymentMethod; label: string; description: string }
 
 export default function Checkout() {
   const { account, isSignedIn, placeOrder, setCartQuantity, changeCartItemVariant } = useAuth()
+  const { notifyError, notifySuccess } = useNotifications()
   const cart = account?.user.cart ?? []
   const products = cart.flatMap((item) => {
     const product = PRODUCTS.find((entry) => entry.id === item.productId)
@@ -48,26 +57,201 @@ export default function Checkout() {
     address: '',
     city: '',
     postalCode: '',
-    country: 'Indonesia',
+    country: '',
   })
   const [checkoutStep, setCheckoutStep] = useState<'shipping' | 'payment'>('shipping')
   const [deliveryMethod, setDeliveryMethod] = useState<DeliveryMethod>('regular')
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('wallet')
   const [promoInput, setPromoInput] = useState('')
-  const [appliedPromo, setAppliedPromo] = useState<'FASHION10' | 'FREESHIP' | null>(null)
+  const [appliedPromoCode, setAppliedPromoCode] = useState<string | null>(null)
   const [promoMessage, setPromoMessage] = useState('')
-  const [detectedLocation, setDetectedLocation] = useState('')
-  const [locationMessage, setLocationMessage] = useState('')
   const [isLocating, setIsLocating] = useState(false)
+  const [addressQuery, setAddressQuery] = useState('')
+  const [addressSuggestions, setAddressSuggestions] = useState<AddressSuggestion[]>([])
+  const [addressSearchStatus, setAddressSearchStatus] = useState('')
+  const [searchBias, setSearchBias] = useState<{ latitude: number; longitude: number } | null>(null)
   const [error, setError] = useState('')
   const [orderId, setOrderId] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const discount = appliedPromo === 'FASHION10' ? Math.round(subtotal * 0.1) : 0
-  const shipping = subtotal > FREE_SHIPPING_THRESHOLD || appliedPromo === 'FREESHIP'
+  const appliedPromo = PROMO_CODES.find((promo) => promo.code === appliedPromoCode) ?? null
+  const discount = appliedPromo?.type === 'percentage'
+    ? Math.round(subtotal * appliedPromo.value / 100)
+    : appliedPromo?.type === 'fixed'
+      ? Math.min(subtotal, appliedPromo.value)
+      : 0
+  const shipping = isShippingFree(subtotal, deliveryMethod, appliedPromo)
     ? 0
     : SHIPPING_PRICES[deliveryMethod]
   const total = Math.max(0, subtotal - discount) + shipping
+
+  useEffect(() => {
+    const query = addressQuery.trim()
+    if (query.length < 3) return
+
+    const controller = new AbortController()
+    const timeoutId = window.setTimeout(() => {
+      const biasParams = searchBias ? `&lat=${searchBias.latitude}&lon=${searchBias.longitude}` : ''
+      void fetch(`/api/address-search?q=${encodeURIComponent(query)}${biasParams}`, { signal: controller.signal })
+        .then(async (response) => {
+          const result = await response.json() as {
+            suggestions?: AddressSuggestion[]
+            error?: unknown
+          }
+          if (!response.ok) {
+            throw new Error(typeof result.error === 'string' ? result.error : 'Address search is unavailable.')
+          }
+          setAddressSuggestions(Array.isArray(result.suggestions) ? result.suggestions : [])
+          setAddressSearchStatus(result.suggestions?.length ? 'Choose an address from the suggestions.' : 'No matching addresses found.')
+        })
+        .catch((reason: unknown) => {
+          if (controller.signal.aborted) return
+          setAddressSuggestions([])
+          setAddressSearchStatus(reason instanceof Error ? reason.message : 'Address search is unavailable.')
+        })
+    }, 400)
+
+    return () => {
+      window.clearTimeout(timeoutId)
+      controller.abort()
+    }
+  }, [addressQuery, searchBias])
+
+  const updateAddress = (field: keyof Address, value: string) => setAddress((current) => ({ ...current, [field]: value }))
+  const selectAddressSuggestion = (suggestion: AddressSuggestion) => {
+    const typedHouseNumber = addressQuery.match(/\b(?:no\.?|nomor|#)\s*(\d+[a-z]?(?:[-/]\w+)?)/i)?.[1]
+    const suggestionStreet = suggestion.street || address.address
+    const streetIncludesHouseNumber = typedHouseNumber && new RegExp(`\\b${typedHouseNumber}\\b`, 'i').test(suggestionStreet)
+    const street = typedHouseNumber && !streetIncludesHouseNumber
+      ? `${suggestionStreet} No. ${typedHouseNumber}`
+      : suggestionStreet
+
+    setAddress((current) => ({
+      ...current,
+      address: street,
+      city: suggestion.city || current.city,
+      postalCode: suggestion.postalCode || current.postalCode,
+      country: suggestion.country || current.country,
+    }))
+    setAddressQuery('')
+    setAddressSuggestions([])
+    setAddressSearchStatus(
+      typedHouseNumber
+        ? 'Address selected. Your house number was kept from your search; confirm it is correct.'
+        : 'Address selected. Review the details before continuing.'
+    )
+  }
+  const lookupAddress = async (latitude: number, longitude: number, accuracy: number) => {
+    try {
+      // A fix worse than ~1 km (typical for desktop Wi-Fi/IP location) points at the
+      // wrong place entirely, so don't fill in an address from it.
+      if (accuracy > 1000) {
+        throw new Error(`Your device could only locate you to within about ${accuracy} m, which is too imprecise to fill in an address. Please search for or type your address instead.`)
+      }
+      setSearchBias({ latitude, longitude })
+      const response = await fetch('/api/reverse-geocode', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ latitude, longitude }),
+      })
+      const result = await response.json() as {
+        street?: unknown
+        city?: unknown
+        postalCode?: unknown
+        country?: unknown
+        error?: unknown
+      }
+      if (!response.ok) {
+        throw new Error(typeof result.error === 'string' ? result.error : 'Address lookup failed.')
+      }
+
+      const street = typeof result.street === 'string' ? result.street : ''
+      const city = typeof result.city === 'string' ? result.city : ''
+      const postalCode = typeof result.postalCode === 'string' ? result.postalCode : ''
+      const country = typeof result.country === 'string' ? result.country : ''
+      if (!street && !city && !postalCode && !country) {
+        throw new Error('No address details were found for this location.')
+      }
+
+      setAddress((current) => ({
+        ...current,
+        // Street-level data is only trustworthy with a reasonably tight fix.
+        address: accuracy <= 100 ? street || current.address : current.address,
+        city: city || current.city,
+        postalCode: postalCode || current.postalCode,
+        country: country || current.country,
+      }))
+      notifySuccess(
+        accuracy > 100
+          ? `City and postal code were filled in, but location accuracy is only about ±${accuracy} m, so please type your street (or use the address search). Enable precise location or try outdoors for a better fix.`
+          : `Address details were filled in (reported location accuracy: about ±${accuracy} m). Please review them before continuing.`
+      )
+    } catch (reason) {
+      notifyError(reason instanceof Error ? reason.message : 'Could not look up this address.')
+    } finally {
+      setIsLocating(false)
+    }
+  }
+
+  function detectLocation() {
+    if (!globalThis.isSecureContext) {
+      notifyError('Location detection requires a secure HTTPS connection. You can still enter your address manually.')
+      return
+    }
+    if (!navigator.geolocation) {
+      notifyError('Location detection is not supported by this browser. Enter your address manually.')
+      return
+    }
+
+    setIsLocating(true)
+    let bestPosition: GeolocationPosition | undefined
+    let watchId: number | undefined
+    let timeoutId: number | undefined
+    let isFinished = false
+    let lastError: GeolocationPositionError | undefined
+
+    const finish = (reason?: GeolocationPositionError) => {
+      if (isFinished) return
+      isFinished = true
+      if (timeoutId !== undefined) window.clearTimeout(timeoutId)
+      if (watchId !== undefined) navigator.geolocation.clearWatch(watchId)
+
+      if (bestPosition) {
+        void lookupAddress(
+          bestPosition.coords.latitude,
+          bestPosition.coords.longitude,
+          Math.round(bestPosition.coords.accuracy)
+        )
+        return
+      }
+
+      notifyError(
+        reason?.code === 1
+          ? 'Location permission was denied. Allow location access in your browser to try again.'
+          : reason?.code === 2
+            ? 'Your current location is unavailable. Try again or enter your address manually.'
+            : 'Location detection timed out. Try again or enter your address manually.'
+      )
+      setIsLocating(false)
+    }
+
+    watchId = navigator.geolocation.watchPosition(
+      (position) => {
+        if (!bestPosition || position.coords.accuracy < bestPosition.coords.accuracy) {
+          bestPosition = position
+        }
+        if (position.coords.accuracy <= 50) finish()
+      },
+      (reason) => {
+        // Code 1 (permission denied) is fatal. Codes 2/3 are often transient while the
+        // GPS warms up, so keep watching until we get a fix or the overall timer ends.
+        if (reason.code === 1) finish(reason)
+        else if (!bestPosition) lastError = reason
+      },
+      { enableHighAccuracy: true, maximumAge: 0, timeout: 30_000 }
+    )
+    timeoutId = window.setTimeout(() => finish(lastError), 30_000)
+  }
 
   if (!isSignedIn) {
     return (
@@ -101,54 +285,26 @@ export default function Checkout() {
 
   if (products.length === 0) return <Navigate to="/cart" replace />
 
-  const updateAddress = (field: keyof Address, value: string) => setAddress((current) => ({ ...current, [field]: value }))
-  const detectLocation = () => {
-    setDetectedLocation('')
-    setLocationMessage('')
-    if (!globalThis.isSecureContext) {
-      setLocationMessage('Location detection requires a secure HTTPS connection. You can still enter your address manually.')
-      return
-    }
-    if (!navigator.geolocation) {
-      setLocationMessage('Location detection is not supported by this browser. Enter your address manually.')
-      return
-    }
-
-    setIsLocating(true)
-    navigator.geolocation.getCurrentPosition(
-      ({ coords }) => {
-        setDetectedLocation(
-          `${coords.latitude.toFixed(5)}, ${coords.longitude.toFixed(5)} (±${Math.round(coords.accuracy)} m)`
-        )
-        setIsLocating(false)
-      },
-      (reason) => {
-        setLocationMessage(
-          reason.code === 1
-            ? 'Location permission was denied. Allow location access in your browser to try again.'
-            : reason.code === 2
-              ? 'Your current location is unavailable. Try again or enter your address manually.'
-              : 'Location detection timed out. Try again or enter your address manually.'
-        )
-        setIsLocating(false)
-      },
-      { enableHighAccuracy: false, maximumAge: 60_000, timeout: 12_000 }
-    )
-  }
-
   const applyPromo = () => {
     const normalizedCode = promoInput.trim().toUpperCase()
-    if (normalizedCode !== 'FASHION10' && normalizedCode !== 'FREESHIP') {
+    const promo = PROMO_CODES.find((entry) => entry.enabled && entry.code === normalizedCode)
+    if (!promo) {
       setPromoMessage('That promo code is not valid.')
       return
     }
-    setAppliedPromo(normalizedCode)
-    setPromoInput(normalizedCode)
-    setPromoMessage(normalizedCode === 'FASHION10' ? '10% off your items has been applied.' : 'Free shipping has been applied.')
+    setAppliedPromoCode(promo.code)
+    setPromoInput(promo.code)
+    setPromoMessage(
+      promo.type === 'percentage'
+        ? `${promo.value}% off your items has been applied.`
+        : promo.type === 'fixed'
+          ? `${formatPrice(promo.value)} off your items has been applied.`
+          : 'Free shipping has been applied.',
+    )
   }
 
   const removePromo = () => {
-    setAppliedPromo(null)
+    setAppliedPromoCode(null)
     setPromoInput('')
     setPromoMessage('')
   }
@@ -203,7 +359,7 @@ export default function Checkout() {
         status: paymentMethod === 'wallet' ? 'paid' : 'pending',
         subtotal,
         discount,
-        promoCode: appliedPromo ?? undefined,
+        promoCode: appliedPromo?.code,
         shipping,
         total,
         shippingAddress: address,
@@ -226,7 +382,7 @@ export default function Checkout() {
     { field: 'fullName', label: 'Full name', type: 'text', autoComplete: 'name' },
     { field: 'email', label: 'Email address', type: 'email', autoComplete: 'email' },
     { field: 'phone', label: 'Phone number', type: 'tel', autoComplete: 'tel' },
-    { field: 'country', label: 'Country', type: 'text', autoComplete: 'country-name' },
+    { field: 'country', label: 'Country', type: 'text', autoComplete: 'off' },
     { field: 'address', label: 'Street address', type: 'text', span: true, autoComplete: 'street-address' },
     { field: 'city', label: 'City', type: 'text', autoComplete: 'address-level2' },
     { field: 'postalCode', label: 'Postal code', type: 'text', autoComplete: 'postal-code' },
@@ -251,20 +407,54 @@ export default function Checkout() {
                 </button>
               </div>
               <p className="mt-2 font-jost text-xs text-base-content/55">
-                Uses your device location to show coordinates only. Your location is not sent to an address lookup service.
+                Click “Detect my location” to fill your address automatically. Review the details before continuing.
               </p>
-              {detectedLocation && (
-                <p role="status" className="mt-2 font-jost text-sm text-success">
-                  Location detected: {detectedLocation}. Enter your delivery address below.
-                </p>
-              )}
-              {locationMessage && (
-                <p role="status" className="mt-2 font-jost text-sm text-warning">
-                  {locationMessage}
-                </p>
-              )}
               <div className="mt-5 grid gap-x-5 gap-y-4 sm:grid-cols-2">
-                {fields.map(({ field, label, type, span, autoComplete }) => (
+                {fields.map(({ field, label, type, span, autoComplete }) => field === 'address' ? (
+                  <div key={field} className="relative sm:col-span-2">
+                    <label className={labelClass}>
+                      {label}<span className="text-error">*</span>
+                      <input
+                        className={inputClass}
+                        type={type}
+                        autoComplete={autoComplete}
+                        placeholder=""
+                        required
+                        role="combobox"
+                        aria-autocomplete="list"
+                        aria-expanded={addressSuggestions.length > 0}
+                        value={addressQuery || address.address}
+                        onChange={(event) => {
+                          const value = event.target.value
+                          updateAddress('address', value)
+                          setAddressQuery(value)
+                          setAddressSuggestions([])
+                          setAddressSearchStatus(value.trim().length >= 3 ? 'Searching addresses…' : '')
+                        }}
+                      />
+                    </label>
+                    {addressSuggestions.length > 0 && (
+                      <ul role="listbox" className="absolute z-20 mt-1 max-h-60 w-full overflow-y-auto border border-base-content/20 bg-base-100 shadow-lg">
+                        {addressSuggestions.map((suggestion) => (
+                          <li key={suggestion.id} role="option" aria-selected="false">
+                            <button
+                              type="button"
+                              onClick={() => selectAddressSuggestion(suggestion)}
+                              className="w-full px-3 py-2.5 text-left font-jost text-sm hover:bg-base-200"
+                            >
+                              {suggestion.label}
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                    {addressSearchStatus && (
+                      <p role="status" className="mt-1 font-jost text-xs text-base-content/55">
+                        {addressSearchStatus}
+                      </p>
+                    )}
+                  </div>
+                ) : (
                   <label key={field} className={`${labelClass} ${span ? 'sm:col-span-2' : ''}`}>
                     {label}<span className="text-error">*</span>
                     <input
@@ -272,7 +462,6 @@ export default function Checkout() {
                       type={type}
                       autoComplete={autoComplete}
                       required
-                      readOnly={field === 'country'}
                       value={address[field]}
                       onChange={(event) => updateAddress(field, event.target.value)}
                     />
@@ -285,7 +474,7 @@ export default function Checkout() {
                   { id: 'regular', label: 'Regular', description: 'Estimated delivery in 3–5 business days' },
                   { id: 'express', label: 'Express', description: 'Estimated delivery in 1–2 business days' },
                 ] as const).map((method) => {
-                  const price = subtotal > FREE_SHIPPING_THRESHOLD || appliedPromo === 'FREESHIP'
+                  const price = isShippingFree(subtotal, method.id, appliedPromo)
                     ? 0
                     : SHIPPING_PRICES[method.id]
                   return (
@@ -309,9 +498,6 @@ export default function Checkout() {
                   )
                 })}
               </div>
-              <p className="mt-3 font-jost text-xs text-base-content/55">
-                Shipping fees are mock estimates. Shipping is free on orders over Rp 300,000.
-              </p>
             </section>
           ) : (
             <>
@@ -482,7 +668,7 @@ export default function Checkout() {
             <div className="flex justify-between"><dt className="text-base-content/60">Subtotal</dt><dd>{formatPrice(subtotal)}</dd></div>
             {discount > 0 && (
               <div className="flex justify-between gap-4 text-success">
-                <dt>Discount · {appliedPromo}</dt>
+                <dt>Discount · {appliedPromo?.code}</dt>
                 <dd>−{formatPrice(discount)}</dd>
               </div>
             )}

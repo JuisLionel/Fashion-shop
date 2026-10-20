@@ -1,4 +1,5 @@
-import { Routes, Route, Outlet, useLocation } from 'react-router'
+import { useEffect } from 'react'
+import { Routes, Route, Outlet, Navigate, useLocation } from 'react-router'
 import siteData from '../Data.json'
 import Navbar from './Components/Navbar'
 import Promo from './Components/Promo'
@@ -19,6 +20,10 @@ import { NotificationsProvider } from './Components/Notifications'
 
 function Layout() {
   const { pathname } = useLocation()
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [pathname])
 
   const isHome = pathname === '/'
 
@@ -64,6 +69,7 @@ export default function App() {
             <Route element={<Layout />}>
               <Route path="/" element={<Home />} />
               <Route path="/shop" element={<ShopPage />} />
+              <Route path="/product" element={<Navigate to="/shop" replace />} />
               <Route path="/product/:id" element={<Product />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/checkout" element={<Checkout />} />

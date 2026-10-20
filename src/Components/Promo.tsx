@@ -25,7 +25,7 @@ export default function Promo() {
         <div
             role={type === 'alert' ? 'alert' : 'status'}
             aria-live={type === 'alert' ? 'assertive' : 'polite'}
-            className={`relative flex min-h-10 w-full items-center justify-center overflow-hidden px-12 py-1 text-center font-jost text-sm ${PROMO_STYLES[type]}`}
+            className={`relative flex min-h-10 w-full items-center justify-center overflow-hidden px-12 py-1 text-center font-jost text-base md:text-sm ${PROMO_STYLES[type]}`}
         >
             {isTextPromo ? (
                 <TextLoop
@@ -34,7 +34,7 @@ export default function Promo() {
                     speed={45}
                     separator="✦"
                     uppercase={false}
-                    fontSize={14}
+                    fontSize={42}
                     fontWeight={700}
                     letterSpacing={0.5}
                     gradient={['#8A6A3B', '#3A4440']}

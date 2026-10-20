@@ -172,6 +172,9 @@ export default function Product() {
 
   const selectedColor = product.colors[colorIndex] ?? product.colors[0]
   const selectedPrice = product.sale_price_idr ?? product.price_idr
+  const discount = product.sale_price_idr !== null
+    ? Math.round((1 - product.sale_price_idr / product.price_idr) * 100)
+    : 0
   const wishlistIncludesProduct = account?.user.wishlist.includes(product.id) ?? false
   const hasAvailableSize = product.sizes.some((itemSize) => (product.stock_by_size[itemSize] ?? 0) > 0)
 
@@ -326,6 +329,9 @@ export default function Product() {
                 <span>{formatPrice(selectedPrice)}</span>
                 {product.sale_price_idr !== null && (
                   <span className="text-sm text-base-content/50 line-through">{formatPrice(product.price_idr)}</span>
+                )}
+                {discount > 0 && (
+                  <span className="text-sm font-medium text-accent">{discount}% off</span>
                 )}
               </div>
             </div>

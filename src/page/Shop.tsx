@@ -1,10 +1,12 @@
 import { Link, useSearchParams } from 'react-router'
-import { FiHeart, FiShoppingBag } from 'react-icons/fi'
+import { FiHeart } from 'react-icons/fi'
 import AnimatedContent from '../Components/animated-content'
+import Pagination from '../Components/Pagination'
 import siteData from '../../Data.json'
 import { useAuth } from '../auth/useAuth'
 import { pulseIcon } from '../Components/pulseIcon'
 import { useNotifications } from '../Components/useNotifications'
+import ProductCartButton from '../Components/ProductCartButton'
 
 type Product = {
   id: string
@@ -24,7 +26,7 @@ type Option = { value: string; label: string }
 const PRODUCTS: Product[] = siteData.products
 const PRODUCT_CATEGORIES = [...new Set(PRODUCTS.map((product) => product.category))]
 const CATEGORY_OPTIONS = [...new Set(['Woman', 'Man', ...PRODUCT_CATEGORIES])]
-const PAGE_SIZE = 12
+const PAGE_SIZE = 8
 
 const SORT_OPTIONS: Option[] = [
   { value: 'all', label: 'Featured' },
@@ -42,21 +44,6 @@ function normalizeCategory(value: string) {
   if (normalized === 'women' || normalized === 'woman') return 'woman'
   if (normalized === 'men' || normalized === 'man') return 'man'
   return normalized.replace(/s$/, '')
-}
-
-/** Builds [1, '…', 4, 5, 6, '…', 12] style page lists. */
-function getPageItems(current: number, total: number): (number | '…')[] {
-  if (total <= 7) return Array.from({ length: total }, (_, index) => index + 1)
-
-  const pages = new Set([1, total, current - 1, current, current + 1])
-  const sorted = [...pages].filter((page) => page >= 1 && page <= total).sort((a, b) => a - b)
-
-  const items: (number | '…')[] = []
-  sorted.forEach((page, index) => {
-    if (index > 0 && page - sorted[index - 1] > 1) items.push('…')
-    items.push(page)
-  })
-  return items
 }
 
 function FilterDropdown({
@@ -84,10 +71,10 @@ function FilterDropdown({
       <div
         tabIndex={0}
         role="button"
-        className="btn btn-ghost h-11 min-h-0 gap-3 rounded-none px-4 font-jost text-xs font-normal uppercase tracking-[0.2em]"
+        className="btn btn-ghost h-11 min-h-0 flex-nowrap gap-1.5 whitespace-nowrap rounded-none px-2 font-jost text-[10px] font-normal uppercase tracking-[0.08em] sm:gap-3 sm:px-4 sm:text-xs sm:tracking-[0.2em]"
       >
-        <span className="text-base-content/50">{label}</span>
-        <span>{current.label}</span>
+        <span className="whitespace-nowrap text-base-content/50">{label}</span>
+        <span className="whitespace-nowrap">{current.label}</span>
         <svg className="size-3 opacity-60" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5">
           <path d="M2 4.5 6 8.5 10 4.5" />
         </svg>
@@ -114,10 +101,12 @@ function FilterDropdown({
 }
 
 function ShopProductCard({ product }: { product: Product }) {
-  const { account, addToCart, toggleWishlist } = useAuth()
+  const { account, toggleWishlist } = useAuth()
   const { notifyError } = useNotifications()
-  const inCart = account?.user.cart.some((item) => item.productId === product.id) ?? false
   const isWishlisted = account?.user.wishlist.includes(product.id) ?? false
+  const discount = product.sale_price_idr
+    ? Math.round((1 - product.sale_price_idr / product.price_idr) * 100)
+    : 0
 
   const handleProductAction = (action: () => void) => {
     try {
@@ -146,28 +135,20 @@ function ShopProductCard({ product }: { product: Product }) {
             ))}
           </figure>
         </Link>
-        {product.is_new && (
-          <span className="absolute left-3 top-3 bg-base-content px-2 py-1 font-jost text-[10px] uppercase tracking-[0.2em] text-base-100">
-            New
-          </span>
-        )}
-        {product.sale_price_idr && (
-          <span className="absolute right-3 top-3 bg-accent px-2 py-1 font-jost text-[10px] uppercase tracking-[0.2em] text-accent-content">
-            Sale
-          </span>
-        )}
+        <div className="pointer-events-none absolute inset-x-3 top-3 flex items-start justify-between gap-1.5">
+          {product.is_new && (
+            <span className="rounded-md bg-base-100 px-2.5 py-1 text-xs font-medium text-base-content">
+              New
+            </span>
+          )}
+          {discount > 0 && (
+            <span className="ml-auto rounded-md bg-accent px-2.5 py-1 text-xs font-medium text-accent-content">
+              {discount}% off
+            </span>
+          )}
+        </div>
         <div className="absolute bottom-3 right-3 flex gap-2">
-          <button
-            type="button"
-            aria-label={`Add ${product.name} to cart`}
-            onClick={(event) => {
-              pulseIcon(event.currentTarget)
-              handleProductAction(() => addToCart(product.id))
-            }}
-            className={`flex h-10 w-10 items-center justify-center rounded-full bg-base-100 text-base-content shadow-sm transition-colors hover:bg-base-content hover:text-base-100 ${inCart ? 'text-green-600!' : ''}`}
-          >
-            <FiShoppingBag className="h-4 w-4" aria-hidden="true" />
-          </button>
+          <ProductCartButton productId={product.id} productName={product.name} className="h-10 w-10" />
           <button
             type="button"
             aria-label={`${isWishlisted ? 'Remove' : 'Add'} ${product.name} ${isWishlisted ? 'from' : 'to'} wishlist`}
@@ -204,57 +185,6 @@ function ShopProductCard({ product }: { product: Product }) {
         )}
       </div>
     </article>
-  )
-}
-
-function Pagination({
-  page,
-  totalPages,
-  onChange,
-}: {
-  page: number
-  totalPages: number
-  onChange: (page: number) => void
-}) {
-  if (totalPages <= 1) return null
-
-  const edge =
-    'font-jost text-xs uppercase tracking-[0.2em] transition-colors disabled:cursor-not-allowed disabled:opacity-30 enabled:hover:text-accent'
-
-  return (
-    <nav aria-label="Pagination" className="mt-16 flex items-center justify-center gap-2 border-t border-base-content/10 pt-8 sm:gap-4">
-      <button className={`${edge} px-2 py-2`} disabled={page === 1} onClick={() => onChange(page - 1)}>
-        ← Prev
-      </button>
-
-      <ul className="flex items-center gap-1">
-        {getPageItems(page, totalPages).map((item, index) =>
-          item === '…' ? (
-            <li key={`gap-${index}`} className="px-2 font-jost text-sm text-base-content/40" aria-hidden>
-              …
-            </li>
-          ) : (
-            <li key={item}>
-              <button
-                onClick={() => onChange(item)}
-                aria-current={item === page ? 'page' : undefined}
-                aria-label={`Page ${item}`}
-                className={`size-10 border-b font-jost text-sm transition-colors ${item === page
-                    ? 'border-base-content text-base-content'
-                    : 'border-transparent text-base-content/50 hover:text-accent'
-                  }`}
-              >
-                {item}
-              </button>
-            </li>
-          ),
-        )}
-      </ul>
-
-      <button className={`${edge} px-2 py-2`} disabled={page === totalPages} onClick={() => onChange(page + 1)}>
-        Next →
-      </button>
-    </nav>
   )
 }
 

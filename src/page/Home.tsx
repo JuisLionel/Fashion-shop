@@ -5,11 +5,12 @@ import siteData from '../../Data.json'
 import { useAuth } from '../auth/useAuth'
 import { pulseIcon } from '../Components/pulseIcon'
 import { useNotifications } from '../Components/useNotifications'
+import RotatingText from '../Components/RotatingText'
+import ProductCartButton from '../Components/ProductCartButton'
 
 import {
   FiArrowRight,
   FiHeart,
-  FiShoppingBag,
   FiStar,
 } from 'react-icons/fi'
 
@@ -137,15 +138,12 @@ function Banner() {
 }
 
 function ProductCard({ product }: { product: Product }) {
-  const { account, addToCart, toggleWishlist } = useAuth()
+  const { account, toggleWishlist } = useAuth()
   const { notifyError } = useNotifications()
   const images = Array.isArray(product.main_image) ? product.main_image : [product.main_image]
   const discount = product.sale_price_idr
     ? Math.round((1 - product.sale_price_idr / product.price_idr) * 100)
     : 0
-  const cartQuantity = account?.user.cart.find(
-    (item) => item.productId === product.id && Number.isInteger(item.quantity) && item.quantity > 0
-  )?.quantity ?? 0
   const isWishlisted = account?.user.wishlist.includes(product.id) ?? false
 
   const iconButton =
@@ -186,31 +184,21 @@ function ProductCard({ product }: { product: Product }) {
           </figure>
         </Link>
 
-        <div className="pointer-events-none absolute left-3 top-3 flex flex-col items-start gap-1.5">
+        <div className="pointer-events-none absolute left-3 top-3 flex items-start gap-1.5">
           {discount > 0 && (
-            <span className="rounded-md bg-white px-2.5 py-1 text-xs font-medium text-accent">
+            <span className="rounded-md bg-accent px-2.5 py-1 text-xs font-medium text-accent-content">
               {discount}% off
             </span>
           )}
           {product.is_new && (
-            <span className="rounded-md bg-white px-2.5 py-1 text-xs font-medium text-[#111111]">
+            <span className="rounded-md bg-base-100 px-2.5 py-1 text-xs font-medium text-base-content">
               New
             </span>
           )}
         </div>
 
         <div className="absolute right-3 top-3 flex flex-col gap-2">
-          <button
-            type="button"
-            aria-label={`Add ${product.name} to cart${cartQuantity ? `, currently ${cartQuantity} in cart` : ''}`}
-            onClick={(event) => {
-              pulseIcon(event.currentTarget)
-              handleProductAction(() => addToCart(product.id))
-            }}
-            className={`${iconButton} ${cartQuantity ? 'bg-base-content! text-base-100!' : ''}`}
-          >
-            <FiShoppingBag className="h-4 w-4" aria-hidden="true" />
-          </button>
+          <ProductCartButton productId={product.id} productName={product.name} />
           <button
             type="button"
             aria-label={`${isWishlisted ? 'Remove' : 'Add'} ${product.name} ${isWishlisted ? 'from' : 'to'} wishlist`}
@@ -293,7 +281,14 @@ function Welcome() {
           <h2 className="max-w-xl text-4xl font-light leading-tight md:text-5xl lg:text-6xl">
             Find your style.
             <br />
-            Make it yours.
+            <RotatingText
+              texts={['Make it yours.', 'Wear it your way.', 'Style your story.']}
+              effect="slide"
+              direction="up"
+              rotationInterval={2800}
+              pauseOnHover
+              mainClassName="inline-flex text-accent"
+            />
           </h2>
           <Link
             to="/shop"

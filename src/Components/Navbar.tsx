@@ -102,70 +102,71 @@ export default function Navbar({ isHome }: NavbarProps) {
               <span className="inline">Shop</span>
             </h1>
           </Link>
-          <div className="flex items-center justify-end gap-1 max-md:contents md:gap-4" id="Left">
-            <button onClick={toggleContact} aria-label="Contact" className={`max-md:hidden ${textButton}`}>
-              <FiPlus className="h-6 w-6 shrink-0 md:h-5 md:w-5" strokeWidth={1.5} aria-hidden="true" />
-              <span className="hidden leading-none [text-box:trim-both_cap_alphabetic] md:block">Contact us</span>
-            </button>
 
-            <Link
-              to="/cart"
-              aria-label={`Shopping bag${cartCount ? `, ${cartCount} items` : ''}`}
-              onClick={(event) => pulseIcon(event.currentTarget)}
-              className={`relative order-2 max-md:ml-auto md:order-0 ${iconButton}`}
-            >
-              <PiHandbagSimpleLight className="h-6 w-6" aria-hidden="true" />
-              {cartCount > 0 && (
-                <span className="absolute right-0.5 top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-base-content px-1 font-jost text-[10px] text-base-100">
-                  {cartCount}
-                </span>
-              )}
-            </Link>
-            <div className="dropdown dropdown-hover dropdown-bottom dropdown-end order-3 md:order-0">
-              <button tabIndex={0} role="button" aria-label="Account" className={iconButton}>
-                <FiUser className="h-6 w-6" strokeWidth={1.5} aria-hidden="true" />
+          <div className="flex items-center justify-end gap-1 max-md:contents md:gap-4" id="Left">
+              <button onClick={toggleContact} aria-label="Contact" className={`max-md:hidden ${textButton}`}>
+                <FiPlus className="h-6 w-6 shrink-0 md:h-5 md:w-5" strokeWidth={1.5} aria-hidden="true" />
+                <span className="hidden leading-none [text-box:trim-both_cap_alphabetic] md:block">Contact us</span>
               </button>
 
-              <ul
-                tabIndex={-1}
-                className="dropdown-content menu z-1 w-60 rounded-none border border-base-300 bg-base-100 p-2 text-base-content shadow-lg"
+              <Link
+                to="/cart"
+                aria-label={`Shopping bag${cartCount ? `, ${cartCount} items` : ''}`}
+                onClick={(event) => pulseIcon(event.currentTarget)}
+                className={`relative order-2 max-md:ml-auto md:order-0 ${iconButton}`}
               >
-                {isSignedIn ? (
-                  <>
-                    <li><Link to="/orders" className="font-jost text-sm uppercase tracking-wide">My orders</Link></li>
-                    <li><Link to="/wishlist" className="font-jost text-sm uppercase tracking-wide">My Wishlist</Link></li>
-                    <li><Link to="/account" className="font-jost text-sm uppercase tracking-wide">My account settings</Link></li>
-                    <li><Link to="/account/wallet" className="font-jost text-sm uppercase tracking-wide">My wallet</Link></li>
-                    <li className="mt-1 border-t border-base-300 pt-1">
-                      <button type="button" onClick={signOutAndGoHome} className="font-jost text-sm uppercase tracking-wide">Sign out</button>
-                    </li>
-                  </>
-                ) : (
-                  <>
-                    <li><Link to="/sign-in">Sign In</Link></li>
-                    <li><Link to="/sign-up">Sign Up</Link></li>
-                  </>
+                <PiHandbagSimpleLight className="h-6 w-6" aria-hidden="true" />
+                {cartCount > 0 && (
+                  <span className="absolute right-0.5 top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-base-content px-1 font-jost text-[10px] text-base-100">
+                    {cartCount}
+                  </span>
                 )}
+              </Link>
+              <div className="dropdown dropdown-hover dropdown-bottom dropdown-end order-3 md:order-0">
+                <button tabIndex={0} role="button" aria-label="Account" className={iconButton}>
+                  <FiUser className="h-6 w-6" strokeWidth={1.5} aria-hidden="true" />
+                </button>
 
-                <li className="mt-1 border-t border-base-300 pt-1">
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      setTheme(isDark ? 'tepian-light' : 'tepian-dark')
-                      e.currentTarget.blur()
-                    }}
-                    aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
-                  >
-                    {isDark ? (
-                      <FiMoon className="h-4 w-4 shrink-0" aria-hidden="true" />
-                    ) : (
-                      <FiSun className="h-4 w-4 shrink-0" aria-hidden="true" />
-                    )}
-                    {isDark ? 'Dark' : 'Light'}
-                  </button>
-                </li>
-              </ul>
-            </div>
+                <ul
+                  tabIndex={-1}
+                  className="dropdown-content menu z-1 w-60 rounded-none border border-base-300 bg-base-100 p-2 text-base-content shadow-lg"
+                >
+                  {isSignedIn ? (
+                    <>
+                      <li><Link to="/orders" className="font-jost text-sm uppercase tracking-wide">My orders</Link></li>
+                      <li><Link to="/account/wallet" className="font-jost text-sm uppercase tracking-wide">My wallet</Link></li>
+                      <li><Link to="/wishlist" className="font-jost text-sm uppercase tracking-wide">My Wishlist</Link></li>
+                      <li><Link to="/account" className="font-jost text-sm uppercase tracking-wide">My account settings</Link></li>
+                      <li className="mt-1 border-t border-base-300 pt-1">
+                        <button type="button" onClick={signOutAndGoHome} className="font-jost text-sm uppercase tracking-wide">Sign out</button>
+                      </li>
+                    </>
+                  ) : (
+                    <>
+                      <li><Link to="/sign-in">Sign In</Link></li>
+                      <li><Link to="/sign-up">Sign Up</Link></li>
+                    </>
+                  )}
+
+                  <li className="mt-1 border-t border-base-300 pt-1">
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        setTheme(isDark ? 'tepian-light' : 'tepian-dark')
+                        e.currentTarget.blur()
+                      }}
+                      aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
+                    >
+                      {isDark ? (
+                        <FiMoon className="h-4 w-4 shrink-0" aria-hidden="true" />
+                      ) : (
+                        <FiSun className="h-4 w-4 shrink-0" aria-hidden="true" />
+                      )}
+                      {isDark ? 'Dark' : 'Light'}
+                    </button>
+                  </li>
+                </ul>
+              </div>
           </div>
         </header>
       </div>

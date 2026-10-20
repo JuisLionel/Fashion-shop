@@ -10,8 +10,8 @@ A responsive fashion storefront built with React, TypeScript, Vite, Tailwind CSS
 - Product variants, shopping cart, and wishlist.
 - Sign up, sign in, account settings, and password changes.
 - Browser-local wallet with transaction history and sample top-ups.
-- Checkout with shipping options and the demo promo codes `FASHION10` (10% off items) and `FREESHIP` (free shipping).
-- Optional location detection in checkout. After permission is granted, the page displays your coordinates and estimated accuracy; it does not reverse-geocode them into an address.
+- Checkout with configurable promo codes from `Data.json`.
+- Optional location detection in checkout. After permission is granted, coordinates are sent to the app's same-origin server endpoint and forwarded to a private reverse-geocoding service to fill the address fields.
 - Light and dark themes.
 - Configurable announcement banner with `promo`, `notice`, and `alert` styles.
 
@@ -62,7 +62,18 @@ To edit the announcement banner, update `site.promo`:
 - `type`: `promo` uses the storefront's theme styling, `notice` shows an informational announcement, and `alert` displays a red warning.
 - `text`: the announcement message.
 
-The checkout promo codes are currently hard-coded demo behavior in `src/page/Checkout.tsx`; they are separate from the announcement text in `Data.json`.
+Checkout promo codes are configured in `site.checkoutPromoCodes` in `Data.json`, separately from the announcement banner. Each entry has a `code`, `type`, `value`, and `enabled` flag. Supported types are `percentage`, `fixed`, and `free-shipping`. Add another entry to offer another code, or set `enabled` to `false` to turn a code off.
+
+For example, to add a 15% discount, add this object to `site.checkoutPromoCodes`:
+
+```json
+{
+  "code": "STYLE15",
+  "type": "percentage",
+  "value": 15,
+  "enabled": true
+}
+```
 
 ### Accounts and saved data
 
@@ -74,7 +85,7 @@ The account menu links to account settings, orders, wishlist, and wallet pages. 
 
 Add products to the cart, choose available variants, and continue to `/checkout`. Checkout collects shipping details, offers regular and express delivery estimates, and displays an order summary. Shipping is free over Rp 300,000; otherwise the demo rates are Rp 25,000 for regular or Rp 50,000 for express delivery.
 
-Apply one of the checkout demo codes:
+The starter checkout codes in `Data.json` are:
 
 - `FASHION10`: 10% off the item subtotal.
 - `FREESHIP`: free shipping.
@@ -83,7 +94,11 @@ The discount, promo code, shipping cost, and total are saved on the order and sh
 
 ### Location detection
 
-The checkout location button uses the browser Geolocation API after the user grants permission. It displays latitude, longitude, and the device-reported accuracy. Coordinates stay in the browser and are not sent to a geocoding service; users still enter their delivery address themselves.
+The checkout offers optional location detection and address suggestions. The location button uses the browser Geolocation API after the user clicks it and grants permission. It requests fresh, high-accuracy position updates for up to 30 seconds and uses the best reported fix (or stops early when accuracy reaches 50 m). The browser-reported accuracy is shown in the success notification. Coordinates are sent by POST to `/api/reverse-geocode`; they are not placed in a URL or logged by this app.
+
+Type at least three characters in the street address field to search free address suggestions, then select a result to fill the street, city, postal code, and country. Suggestions are provided by Photon using OpenStreetMap data, and the checkout labels the results with attribution. The address query is sent to the shop server, which requests results from Photon. If a result is missing or incorrect, the shipping fields remain editable. Geolocation and suggestions work independently; no provider key is needed for this demo.
+
+Photon and GPS coverage depend on OpenStreetMap data and the device's location signal; neither can guarantee every building or unit number. These public services have usage policies and are intended here for a low-traffic demo. For production or higher traffic, use a dedicated provider and review its terms. To override reverse geocoding, set `REVERSE_GEOCODING_ENDPOINT` in Vercel's project environment variables. The HTTPS endpoint must accept a JSON POST body containing `latitude` and `longitude`, and return JSON containing `street`, `city`, `postalCode`, and `country` (any fields that cannot be determined may be empty or omitted). An optional `REVERSE_GEOCODING_API_KEY` is sent as a bearer token and must only be configured as a server environment variable, never as a `VITE_` variable. For local development, put any provider override variables in an ignored `.env.local` file and restart Vite; the development endpoint keeps the provider URL and token out of browser code.
 
 Browsers generally require a secure context for geolocation: use `localhost` while developing on the same computer, or use the deployed HTTPS site on a phone. A local-network address such as `http://192.168.x.x` may not allow location access.
 
@@ -135,6 +150,6 @@ Open the deployed HTTPS URL on mobile. Deploying the static storefront does not 
 - **Orders and inventory are not server-validated.** Local browser data can be modified and should not be treated as authoritative.
 - **Promo codes are client-side demo logic.** They are not securely validated by a server.
 - **Shipping costs and delivery tracking are mock estimates.** No carrier integration is configured.
-- **Location detection only displays coordinates.** It does not identify a street address or save a location-derived address.
+- **Location lookup requires a private server endpoint.** Configure the endpoint and its credentials securely; address results should be reviewed before checkout.
 
 Before accepting real customers or payments, add a secure backend, server-side authentication and validation, a payment provider, and appropriate privacy and security controls.

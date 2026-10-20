@@ -2,23 +2,16 @@ import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router'
 
 import siteData from '../../Data.json'
-import { FiX, FiSearch } from 'react-icons/fi'
+import { FiX, FiSearch, FiHeart, FiStar } from 'react-icons/fi'
 import AnimatedContent from './animated-content'
+import Pagination from './Pagination'
+import ClickSpark from './ClickSpark'
+import { useAuth } from '../auth/useAuth'
+import { pulseIcon } from './pulseIcon'
+import { useNotifications } from './useNotifications'
+import ProductCartButton from './ProductCartButton'
 
-const PAGE_SIZE = 12
-
-function getPageItems(current: number, total: number): (number | '…')[] {
-    if (total <= 7) return Array.from({ length: total }, (_, index) => index + 1)
-
-    const pages = new Set([1, total, current - 1, current, current + 1])
-    const sorted = [...pages].filter((value) => value >= 1 && value <= total).sort((a, b) => a - b)
-    const items: (number | '…')[] = []
-    sorted.forEach((value, index) => {
-        if (index > 0 && value - sorted[index - 1] > 1) items.push('…')
-        items.push(value)
-    })
-    return items
-}
+const PAGE_SIZE = 8
 
 type SearchProps = {
     isSearchOpen: boolean
@@ -40,6 +33,7 @@ type SearchItem = {
     colors: string[]
     tags: string[]
     description: string
+    purchases: number
 }
 
 const SEARCH_ITEMS: SearchItem[] = siteData.products.map((product) => ({
@@ -83,52 +77,121 @@ const formatPrice = (value: number) => `Rp ${value.toLocaleString('id-ID')}`
 
 function SearchProductCard({ product, onSelect }: { product: SearchItem; onSelect: () => void }) {
     const [imageLoaded, setImageLoaded] = useState(false)
+    const { account, toggleWishlist } = useAuth()
+    const { notifyError } = useNotifications()
+    const discount = product.sale_price_idr
+        ? Math.round((1 - product.sale_price_idr / product.price_idr) * 100)
+        : 0
+    const isWishlisted = account?.user.wishlist.includes(product.id) ?? false
+    const iconButton =
+        'flex h-9 w-9 items-center justify-center rounded-full bg-base-100 text-base-content transition-colors duration-300 hover:bg-base-content hover:text-base-100'
+
+    const handleProductAction = (action: () => void) => {
+        try {
+            action()
+        } catch (error) {
+            notifyError(error instanceof Error ? error.message : 'Could not update this product.')
+        }
+    }
 
     return (
-        <Link to={`/product/${product.id}`} onClick={onSelect} className="group block min-w-0">
-            <div className="relative aspect-3/4 overflow-hidden bg-base-200">
+        <article className="group block min-w-0 font-jost">
+            <div className="relative aspect-3/4 overflow-hidden rounded-xl bg-base-200">
                 {!imageLoaded && (
-                    <div className="skeleton absolute inset-0 z-10 rounded-none" aria-hidden="true" />
+                    <div className="skeleton absolute inset-0 z-10 rounded-xl" aria-hidden="true" />
                 )}
-                <figure className="hover-gallery h-full w-full">
-                    {product.images.map((src, i) => (
-                        <img
-                            key={src + i}
-                            src={src}
-                            alt={i === 0 ? product.name : ''}
-                            loading="lazy"
-                            onLoad={() => {
-                                if (i === 0) setImageLoaded(true)
-                            }}
-                            onError={(e) => {
-                                e.currentTarget.style.visibility = 'hidden'
-                                if (i === 0) setImageLoaded(true)
-                            }}
-                            className="h-full w-full object-cover"
-                        />
-                    ))}
-                </figure>
+                <Link to={`/product/${product.id}`} onClick={onSelect} aria-label={product.name} className="block h-full w-full">
+                    <figure className="hover-gallery h-full w-full">
+                        {product.images.map((src, i) => (
+                            <img
+                                key={src + i}
+                                src={src}
+                                alt=""
+                                loading="lazy"
+                                onLoad={() => {
+                                    if (i === 0) setImageLoaded(true)
+                                }}
+                                onError={(e) => {
+                                    e.currentTarget.style.visibility = 'hidden'
+                                    if (i === 0) setImageLoaded(true)
+                                }}
+                                className="h-full w-full object-cover"
+                            />
+                        ))}
+                    </figure>
+                </Link>
 
-                {product.is_new && (
-                    <span className="badge badge-sm pointer-events-none absolute left-2 top-2 z-20 border-0 bg-base-100 font-jost uppercase tracking-wider sm:left-3 sm:top-3">
-                        New
-                    </span>
-                )}
-            </div>
-            <div className="px-1 pt-3 font-jost text-sm sm:px-3 sm:pt-4">
-                <p className="truncate transition-colors duration-300 group-hover:text-accent">{product.name}</p>
-                <p className="mt-2 sm:mt-5">
-                    {product.sale_price_idr ? (
-                        <>
-                            <span className="text-accent">{formatPrice(product.sale_price_idr)}</span>
-                            <span className="ml-2 text-base-content/50 line-through">{formatPrice(product.price_idr)}</span>
-                        </>
-                    ) : (
-                        formatPrice(product.price_idr)
+                <div className="pointer-events-none absolute left-3 top-3 flex items-start gap-1.5">
+                    {discount > 0 && (
+                        <span className="rounded-md bg-accent px-2.5 py-1 text-xs font-medium text-accent-content">
+                            {discount}% off
+                        </span>
                     )}
-                </p>
+                    {product.is_new && (
+                        <span className="rounded-md bg-base-100 px-2.5 py-1 text-xs font-medium text-base-content">
+                            New
+                        </span>
+                    )}
+                </div>
+
+                <div className="absolute right-3 top-3 flex flex-col gap-2">
+                    <ProductCartButton productId={product.id} productName={product.name} />
+                    <button
+                        type="button"
+                        aria-label={`${isWishlisted ? 'Remove' : 'Add'} ${product.name} ${isWishlisted ? 'from' : 'to'} wishlist`}
+                        aria-pressed={isWishlisted}
+                        onClick={(event) => {
+                            pulseIcon(event.currentTarget)
+                            handleProductAction(() => toggleWishlist(product.id))
+                        }}
+                        className={iconButton}
+                    >
+                        <FiHeart
+                            className={`h-4 w-4 ${isWishlisted ? 'fill-current text-red-500' : ''}`}
+                            aria-hidden="true"
+                        />
+                    </button>
+                </div>
             </div>
-        </Link>
+
+            <div className="pt-4">
+                <div className="flex items-center justify-between gap-3 text-xs text-base-content/60">
+                    <span className="truncate">{product.category}</span>
+                    {product.rating > 0 && (
+                        <span className="inline-flex shrink-0 items-center gap-1 font-medium text-base-content">
+                            <FiStar className="h-3.5 w-3.5 fill-amber-400 text-amber-400" aria-hidden="true" />
+                            {product.rating.toFixed(1)}
+                        </span>
+                    )}
+                </div>
+
+                <Link
+                    to={`/product/${product.id}`}
+                    onClick={onSelect}
+                    className="mt-1 block truncate text-base font-medium transition-colors duration-300 hover:text-accent"
+                >
+                    {product.name}
+                </Link>
+
+                <div className="mt-2 flex items-center justify-between gap-3 text-sm">
+                    <p>
+                        {product.sale_price_idr ? (
+                            <>
+                                <span className="font-medium">{formatPrice(product.sale_price_idr)}</span>
+                                <span className="ml-2 text-base-content/50 line-through">{formatPrice(product.price_idr)}</span>
+                            </>
+                        ) : (
+                            <span className="font-medium">{formatPrice(product.price_idr)}</span>
+                        )}
+                    </p>
+                    {product.purchases > 0 && (
+                        <span className="shrink-0 text-xs text-base-content/60">
+                            {product.purchases.toLocaleString('id-ID')} sold
+                        </span>
+                    )}
+                </div>
+            </div>
+        </article>
     )
 }
 
@@ -196,9 +259,10 @@ export default function SearchMenu({ isSearchOpen, toggleSearch }: SearchProps) 
         '-mx-4 flex flex-nowrap items-center gap-x-5 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:-mx-6 sm:px-6 md:mx-0 md:px-0'
 
     return (
-        <div
-            aria-hidden={!isSearchOpen}
-            className={`bg-black/50 fixed inset-0 z-100 transition-[opacity,visibility] duration-550 ${isSearchOpen ? 'visible opacity-100' : 'invisible pointer-events-none opacity-0'}`}
+        <ClickSpark
+            sparkColor="#b77936"
+            ariaHidden={!isSearchOpen}
+            className={`fixed inset-0 z-100 isolate bg-black/50 transition-[opacity,visibility] duration-550 ${isSearchOpen ? 'visible opacity-100' : 'invisible pointer-events-none opacity-0'}`}
         >
             <div className={`bg-base-100 fixed inset-0 z-120 overflow-x-hidden overflow-y-auto overscroll-contain transition-all duration-700 ${isSearchOpen ? 'translate-y-0 scale-100 opacity-100' : '-translate-y-1000 scale-50 opacity-0'}`}>
                 <div className="mx-auto max-w-360 px-4 pb-16 sm:px-6 sm:pb-20">
@@ -285,7 +349,7 @@ export default function SearchMenu({ isSearchOpen, toggleSearch }: SearchProps) 
                             </div>
                         </div>
 
-                        <aside className="order-2 min-w-0 lg:order-0 lg:col-start-1 lg:row-start-2">
+                        <aside className="max-md:hidden min-w-0 lg:order-0 lg:col-start-1 lg:row-start-2">
                             <div className="flex flex-col gap-6 md:gap-10">
                                 {SIDEBAR.map((section) => (
                                     <div key={section.title}>
@@ -323,26 +387,17 @@ export default function SearchMenu({ isSearchOpen, toggleSearch }: SearchProps) 
                                 </AnimatedContent>
                             )}
                             {list.length > PAGE_SIZE && (
-                                <nav aria-label="Search result pages" className="mt-16 flex items-center justify-center gap-2 border-t border-base-content/10 pt-8 sm:gap-4">
-                                    <button type="button" className="font-jost text-xs uppercase tracking-[0.2em] transition-colors disabled:cursor-not-allowed disabled:opacity-30 enabled:hover:text-accent px-2 py-2" disabled={currentPage === 1} onClick={() => setPage((value) => Math.max(1, value - 1))}>← Prev</button>
-                                    <ul className="flex items-center gap-1">
-                                        {getPageItems(currentPage, pageCount).map((item, index) => item === '…' ? (
-                                            <li key={`gap-${index}`} className="px-2 font-jost text-sm text-base-content/40" aria-hidden="true">…</li>
-                                        ) : (
-                                            <li key={item}>
-                                                <button type="button" onClick={() => setPage(item)} aria-current={item === currentPage ? 'page' : undefined} aria-label={`Page ${item}`} className={`size-10 border-b font-jost text-sm transition-colors ${item === currentPage ? 'border-base-content text-base-content' : 'border-transparent text-base-content/50 hover:text-accent'}`}>
-                                                    {item}
-                                                </button>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                    <button type="button" className="font-jost text-xs uppercase tracking-[0.2em] transition-colors disabled:cursor-not-allowed disabled:opacity-30 enabled:hover:text-accent px-2 py-2" disabled={currentPage === pageCount} onClick={() => setPage((value) => Math.min(pageCount, value + 1))}>Next →</button>
-                                </nav>
+                                <Pagination
+                                    page={currentPage}
+                                    totalPages={pageCount}
+                                    onChange={setPage}
+                                    ariaLabel="Search result pages"
+                                />
                             )}
                         </section>
                     </div>
                 </div>
             </div>
-        </div>
+        </ClickSpark>
     )
 }

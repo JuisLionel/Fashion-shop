@@ -8,6 +8,13 @@
   height: 100%;
 }
 
+@media (min-width: 768px) {
+  .promo-text-loop .text-loop-text,
+  .promo-text-loop .text-loop-measure {
+    font-size: 18px !important;
+  }
+}
+
 .text-loop--draggable {
   cursor: grab;
   touch-action: pan-y;

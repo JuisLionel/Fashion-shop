@@ -10,6 +10,26 @@
       "type": "promo",
       "text": "10% off all shirts with code FASHION10"
     },
+    "checkoutPromoCodes": [
+      {
+        "code": "FASHION10",
+        "type": "percentage",
+        "value": 10,
+        "enabled": true
+      },
+      {
+        "code": "FREESHIP",
+        "type": "free-shipping",
+        "value": 0,
+        "enabled": true
+      },
+      {
+        "code": "STYLE15",
+        "type": "percentage",
+        "value": 15,
+        "enabled": true
+      }
+    ],
     "faqs": [
       {
         "question": "How long does delivery take?",
@@ -160,7 +180,7 @@
       "name": "Oversized Tee Abu",
       "category": "T-Shirts",
       "price_idr": 119000,
-      "sale_price_idr": 900000,
+      "sale_price_idr": 100000,
       "material": "Cotton Combed 24s",
       "colors": [
         "Grey",

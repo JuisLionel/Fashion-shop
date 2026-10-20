@@ -225,9 +225,9 @@ export function OrderDetailsPage() {
                 <dd>−{formatPrice(order.discount ?? 0)}</dd>
               </div>
             )}
-            {order.promoCode === 'FREESHIP' && (
+            {order.promoCode && (order.discount ?? 0) === 0 && (
               <div className="flex justify-between gap-3 text-success">
-                <dt>Promo · FREESHIP</dt>
+                <dt>Promo · {order.promoCode}</dt>
                 <dd>Applied</dd>
               </div>
             )}

@@ -25,6 +25,7 @@ export interface ClickSparkProps {
   layer?: 'front' | 'back';
   disabled?: boolean;
   className?: string;
+  ariaHidden?: boolean;
   style?: CSSProperties;
   children?: ReactNode;
 }
@@ -154,6 +155,7 @@ const ClickSpark = forwardRef<ClickSparkHandle, ClickSparkProps>(
       layer = 'front',
       disabled = false,
       className = '',
+      ariaHidden,
       style,
       children
     },
@@ -419,16 +421,22 @@ const ClickSpark = forwardRef<ClickSparkHandle, ClickSparkProps>(
       };
 
       const onPointerDown = (event: PointerEvent) => {
+        const target = event.target instanceof Element ? event.target : null;
+        const targetSpark = target?.closest('[data-click-spark]');
+        if (targetSpark && targetSpark !== root) return;
         if (event.pointerType !== 'mouse' || event.button !== 0) return;
         lastPress = { time: performance.now(), x: event.clientX, y: event.clientY };
         spawn(event.clientX, event.clientY);
       };
 
       const onClick = (event: MouseEvent) => {
+        const target = event.target instanceof Element ? event.target : null;
+        const targetSpark = target?.closest('[data-click-spark]');
+        if (targetSpark && targetSpark !== root) return;
         if ('pointerType' in event && event.pointerType === 'mouse') return;
         if (event.detail === 0) {
-          const target = event.target instanceof Element ? event.target : root;
-          const rect = target.getBoundingClientRect();
+          const clickTarget = target ?? root;
+          const rect = clickTarget.getBoundingClientRect();
           spawn(rect.left + rect.width / 2, rect.top + rect.height / 2);
           return;
         }
@@ -466,12 +474,18 @@ const ClickSpark = forwardRef<ClickSparkHandle, ClickSparkProps>(
     );
 
     return (
-      <div ref={rootRef} className={`relative isolate h-full w-full ${className}`.trim()} style={style}>
+      <div
+        ref={rootRef}
+        data-click-spark
+        aria-hidden={ariaHidden}
+        className={`relative isolate h-full w-full ${className}`.trim()}
+        style={style}
+      >
         {children}
         <span
           ref={layerRef}
           aria-hidden="true"
-          className={`pointer-events-none absolute inset-0 overflow-visible ${layer === 'back' ? 'z-[-1]' : 'z-[60]'}`}
+          className={`pointer-events-none absolute inset-0 overflow-visible ${layer === 'back' ? 'z-[-1]' : 'z-[9999]'}`}
         />
       </div>
     );
