@@ -9,6 +9,7 @@ import Product from './page/Product'
 import Cart from './page/Cart'
 import Wishlist from './page/Wishlist'
 import Checkout from './page/Checkout'
+import PaymentPage from './page/Payment'
 import { OrderDetailsPage, OrdersPage } from './page/Orders'
 import NotFound from './page/404'
 import Footers from './Components/Footers'
@@ -68,6 +69,7 @@ export default function App() {
               <Route path="/product/:id" element={<Product />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/checkout" element={<Checkout />} />
+              <Route path="/payment" element={<PaymentPage />} />
               <Route path="/wishlist" element={<Wishlist />} />
 
               <Route path="/sign-in" element={<SignInPage />} />

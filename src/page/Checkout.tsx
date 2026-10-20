@@ -1,12 +1,13 @@
 import { useState, type FormEvent } from 'react'
-import { Link, Navigate } from 'react-router'
+import { Link, Navigate, useLocation, useNavigate } from 'react-router'
 import { FiMinus, FiPlus, FiTrash2 } from 'react-icons/fi'
 import siteData from '../../Data.json'
 import { useAuth } from '../auth/useAuth'
-import type { CartVariant, CheckoutOrder } from '../auth/authContext'
+import type { CartVariant } from '../auth/authContext'
 import { getPhoneInput, parsePhoneInput, PHONE_COUNTRIES, type CountryCode } from '../auth/phone'
 import AnimatedContent from '../Components/animated-content'
 import { TabTitle } from '../utils/GeneralFunction'
+import { parseCheckoutDraft, type Address, type DeliveryMethod } from './checkout/types'
 
 type CheckoutProduct = {
   id: string
@@ -22,9 +23,6 @@ const PRODUCTS = siteData.products as CheckoutProduct[]
 const PROMO_CODES = siteData.site.checkoutPromoCodes
 const formatPrice = (value: number) => `Rp ${value.toLocaleString('id-ID')}`
 
-type Address = CheckoutOrder['shippingAddress']
-type DeliveryMethod = 'regular' | 'express'
-type PaymentMethod = 'wallet' | 'bank-transfer' | 'cash-on-delivery' | 'card' | 'e-wallet'
 type CheckoutPromoCode = (typeof PROMO_CODES)[number]
 
 const FREE_SHIPPING_THRESHOLD = 300_000
@@ -33,23 +31,18 @@ const SHIPPING_PRICES: Record<DeliveryMethod, number> = { regular: 25_000, expre
 const isShippingFree = (subtotal: number, method: DeliveryMethod, promo: CheckoutPromoCode | null) =>
   promo?.type === 'free-shipping' ||
   subtotal > (method === 'express' ? FREE_EXPRESS_SHIPPING_THRESHOLD : FREE_SHIPPING_THRESHOLD)
-const PAYMENT_METHODS: { id: PaymentMethod; label: string; description: string }[] = [
-  { id: 'wallet', label: 'Wallet', description: 'Pay using your available wallet balance.' },
-  { id: 'bank-transfer', label: 'Bank transfer', description: 'Place the order as pending; transfer instructions are not connected.' },
-  { id: 'cash-on-delivery', label: 'Cash on delivery', description: 'Place the order as pending; courier collection is not connected.' },
-  { id: 'card', label: 'Credit or debit card', description: 'Preview option only; card processing is not connected.' },
-  { id: 'e-wallet', label: 'E-wallet', description: 'Preview option only; e-wallet processing is not connected.' },
-]
-
 export default function Checkout() {
-  const { account, isSignedIn, placeOrder, setCartQuantity, changeCartItemVariant } = useAuth()
+  const { account, isSignedIn, setCartQuantity, changeCartItemVariant } = useAuth()
+  const location = useLocation()
+  const navigate = useNavigate()
+  const checkoutDraft = parseCheckoutDraft(location.state)
   const cart = account?.user.cart ?? []
   const products = cart.flatMap((item) => {
     const product = PRODUCTS.find((entry) => entry.id === item.productId)
     return product ? [{ ...item, product }] : []
   })
   const subtotal = products.reduce((sum, item) => sum + (item.product.sale_price_idr ?? item.product.price_idr) * item.quantity, 0)
-  const [address, setAddress] = useState<Address>({
+  const [address, setAddress] = useState<Address>(() => checkoutDraft?.address ?? ({
     fullName: account?.user.profile.full_name ?? '',
     email: account?.user.contact.email ?? '',
     phone: account?.user.contact.phone ?? '',
@@ -57,19 +50,15 @@ export default function Checkout() {
     city: '',
     postalCode: '',
     country: '',
-  })
+  }))
   const [phoneInput, setPhoneInput] = useState(() =>
-    getPhoneInput(account?.user.contact.phone ?? null)
+    getPhoneInput(checkoutDraft?.address.phone || account?.user.contact.phone || null)
   )
-  const [checkoutStep, setCheckoutStep] = useState<'shipping' | 'payment'>('shipping')
-  const [deliveryMethod, setDeliveryMethod] = useState<DeliveryMethod>('regular')
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('wallet')
-  const [promoInput, setPromoInput] = useState('')
-  const [appliedPromoCode, setAppliedPromoCode] = useState<string | null>(null)
+  const [deliveryMethod, setDeliveryMethod] = useState<DeliveryMethod>(() => checkoutDraft?.deliveryMethod ?? 'regular')
+  const [promoInput, setPromoInput] = useState(() => checkoutDraft?.promoCode ?? '')
+  const [appliedPromoCode, setAppliedPromoCode] = useState<string | null>(() => checkoutDraft?.promoCode ?? null)
   const [promoMessage, setPromoMessage] = useState('')
   const [error, setError] = useState('')
-  const [orderId, setOrderId] = useState('')
-  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const appliedPromo = PROMO_CODES.find((promo) => promo.code === appliedPromoCode) ?? null
   const discount = appliedPromo?.type === 'percentage'
@@ -90,26 +79,6 @@ export default function Checkout() {
         <p className="mt-3 font-jost text-base-content/70">Your cart will be ready when you return.</p>
         <Link to="/sign-in" className="btn btn-neutral mt-6 rounded-none font-jost">Sign in</Link>
       </section>
-    )
-  }
-
-  if (orderId) {
-    return (
-      <AnimatedContent distance={24} duration={0.6} className="mx-auto flex min-h-[60vh] max-w-3xl flex-col items-center justify-center px-6 py-20 text-center">
-        <p className="font-jost text-xs uppercase tracking-[0.25em] text-accent">
-          {paymentMethod === 'wallet' ? 'Payment confirmed' : 'Order received'}
-        </p>
-        <h1 className="mt-4 font-jost text-4xl font-light">
-          {paymentMethod === 'wallet' ? 'Thank you for your order.' : 'Your order has been placed.'}
-        </h1>
-        <p className="mt-4 font-jost text-sm text-base-content/65">Order number: {orderId}</p>
-        <p className="mt-2 max-w-lg font-jost text-sm leading-relaxed text-base-content/65">
-          {paymentMethod === 'wallet'
-            ? 'Your order was paid with your wallet balance.'
-            : 'Your order is saved as pending. This payment option is a preview and no payment was processed.'}
-        </p>
-        <Link to="/shop" className="btn btn-neutral mt-8 rounded-none font-jost uppercase tracking-widest">Continue shopping</Link>
-      </AnimatedContent>
     )
   }
 
@@ -173,40 +142,20 @@ export default function Checkout() {
     }
   }
 
-  const submit = async (event: FormEvent<HTMLFormElement>) => {
+  const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setError('')
-    if (checkoutStep === 'shipping') {
-      try {
-        const phone = parsePhoneInput(phoneInput.nationalNumber, phoneInput.country).number
-        setAddress((current) => ({ ...current, phone }))
-      } catch (reason) {
-        setError(reason instanceof Error ? reason.message : 'Enter a valid phone number.')
-        return
-      }
-      setCheckoutStep('payment')
-      return
-    }
-
-    setIsSubmitting(true)
     try {
-      const id = `ORDER-${crypto.randomUUID()}`
-      placeOrder({
-        id,
-        status: paymentMethod === 'wallet' ? 'paid' : 'pending',
-        subtotal,
-        discount,
-        promoCode: appliedPromo?.code,
-        shipping,
-        total,
-        shippingAddress: address,
-        deliveryMethod,
-        paymentMethod: PAYMENT_METHODS.find((method) => method.id === paymentMethod)?.label ?? 'Wallet',
+      const phone = parsePhoneInput(phoneInput.nationalNumber, phoneInput.country).number
+      navigate('/payment', {
+        state: {
+          address: { ...address, phone },
+          deliveryMethod,
+          promoCode: appliedPromo?.code ?? null,
+        },
       })
-      setOrderId(id)
     } catch (reason) {
-      setError(reason instanceof Error ? reason.message : 'Could not place your order.')
-      setIsSubmitting(false)
+      setError(reason instanceof Error ? reason.message : 'Enter a valid phone number.')
     }
   }
 
@@ -231,8 +180,7 @@ export default function Checkout() {
     <AnimatedContent distance={24} duration={0.6} className="mx-auto max-w-360 px-6 py-10 md:px-12 md:py-14">
       <form onSubmit={submit} className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_26rem] lg:items-start">
         <div className="space-y-8 rounded-lg border border-base-content/15 bg-base-100 p-6 sm:p-8">
-          {checkoutStep === 'shipping' ? (
-            <section>
+          <section>
               <h1 className="font-jost text-xl font-medium">Shipping address</h1>
               <div className="mt-5 grid gap-x-5 gap-y-4 sm:grid-cols-2">
                 {fields.map(({ field, label, type, span, autoComplete }) => field === 'phone' ? (
@@ -313,65 +261,7 @@ export default function Checkout() {
                   )
                 })}
               </div>
-            </section>
-          ) : (
-            <>
-              <section>
-                <div className="flex items-center justify-between gap-4">
-                  <h1 className="font-jost text-xl font-medium">Shipping address</h1>
-                  <button
-                    type="button"
-                    onClick={() => setCheckoutStep('shipping')}
-                    className="font-jost text-sm underline underline-offset-4 hover:text-accent"
-                  >
-                    Edit
-                  </button>
-                </div>
-                <address className="mt-4 space-y-1 font-jost text-sm not-italic text-base-content/70">
-                  <p>{address.fullName}</p>
-                  <p>{address.address}</p>
-                  <p>{address.city}, {address.postalCode}, {address.country}</p>
-                  <p>{address.phone} · {address.email}</p>
-                </address>
-                <p className="mt-3 font-jost text-sm text-base-content/65">
-                  {deliveryMethod === 'regular' ? 'Regular' : 'Express'} shipping · {shipping === 0 ? 'Free' : formatPrice(shipping)}
-                </p>
-              </section>
-              <section>
-                <h2 className="font-jost text-xl font-medium">Payment method</h2>
-                <p className="mt-2 font-jost text-sm text-base-content/65">
-                  Wallet balance: Rp {account?.user.wallet.balance.toLocaleString('id-ID')}
-                  {paymentMethod === 'wallet' && total > (account?.user.wallet.balance ?? 0) && (
-                    <> · <Link to="/account/wallet" className="underline hover:text-accent">Top up your wallet</Link></>
-                  )}
-                </p>
-                <div className="mt-4 grid gap-3">
-                  {PAYMENT_METHODS.map((method) => (
-                    <label
-                      key={method.id}
-                      className={`flex cursor-pointer items-start gap-3 rounded-md border p-4 font-jost text-sm transition-colors ${paymentMethod === method.id ? 'border-accent bg-base-200/60' : 'border-base-content/15 hover:border-base-content/35'}`}
-                    >
-                      <input
-                        type="radio"
-                        name="payment"
-                        value={method.id}
-                        checked={paymentMethod === method.id}
-                        onChange={() => setPaymentMethod(method.id)}
-                        className="radio radio-sm mt-0.5"
-                      />
-                      <span>
-                        <span className="block font-medium">{method.label}</span>
-                        <span className="mt-1 block text-xs text-base-content/55">{method.description}</span>
-                      </span>
-                    </label>
-                  ))}
-                </div>
-                <p className="mt-3 font-jost text-xs text-base-content/55">
-                  Preview checkout only. Payment providers are not connected.
-                </p>
-              </section>
-            </>
-          )}
+          </section>
         </div>
 
         <aside className="rounded-lg border border-base-content/15 bg-base-100 p-6 sm:p-8 lg:sticky lg:top-24">
@@ -499,12 +389,9 @@ export default function Checkout() {
           {error && <p role="alert" className="mt-4 font-jost text-sm text-error">{error}</p>}
           <button
             type="submit"
-            disabled={isSubmitting}
-            className="btn btn-neutral mt-6 w-full rounded-md font-jost disabled:opacity-60"
+            className="btn btn-neutral mt-6 w-full rounded-md font-jost"
           >
-            {checkoutStep === 'shipping' ? 'Continue to payment'
-              : isSubmitting ? 'Placing order…'
-                : paymentMethod === 'wallet' ? 'Pay with wallet' : 'Place order'}
+            Continue to payment
           </button>
         </aside>
       </form>

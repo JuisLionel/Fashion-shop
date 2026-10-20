@@ -83,7 +83,7 @@ The account menu links to account settings, orders, wishlist, and wallet pages. 
 
 ### Cart and checkout
 
-Add products to the cart, choose available variants, and continue to `/checkout`. Checkout collects shipping details, offers regular and express delivery estimates, and displays an order summary. Shipping is free over Rp 300,000; otherwise the demo rates are Rp 25,000 for regular or Rp 50,000 for express delivery.
+Add products to the cart, choose available variants, and continue to `/checkout`. Enter a shipping address and choose regular or express delivery, then continue to `/payment` to select a payment method and review the order total. Shipping is free over Rp 300,000; otherwise the demo rates are Rp 25,000 for regular or Rp 50,000 for express delivery.
 
 The starter checkout codes in `Data.json` are:
 
@@ -101,7 +101,8 @@ The discount, promo code, shipping cost, and total are saved on the order and sh
 | `/product/:id` | Product details |
 | `/cart` | Shopping cart |
 | `/wishlist` | Saved products |
-| `/checkout` | Shipping and payment preview |
+| `/checkout` | Shipping details and delivery method |
+| `/payment` | Payment method and order review |
 | `/sign-in` | Sign in |
 | `/sign-up` | Create account |
 | `/account` | Account settings |

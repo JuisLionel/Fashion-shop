@@ -7,6 +7,7 @@ import { pulseIcon } from '../Components/pulseIcon'
 import { useNotifications } from '../Components/useNotifications'
 import ProductCartButton from '../Components/ProductCartButton'
 import { TabTitle } from '../utils/GeneralFunction'
+import ProductSuggestions from '../Components/ProductSuggestions'
 
 type Product = {
   id: string
@@ -104,6 +105,7 @@ export default function Wishlist() {
           })}
         </div>
       )}
+      <ProductSuggestions excludedIds={savedProducts.map((product) => product.id)} />
     </section>
     </AnimatedContent>
   )

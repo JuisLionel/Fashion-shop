@@ -315,7 +315,7 @@ export default function Product() {
 
         </AnimatedContent>
 
-        <aside className="px-4 py-8 lg:sticky lg:top-0 lg:h-screen lg:self-start lg:overflow-y-auto lg:px-10 lg:py-12">
+        <aside className="px-4 py-8 lg:px-10 lg:py-12">
           <AnimatedContent
             distance={100}
             direction="vertical"

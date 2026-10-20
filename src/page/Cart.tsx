@@ -5,6 +5,7 @@ import siteData from '../../Data.json'
 import { useAuth } from '../auth/useAuth'
 import { useNotifications } from '../Components/useNotifications'
 import { TabTitle } from '../utils/GeneralFunction'
+import ProductSuggestions from '../Components/ProductSuggestions'
 
 type Product = {
   id: string
@@ -173,6 +174,7 @@ export default function Cart() {
             </aside>
           </div>
         )}
+        <ProductSuggestions excludedIds={productsInCart.map(({ product }) => product.id)} />
       </section>
       </AnimatedContent>
     </>
