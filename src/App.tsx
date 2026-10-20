@@ -27,6 +27,7 @@ function Layout() {
 
   const isHome = pathname === '/'
   const isAccountPage = pathname === '/account'
+  const hidePromo = ['/wishlist', '/account', '/account/wallet', '/cart'].includes(pathname)
 
   const isTherePromo = siteData.site.promo.enabled
 
@@ -39,7 +40,7 @@ function Layout() {
       sparkRadius={30}
       duration={500}
     >
-      {isTherePromo && !isAccountPage && <Promo />}
+      {isTherePromo && !hidePromo && <Promo />}
       {isAccountPage ? (
         <header className="border-t border-base-300 px-6 py-5 text-center">
           <Link to="/" aria-label="Fashion Shop home" className="font-jost text-2xl font-bold uppercase tracking-[0.18em]">
