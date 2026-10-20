@@ -1,11 +1,10 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { Link, Navigate } from 'react-router'
-import { FiMapPin, FiMinus, FiPlus, FiTrash2 } from 'react-icons/fi'
+import { FiMinus, FiPlus, FiTrash2 } from 'react-icons/fi'
 import siteData from '../../Data.json'
 import { useAuth } from '../auth/useAuth'
 import type { CartVariant, CheckoutOrder } from '../auth/authContext'
 import AnimatedContent from '../Components/animated-content'
-import { useNotifications } from '../Components/useNotifications'
 import type { AddressSuggestion } from '../../api/_lib/addressSearch.js'
 
 type CheckoutProduct = {
@@ -43,7 +42,6 @@ const PAYMENT_METHODS: { id: PaymentMethod; label: string; description: string }
 
 export default function Checkout() {
   const { account, isSignedIn, placeOrder, setCartQuantity, changeCartItemVariant } = useAuth()
-  const { notifyError, notifySuccess } = useNotifications()
   const cart = account?.user.cart ?? []
   const products = cart.flatMap((item) => {
     const product = PRODUCTS.find((entry) => entry.id === item.productId)
@@ -65,11 +63,9 @@ export default function Checkout() {
   const [promoInput, setPromoInput] = useState('')
   const [appliedPromoCode, setAppliedPromoCode] = useState<string | null>(null)
   const [promoMessage, setPromoMessage] = useState('')
-  const [isLocating, setIsLocating] = useState(false)
   const [addressQuery, setAddressQuery] = useState('')
   const [addressSuggestions, setAddressSuggestions] = useState<AddressSuggestion[]>([])
   const [addressSearchStatus, setAddressSearchStatus] = useState('')
-  const [searchBias, setSearchBias] = useState<{ latitude: number; longitude: number } | null>(null)
   const [error, setError] = useState('')
   const [orderId, setOrderId] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -91,8 +87,7 @@ export default function Checkout() {
 
     const controller = new AbortController()
     const timeoutId = window.setTimeout(() => {
-      const biasParams = searchBias ? `&lat=${searchBias.latitude}&lon=${searchBias.longitude}` : ''
-      void fetch(`/api/address-search?q=${encodeURIComponent(query)}${biasParams}`, { signal: controller.signal })
+      void fetch(`/api/address-search?q=${encodeURIComponent(query)}`, { signal: controller.signal })
         .then(async (response) => {
           const result = await response.json() as {
             suggestions?: AddressSuggestion[]
@@ -115,7 +110,7 @@ export default function Checkout() {
       window.clearTimeout(timeoutId)
       controller.abort()
     }
-  }, [addressQuery, searchBias])
+  }, [addressQuery])
 
   const updateAddress = (field: keyof Address, value: string) => setAddress((current) => ({ ...current, [field]: value }))
   const selectAddressSuggestion = (suggestion: AddressSuggestion) => {
@@ -141,118 +136,6 @@ export default function Checkout() {
         : 'Address selected. Review the details before continuing.'
     )
   }
-  const lookupAddress = async (latitude: number, longitude: number, accuracy: number) => {
-    try {
-      // A fix worse than ~1 km (typical for desktop Wi-Fi/IP location) points at the
-      // wrong place entirely, so don't fill in an address from it.
-      if (accuracy > 1000) {
-        throw new Error(`Your device could only locate you to within about ${accuracy} m, which is too imprecise to fill in an address. Please search for or type your address instead.`)
-      }
-      setSearchBias({ latitude, longitude })
-      const response = await fetch('/api/reverse-geocode', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ latitude, longitude }),
-      })
-      const result = await response.json() as {
-        street?: unknown
-        city?: unknown
-        postalCode?: unknown
-        country?: unknown
-        error?: unknown
-      }
-      if (!response.ok) {
-        throw new Error(typeof result.error === 'string' ? result.error : 'Address lookup failed.')
-      }
-
-      const street = typeof result.street === 'string' ? result.street : ''
-      const city = typeof result.city === 'string' ? result.city : ''
-      const postalCode = typeof result.postalCode === 'string' ? result.postalCode : ''
-      const country = typeof result.country === 'string' ? result.country : ''
-      if (!street && !city && !postalCode && !country) {
-        throw new Error('No address details were found for this location.')
-      }
-
-      setAddress((current) => ({
-        ...current,
-        // Street-level data is only trustworthy with a reasonably tight fix.
-        address: accuracy <= 100 ? street || current.address : current.address,
-        city: city || current.city,
-        postalCode: postalCode || current.postalCode,
-        country: country || current.country,
-      }))
-      notifySuccess(
-        accuracy > 100
-          ? `City and postal code were filled in, but location accuracy is only about ±${accuracy} m, so please type your street (or use the address search). Enable precise location or try outdoors for a better fix.`
-          : `Address details were filled in (reported location accuracy: about ±${accuracy} m). Please review them before continuing.`
-      )
-    } catch (reason) {
-      notifyError(reason instanceof Error ? reason.message : 'Could not look up this address.')
-    } finally {
-      setIsLocating(false)
-    }
-  }
-
-  function detectLocation() {
-    if (!globalThis.isSecureContext) {
-      notifyError('Location detection requires a secure HTTPS connection. You can still enter your address manually.')
-      return
-    }
-    if (!navigator.geolocation) {
-      notifyError('Location detection is not supported by this browser. Enter your address manually.')
-      return
-    }
-
-    setIsLocating(true)
-    let bestPosition: GeolocationPosition | undefined
-    let watchId: number | undefined
-    let timeoutId: number | undefined
-    let isFinished = false
-    let lastError: GeolocationPositionError | undefined
-
-    const finish = (reason?: GeolocationPositionError) => {
-      if (isFinished) return
-      isFinished = true
-      if (timeoutId !== undefined) window.clearTimeout(timeoutId)
-      if (watchId !== undefined) navigator.geolocation.clearWatch(watchId)
-
-      if (bestPosition) {
-        void lookupAddress(
-          bestPosition.coords.latitude,
-          bestPosition.coords.longitude,
-          Math.round(bestPosition.coords.accuracy)
-        )
-        return
-      }
-
-      notifyError(
-        reason?.code === 1
-          ? 'Location permission was denied. Allow location access in your browser to try again.'
-          : reason?.code === 2
-            ? 'Your current location is unavailable. Try again or enter your address manually.'
-            : 'Location detection timed out. Try again or enter your address manually.'
-      )
-      setIsLocating(false)
-    }
-
-    watchId = navigator.geolocation.watchPosition(
-      (position) => {
-        if (!bestPosition || position.coords.accuracy < bestPosition.coords.accuracy) {
-          bestPosition = position
-        }
-        if (position.coords.accuracy <= 50) finish()
-      },
-      (reason) => {
-        // Code 1 (permission denied) is fatal. Codes 2/3 are often transient while the
-        // GPS warms up, so keep watching until we get a fix or the overall timer ends.
-        if (reason.code === 1) finish(reason)
-        else if (!bestPosition) lastError = reason
-      },
-      { enableHighAccuracy: true, maximumAge: 0, timeout: 30_000 }
-    )
-    timeoutId = window.setTimeout(() => finish(lastError), 30_000)
-  }
-
   if (!isSignedIn) {
     return (
       <section className="mx-auto flex min-h-96 max-w-3xl flex-col items-center justify-center px-6 py-20 text-center">
@@ -394,21 +277,7 @@ export default function Checkout() {
         <div className="space-y-8 rounded-lg border border-base-content/15 bg-base-100 p-6 sm:p-8">
           {checkoutStep === 'shipping' ? (
             <section>
-              <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
-                <h1 className="font-jost text-xl font-medium">Shipping address</h1>
-                <button
-                  type="button"
-                  onClick={detectLocation}
-                  disabled={isLocating}
-                  className="btn btn-outline btn-sm rounded-md font-jost normal-case disabled:opacity-60"
-                >
-                  <FiMapPin aria-hidden="true" />
-                  {isLocating ? 'Detecting location…' : 'Detect my location'}
-                </button>
-              </div>
-              <p className="mt-2 font-jost text-xs text-base-content/55">
-                Click “Detect my location” to fill your address automatically. Review the details before continuing.
-              </p>
+              <h1 className="font-jost text-xl font-medium">Shipping address</h1>
               <div className="mt-5 grid gap-x-5 gap-y-4 sm:grid-cols-2">
                 {fields.map(({ field, label, type, span, autoComplete }) => field === 'address' ? (
                   <div key={field} className="relative sm:col-span-2">

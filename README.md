@@ -92,15 +92,11 @@ The starter checkout codes in `Data.json` are:
 
 The discount, promo code, shipping cost, and total are saved on the order and shown in the order details. Wallet payment updates the local wallet balance. Other payment methods create a pending demo order and do not take payment.
 
-### Location detection
+### Address suggestions
 
-The checkout offers optional location detection and address suggestions. The location button uses the browser Geolocation API after the user clicks it and grants permission. It requests fresh, high-accuracy position updates for up to 30 seconds and uses the best reported fix (or stops early when accuracy reaches 50 m). The browser-reported accuracy is shown in the success notification. Coordinates are sent by POST to `/api/reverse-geocode`; they are not placed in a URL or logged by this app.
+Type at least three characters in the street address field to search free address suggestions, then select a result to fill the street, city, postal code, and country. Suggestions are provided by Photon using OpenStreetMap data. The address query is sent to the shop server, which requests results from Photon. If a result is missing or incorrect, the shipping fields remain editable. No provider key is needed for this demo.
 
-Type at least three characters in the street address field to search free address suggestions, then select a result to fill the street, city, postal code, and country. Suggestions are provided by Photon using OpenStreetMap data, and the checkout labels the results with attribution. The address query is sent to the shop server, which requests results from Photon. If a result is missing or incorrect, the shipping fields remain editable. Geolocation and suggestions work independently; no provider key is needed for this demo.
-
-Photon and GPS coverage depend on OpenStreetMap data and the device's location signal; neither can guarantee every building or unit number. These public services have usage policies and are intended here for a low-traffic demo. For production or higher traffic, use a dedicated provider and review its terms. To override reverse geocoding, set `REVERSE_GEOCODING_ENDPOINT` in Vercel's project environment variables. The HTTPS endpoint must accept a JSON POST body containing `latitude` and `longitude`, and return JSON containing `street`, `city`, `postalCode`, and `country` (any fields that cannot be determined may be empty or omitted). An optional `REVERSE_GEOCODING_API_KEY` is sent as a bearer token and must only be configured as a server environment variable, never as a `VITE_` variable. For local development, put any provider override variables in an ignored `.env.local` file and restart Vite; the development endpoint keeps the provider URL and token out of browser code.
-
-Browsers generally require a secure context for geolocation: use `localhost` while developing on the same computer, or use the deployed HTTPS site on a phone. A local-network address such as `http://192.168.x.x` may not allow location access.
+Photon coverage depends on OpenStreetMap data and cannot guarantee every building or unit number. This public service is intended here for a low-traffic demo. For production or higher traffic, use a dedicated provider and review its terms.
 
 ## Routes
 

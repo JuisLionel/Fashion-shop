@@ -1,22 +1,11 @@
 import type { IncomingMessage, ServerResponse } from 'node:http'
-import { searchAddresses, type SearchBias } from './_lib/addressSearch.js'
+import { searchAddresses } from './_lib/addressSearch.js'
 
 function sendJson(response: ServerResponse, status: number, body: Record<string, unknown>) {
   response.statusCode = status
   response.setHeader('Content-Type', 'application/json; charset=utf-8')
   response.setHeader('Cache-Control', 'no-store')
   response.end(JSON.stringify(body))
-}
-
-function parseBias(params: URLSearchParams): SearchBias | undefined {
-  const rawLat = params.get('lat')
-  const rawLon = params.get('lon')
-  if (!rawLat || !rawLon) return undefined
-  const latitude = Number(rawLat)
-  const longitude = Number(rawLon)
-  if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) return undefined
-  if (latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180) return undefined
-  return { latitude, longitude }
 }
 
 export default async function addressSearch(request: IncomingMessage, response: ServerResponse) {
@@ -34,7 +23,7 @@ export default async function addressSearch(request: IncomingMessage, response: 
   }
 
   try {
-    sendJson(response, 200, { suggestions: await searchAddresses(query, parseBias(params)) })
+    sendJson(response, 200, { suggestions: await searchAddresses(query) })
   } catch (reason) {
     sendJson(response, 502, {
       error: reason instanceof Error ? reason.message : 'Address search failed.',
