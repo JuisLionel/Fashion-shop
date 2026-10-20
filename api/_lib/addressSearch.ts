@@ -1,11 +1,6 @@
-export type AddressSuggestion = {
-  id: string
-  label: string
-  street: string
-  city: string
-  postalCode: string
-  country: string
-}
+import type { AddressSuggestion } from '../../src/types/addressSearch.js'
+
+export type { AddressSuggestion } from '../../src/types/addressSearch.js'
 
 export type SearchBias = {
   latitude: number

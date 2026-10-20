@@ -5,7 +5,7 @@ import siteData from '../../Data.json'
 import { useAuth } from '../auth/useAuth'
 import type { CartVariant, CheckoutOrder } from '../auth/authContext'
 import AnimatedContent from '../Components/animated-content'
-import type { AddressSuggestion } from '../../api/_lib/addressSearch.js'
+import type { AddressSuggestion } from '../types/addressSearch.js'
 
 type CheckoutProduct = {
   id: string
