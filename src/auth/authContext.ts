@@ -9,6 +9,15 @@ export type CartItem = {
 
 export type CartVariant = Pick<CartItem, 'size' | 'color'>
 
+export type WalletTransaction = {
+  id: string
+  createdAt: string
+  type: 'credit' | 'debit'
+  amount: number
+  description: string
+  orderId?: string
+}
+
 export type Account = {
   user: {
     id: string
@@ -26,6 +35,11 @@ export type Account = {
     Shipping_status: unknown[]
     orders: unknown[]
     cart: CartItem[]
+    wallet: {
+      balance: number
+      currency: 'IDR'
+      transactions: WalletTransaction[]
+    }
     preferences: {
       sizes: {
         top: string | null
@@ -62,6 +76,27 @@ export type SignUpDetails = {
   password: string
 }
 
+export type CheckoutOrder = {
+  id: string
+  createdAt: string
+  status: 'pending' | 'paid'
+  items: CartItem[]
+  subtotal: number
+  shipping: number | null
+  total: number
+  shippingAddress: {
+    fullName: string
+    email: string
+    phone: string
+    address: string
+    city: string
+    postalCode: string
+    country: string
+  }
+  deliveryMethod: string
+  paymentMethod: string
+}
+
 export type AuthContextValue = {
   account: Account | null
   isSignedIn: boolean
@@ -71,6 +106,14 @@ export type AuthContextValue = {
   signOut: () => void
   addToCart: (productId: string, variant?: CartVariant) => void
   setCartQuantity: (productId: string, quantity: number, variant?: CartVariant) => void
+  changeCartItemVariant: (
+    productId: string,
+    quantity: number,
+    fromVariant: CartVariant,
+    toVariant: CartVariant,
+  ) => void
+  placeOrder: (order: Omit<CheckoutOrder, 'createdAt' | 'items'>) => CheckoutOrder
+  topUpWallet: (amount: number) => WalletTransaction
   toggleWishlist: (productId: string) => void
 }
 

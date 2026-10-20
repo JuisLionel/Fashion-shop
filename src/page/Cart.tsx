@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import AnimatedContent from '../Components/animated-content'
 import { Link } from 'react-router'
-import { FiMinus, FiPlus, FiPrinter, FiTrash2 } from 'react-icons/fi'
+import { FiMinus, FiPlus, FiTrash2 } from 'react-icons/fi'
 import siteData from '../../Data.json'
 import { useAuth } from '../auth/useAuth'
+import { useNotifications } from '../Components/useNotifications'
 
 type Product = {
   id: string
@@ -18,8 +19,7 @@ const formatPrice = (value: number) => `Rp ${value.toLocaleString('id-ID')}`
 
 export default function Cart() {
   const { account, isSignedIn, setCartQuantity } = useAuth()
-  const [errorMessage, setErrorMessage] = useState('')
-  const [checkoutMessage, setCheckoutMessage] = useState('')
+  const { notifyError } = useNotifications()
   const cartItems = Array.isArray(account?.user.cart)
     ? account.user.cart.filter(
       (item) => typeof item.productId === 'string' && Number.isInteger(item.quantity) && item.quantity > 0
@@ -44,9 +44,8 @@ export default function Cart() {
   ) => {
     try {
       setCartQuantity(productId, quantity, variant)
-      setErrorMessage('')
     } catch (error) {
-      setErrorMessage(error instanceof Error ? error.message : 'Could not update your cart.')
+      notifyError(error instanceof Error ? error.message : 'Could not update your cart.')
     }
   }
 
@@ -64,6 +63,7 @@ export default function Cart() {
 
   return (
     <>
+      <AnimatedContent distance={30} duration={0.7}>
       <header className="relative flex h-44 items-center justify-center overflow-hidden bg-base-300 md:h-56">
         <img src="/hero.webp" alt="" className="theme-image-light absolute inset-0 h-full w-full object-cover" />
         <img
@@ -79,9 +79,6 @@ export default function Cart() {
       </header>
 
       <section className="mx-auto w-full max-w-7xl px-6 py-10 md:px-10 md:py-14">
-        {errorMessage && <p role="status" className="mb-6 font-jost text-sm text-error">{errorMessage}</p>}
-        {checkoutMessage && <p role="status" className="mb-6 font-jost text-sm text-accent">{checkoutMessage}</p>}
-
         {productsInCart.length === 0 ? (
           <div className="flex min-h-72 flex-col items-center justify-center text-center">
             <p className="font-jost text-base-content/70">Your shopping bag is empty.</p>
@@ -94,15 +91,7 @@ export default function Cart() {
             <div>
               <div className="mb-4 flex items-center justify-between border-b border-base-300 pb-3">
                 <h2 className="font-jost text-sm font-medium uppercase tracking-widest">Your selections ({itemCount})</h2>
-                <button
-                  type="button"
-                  onClick={() => window.print()}
-                  className="inline-flex items-center gap-2 font-jost text-xs hover:text-accent"
-                >
-                  <FiPrinter aria-hidden="true" />
-                  Print
-                </button>
-              </div>
+               </div>
 
               <ul className="divide-y divide-base-300">
                 {productsInCart.map(({ product, quantity, size, color }) => {
@@ -144,13 +133,6 @@ export default function Cart() {
                               <FiPlus className="h-3.5 w-3.5" />
                             </button>
                           </div>
-                          <button
-                            type="button"
-                            onClick={() => changeQuantity(product.id, 0, variant)}
-                            className="font-jost text-xs underline underline-offset-4 hover:text-accent"
-                          >
-                            Remove
-                          </button>
                         </div>
                       </div>
                       <p className="hidden whitespace-nowrap pt-1 font-jost text-sm sm:block">
@@ -181,13 +163,7 @@ export default function Cart() {
               <p className="mb-5 text-xs leading-relaxed text-base-content/60">
                 Shipping and payment details will be confirmed before your order is placed.
               </p>
-              <button
-                type="button"
-                onClick={() => setCheckoutMessage('Checkout is not available yet. Your cart has been saved to your account.')}
-                className="btn btn-neutral w-full rounded-none font-jost uppercase tracking-widest"
-              >
-                Checkout
-              </button>
+              <Link to="/checkout" className="btn btn-neutral w-full rounded-none font-jost uppercase tracking-widest">Checkout</Link>
               <Link to="/shop" className="mt-4 block text-center font-jost text-xs underline underline-offset-4 hover:text-accent">
                 Continue shopping
               </Link>
@@ -195,6 +171,7 @@ export default function Cart() {
           </div>
         )}
       </section>
+      </AnimatedContent>
     </>
   )
 }

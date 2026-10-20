@@ -5,6 +5,7 @@ import SearchMenu from './SeacrhMenu'
 import Menu from './Menu'
 import ContactMenu from './ContactMenu'
 import { useAuth } from '../auth/useAuth'
+import { pulseIcon } from './pulseIcon'
 
 import { PiHandbagSimpleLight } from 'react-icons/pi'
 import { FiMoon, FiSun, FiSearch, FiMenu, FiPlus, FiUser } from 'react-icons/fi'
@@ -107,7 +108,12 @@ export default function Navbar({ isHome }: NavbarProps) {
               <span className="hidden leading-none [text-box:trim-both_cap_alphabetic] md:block">Contact us</span>
             </button>
 
-            <Link to="/cart" aria-label={`Shopping bag${cartCount ? `, ${cartCount} items` : ''}`} className={`relative order-2 max-md:ml-auto md:order-0 ${iconButton}`}>
+            <Link
+              to="/cart"
+              aria-label={`Shopping bag${cartCount ? `, ${cartCount} items` : ''}`}
+              onClick={(event) => pulseIcon(event.currentTarget)}
+              className={`relative order-2 max-md:ml-auto md:order-0 ${iconButton}`}
+            >
               <PiHandbagSimpleLight className="h-6 w-6" aria-hidden="true" />
               {cartCount > 0 && (
                 <span className="absolute right-0.5 top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-base-content px-1 font-jost text-[10px] text-base-100">

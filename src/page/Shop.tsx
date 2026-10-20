@@ -1,8 +1,10 @@
-import { useState } from 'react'
 import { Link, useSearchParams } from 'react-router'
 import { FiHeart, FiShoppingBag } from 'react-icons/fi'
+import AnimatedContent from '../Components/animated-content'
 import siteData from '../../Data.json'
 import { useAuth } from '../auth/useAuth'
+import { pulseIcon } from '../Components/pulseIcon'
+import { useNotifications } from '../Components/useNotifications'
 
 type Product = {
   id: string
@@ -113,16 +115,15 @@ function FilterDropdown({
 
 function ShopProductCard({ product }: { product: Product }) {
   const { account, addToCart, toggleWishlist } = useAuth()
-  const [errorMessage, setErrorMessage] = useState('')
+  const { notifyError } = useNotifications()
   const inCart = account?.user.cart.some((item) => item.productId === product.id) ?? false
   const isWishlisted = account?.user.wishlist.includes(product.id) ?? false
 
   const handleProductAction = (action: () => void) => {
     try {
       action()
-      setErrorMessage('')
     } catch (error) {
-      setErrorMessage(error instanceof Error ? error.message : 'Could not update this product.')
+      notifyError(error instanceof Error ? error.message : 'Could not update this product.')
     }
   }
 
@@ -159,7 +160,10 @@ function ShopProductCard({ product }: { product: Product }) {
           <button
             type="button"
             aria-label={`Add ${product.name} to cart`}
-            onClick={() => handleProductAction(() => addToCart(product.id))}
+            onClick={(event) => {
+              pulseIcon(event.currentTarget)
+              handleProductAction(() => addToCart(product.id))
+            }}
             className={`flex h-10 w-10 items-center justify-center rounded-full bg-base-100 text-base-content shadow-sm transition-colors hover:bg-base-content hover:text-base-100 ${inCart ? '!bg-base-content !text-base-100' : ''}`}
           >
             <FiShoppingBag className="h-4 w-4" aria-hidden="true" />
@@ -168,7 +172,10 @@ function ShopProductCard({ product }: { product: Product }) {
             type="button"
             aria-label={`${isWishlisted ? 'Remove' : 'Add'} ${product.name} ${isWishlisted ? 'from' : 'to'} wishlist`}
             aria-pressed={isWishlisted}
-            onClick={() => handleProductAction(() => toggleWishlist(product.id))}
+            onClick={(event) => {
+              pulseIcon(event.currentTarget)
+              handleProductAction(() => toggleWishlist(product.id))
+            }}
             className={`flex h-10 w-10 items-center justify-center rounded-full bg-base-100 text-base-content shadow-sm transition-colors hover:bg-base-content hover:text-base-100 ${isWishlisted ? '!bg-base-content !text-base-100' : ''}`}
           >
             <FiHeart
@@ -180,7 +187,6 @@ function ShopProductCard({ product }: { product: Product }) {
       </div>
 
       <div className="pt-4 font-jost">
-        {errorMessage && <p role="status" className="mb-2 text-xs text-error">{errorMessage}</p>}
         <Link to={`/product/${product.id}`} className="block truncate text-sm transition-colors duration-300 group-hover:text-accent">{product.name}</Link>
         <p className="mt-1 text-[11px] uppercase tracking-[0.2em] text-base-content/50">{product.category}</p>
         <p className="mt-2 text-sm">
@@ -358,9 +364,9 @@ export default function ShopPage() {
           <p className="mt-6 font-jost text-xs text-base-content/50">
             Showing {rangeStart}–{rangeEnd} of {filteredProducts.length}
           </p>
-          <div className="mt-6 grid grid-cols-2 gap-x-4 gap-y-12 lg:grid-cols-4 lg:gap-x-6">
+          <AnimatedContent distance={28} duration={0.55} stagger={0.06} className="mt-6 grid grid-cols-2 gap-x-4 gap-y-12 lg:grid-cols-4 lg:gap-x-6">
             {pageProducts.map((product) => <ShopProductCard key={product.id} product={product} />)}
-          </div>
+          </AnimatedContent>
           <Pagination page={currentPage} totalPages={totalPages} onChange={goToPage} />
         </>
       ) : (

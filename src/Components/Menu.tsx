@@ -40,23 +40,10 @@ const MENU_GROUPS: Section[][] = [
             { label: `All ${category}`, to: `/shop?category=${categoryParam(category)}` },
         ],
     })),
-    [
-        {
-            label: 'Services',
-            links: [
-                { label: 'Size guide', to: '/services/size-guide' },
-                { label: 'Shipping', to: '/services/shipping' },
-                { label: 'Exchanges', to: '/services/exchanges' },
-            ],
-        },
-    ],
 ]
 
 const SMALL_LINKS: NavLink[] = [
-    { label: 'Find a Store', to: '/stores' },
-    { label: 'Indonesia', to: '/' },
-    { label: 'Beralih Ke Bahasa Indonesia', to: '/' },
-    { label: 'Sustainability', to: '/sustainability' },
+
 ]
 
 const LAST_GROUP_INDEX = MENU_GROUPS.length - 1
@@ -256,7 +243,7 @@ export default function Menu({ isMenuOpen, toggleMenu }: MenuProps) {
                                 {isSignedIn ? (
                                     <>
                                         {[
-                                            { label: 'My orders', to: '/account/orders' },
+                                            { label: 'My orders', to: '/orders' },
                                             { label: 'My account settings', to: '/account/settings' },
                                             { label: 'My address book', to: '/account/addresses' },
                                             { label: 'My wallet', to: '/account/wallet' },

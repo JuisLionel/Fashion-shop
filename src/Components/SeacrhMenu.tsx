@@ -3,6 +3,22 @@ import { Link } from 'react-router'
 
 import siteData from '../../Data.json'
 import { FiX, FiSearch } from 'react-icons/fi'
+import AnimatedContent from './animated-content'
+
+const PAGE_SIZE = 12
+
+function getPageItems(current: number, total: number): (number | '…')[] {
+    if (total <= 7) return Array.from({ length: total }, (_, index) => index + 1)
+
+    const pages = new Set([1, total, current - 1, current, current + 1])
+    const sorted = [...pages].filter((value) => value >= 1 && value <= total).sort((a, b) => a - b)
+    const items: (number | '…')[] = []
+    sorted.forEach((value, index) => {
+        if (index > 0 && value - sorted[index - 1] > 1) items.push('…')
+        items.push(value)
+    })
+    return items
+}
 
 type SearchProps = {
     isSearchOpen: boolean
@@ -118,6 +134,7 @@ function SearchProductCard({ product, onSelect }: { product: SearchItem; onSelec
 
 export default function SearchMenu({ isSearchOpen, toggleSearch }: SearchProps) {
     const [query, setQuery] = useState('')
+    const [page, setPage] = useState(1)
     const inputRef = useRef<HTMLInputElement>(null)
 
     // Focus the input once the panel has slid in
@@ -161,11 +178,16 @@ export default function SearchMenu({ isSearchOpen, toggleSearch }: SearchProps) 
                 .join(' ')
                 .toLowerCase()
             return words.every((word) => haystack.includes(word))
-        }).slice(0, 9)
+        })
         : ALL_PRODUCTS
 
     const noMatch = isSearching && matches.length === 0
     const list = noMatch ? ALL_PRODUCTS : matches
+    const pageCount = Math.max(1, Math.ceil(list.length / PAGE_SIZE))
+    const currentPage = Math.min(page, pageCount)
+    const visibleProducts = list.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE)
+
+    useEffect(() => setPage(1), [trimmed])
 
     const linkClass = 'link link-hover font-jost text-sm underline underline-offset-4 hover:text-accent'
     const headingClass = 'font-jost text-xs font-semibold uppercase tracking-wider'
@@ -294,11 +316,28 @@ export default function SearchMenu({ isSearchOpen, toggleSearch }: SearchProps) 
                             {list.length === 0 ? (
                                 <p className="font-jost text-base font-light">No products found. Try another search.</p>
                             ) : (
-                                <div className="grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-4 sm:gap-y-10 md:grid-cols-3 xl:grid-cols-4">
-                                    {list.map((product) => (
+                                isSearchOpen && <AnimatedContent key={`${trimmed}-${currentPage}`} trigger="mount" distance={24} duration={0.45} stagger={0.05} className="grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-4 sm:gap-y-10 md:grid-cols-3 xl:grid-cols-4">
+                                    {visibleProducts.map((product) => (
                                         <SearchProductCard key={product.id} product={product} onSelect={toggleSearch} />
                                     ))}
-                                </div>
+                                </AnimatedContent>
+                            )}
+                            {list.length > PAGE_SIZE && (
+                                <nav aria-label="Search result pages" className="mt-16 flex items-center justify-center gap-2 border-t border-base-content/10 pt-8 sm:gap-4">
+                                    <button type="button" className="font-jost text-xs uppercase tracking-[0.2em] transition-colors disabled:cursor-not-allowed disabled:opacity-30 enabled:hover:text-accent px-2 py-2" disabled={currentPage === 1} onClick={() => setPage((value) => Math.max(1, value - 1))}>← Prev</button>
+                                    <ul className="flex items-center gap-1">
+                                        {getPageItems(currentPage, pageCount).map((item, index) => item === '…' ? (
+                                            <li key={`gap-${index}`} className="px-2 font-jost text-sm text-base-content/40" aria-hidden="true">…</li>
+                                        ) : (
+                                            <li key={item}>
+                                                <button type="button" onClick={() => setPage(item)} aria-current={item === currentPage ? 'page' : undefined} aria-label={`Page ${item}`} className={`size-10 border-b font-jost text-sm transition-colors ${item === currentPage ? 'border-base-content text-base-content' : 'border-transparent text-base-content/50 hover:text-accent'}`}>
+                                                    {item}
+                                                </button>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                    <button type="button" className="font-jost text-xs uppercase tracking-[0.2em] transition-colors disabled:cursor-not-allowed disabled:opacity-30 enabled:hover:text-accent px-2 py-2" disabled={currentPage === pageCount} onClick={() => setPage((value) => Math.min(pageCount, value + 1))}>Next →</button>
+                                </nav>
                             )}
                         </section>
                     </div>

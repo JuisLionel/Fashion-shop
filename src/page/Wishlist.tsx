@@ -1,8 +1,10 @@
-import { useState } from 'react'
+import AnimatedContent from '../Components/animated-content'
 import { Link } from 'react-router'
 import { FiHeart, FiShoppingBag } from 'react-icons/fi'
 import siteData from '../../Data.json'
 import { useAuth } from '../auth/useAuth'
+import { pulseIcon } from '../Components/pulseIcon'
+import { useNotifications } from '../Components/useNotifications'
 
 type Product = {
   id: string
@@ -18,16 +20,15 @@ const formatPrice = (value: number) => `Rp ${value.toLocaleString('id-ID')}`
 
 export default function Wishlist() {
   const { account, isSignedIn, addToCart, toggleWishlist } = useAuth()
-  const [errorMessage, setErrorMessage] = useState('')
+  const { notifyError } = useNotifications()
   const savedIds = Array.isArray(account?.user.wishlist) ? account.user.wishlist : []
   const savedProducts = PRODUCTS.filter((product) => savedIds.includes(product.id))
 
   const runAction = (action: () => void) => {
     try {
       action()
-      setErrorMessage('')
     } catch (error) {
-      setErrorMessage(error instanceof Error ? error.message : 'Could not update your wishlist.')
+      notifyError(error instanceof Error ? error.message : 'Could not update your wishlist.')
     }
   }
 
@@ -43,13 +44,12 @@ export default function Wishlist() {
   }
 
   return (
+    <AnimatedContent distance={30} duration={0.7}>
     <section className="w-full px-6 py-14 md:px-12 md:py-20">
       <header className="mb-8">
         <p className="font-jost text-sm text-base-content/60">Your saved items</p>
         <h1 className="mt-2 font-jost text-3xl font-light md:text-4xl">Wishlist</h1>
       </header>
-
-      {errorMessage && <p role="status" className="mb-6 font-jost text-sm text-error">{errorMessage}</p>}
 
       {savedProducts.length === 0 ? (
         <div className="flex min-h-64 flex-col items-center justify-center text-center">
@@ -71,7 +71,10 @@ export default function Wishlist() {
                     <button
                       type="button"
                       aria-label={`Remove ${product.name} from wishlist`}
-                      onClick={() => runAction(() => toggleWishlist(product.id))}
+                      onClick={(event) => {
+                        pulseIcon(event.currentTarget)
+                        runAction(() => toggleWishlist(product.id))
+                      }}
                       className="flex h-9 w-9 items-center justify-center rounded-full bg-base-content text-base-100 transition-colors hover:bg-accent"
                     >
                       <FiHeart className="h-4 w-4 fill-current text-red-500" aria-hidden="true" />
@@ -79,7 +82,10 @@ export default function Wishlist() {
                     <button
                       type="button"
                       aria-label={`Add ${product.name} to cart`}
-                      onClick={() => runAction(() => addToCart(product.id))}
+                      onClick={(event) => {
+                        pulseIcon(event.currentTarget)
+                        runAction(() => addToCart(product.id))
+                      }}
                       className="flex h-9 w-9 items-center justify-center rounded-full bg-base-100 text-base-content transition-colors hover:bg-base-content hover:text-base-100"
                     >
                       <FiShoppingBag className="h-4 w-4" aria-hidden="true" />
@@ -106,5 +112,6 @@ export default function Wishlist() {
         </div>
       )}
     </section>
+    </AnimatedContent>
   )
 }

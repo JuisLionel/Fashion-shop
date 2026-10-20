@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react'
-import { AuthContext, type Account, type AuthContextValue, type CartItem, type CartVariant } from './authContext'
+import { AuthContext, type Account, type AuthContextValue, type CartItem, type CartVariant, type CheckoutOrder, type WalletTransaction } from './authContext'
 
 const ACCOUNT_KEY = 'fashion-shop-account'
 const CREDENTIAL_KEY = 'fashion-shop-credential'
@@ -7,6 +7,7 @@ const ACCOUNTS_KEY = 'fashion-shop-accounts'
 const SESSION_KEY = 'fashion-shop-session'
 const PASSWORD_ITERATIONS = 310_000
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
+const INITIAL_WALLET_BALANCE = 1_000_000
 
 type Credential = {
   email: string
@@ -110,19 +111,52 @@ function isStoredAccount(value: unknown): value is StoredAccount {
   return isAccount(value.account) && isCredential(value.credential)
 }
 
+function addWallet(account: Account): Account {
+  const wallet = account.user.wallet
+  if (typeof wallet?.balance === 'number' && Number.isSafeInteger(wallet.balance) &&
+      Array.isArray(wallet.transactions)) return account
+
+  const createdAt = new Date().toISOString()
+  const openingCredit: WalletTransaction = {
+    id: crypto.randomUUID(),
+    createdAt,
+    type: 'credit',
+    amount: INITIAL_WALLET_BALANCE,
+    description: 'Welcome wallet balance',
+  }
+  return {
+    ...account,
+    user: {
+      ...account.user,
+      wallet: {
+        balance: INITIAL_WALLET_BALANCE,
+        currency: 'IDR',
+        transactions: [openingCredit],
+      },
+    },
+  }
+}
+
 function getStoredAccounts(): StoredAccount[] {
   const storedAccounts = parseStoredJson<unknown>(ACCOUNTS_KEY)
   if (Array.isArray(storedAccounts)) {
     if (!storedAccounts.every(isStoredAccount)) {
       throw new Error('Your account information is unavailable. Please try again or contact support if the problem continues.')
     }
-    return storedAccounts
+    const accounts = storedAccounts.map((entry) => ({
+      ...entry,
+      account: addWallet(entry.account),
+    }))
+    if (accounts.some((entry, index) => entry.account !== storedAccounts[index].account)) {
+      localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(accounts))
+    }
+    return accounts
   }
 
   const legacyAccount = parseStoredJson<unknown>(ACCOUNT_KEY)
   const legacyCredential = parseStoredJson<unknown>(CREDENTIAL_KEY)
   if (isAccount(legacyAccount) && isCredential(legacyCredential)) {
-    return [{ account: legacyAccount, credential: legacyCredential }]
+    return [{ account: addWallet(legacyAccount), credential: legacyCredential }]
   }
   return []
 }
@@ -183,6 +217,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           Shipping_status: [],
           orders: [],
           cart: [],
+          wallet: {
+            balance: INITIAL_WALLET_BALANCE,
+            currency: 'IDR',
+            transactions: [{
+              id: crypto.randomUUID(),
+              createdAt: now,
+              type: 'credit',
+              amount: INITIAL_WALLET_BALANCE,
+              description: 'Welcome wallet balance',
+            }],
+          },
           preferences: {
             sizes: { top: null, bottom: null, shoes: null },
             favorite_categories: [],
@@ -334,6 +379,151 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(updatedAccounts))
       setAuthState({ account: updatedAccount, storageError: null })
+    },
+    changeCartItemVariant(productId, quantity, fromVariant, toVariant) {
+      const currentAccount = authState.account
+      if (!currentAccount) throw new Error('Sign in to update your cart.')
+      if (!Number.isInteger(quantity) || quantity < 1) {
+        throw new Error('Cart quantity must be a positive whole number.')
+      }
+      if (fromVariant.size === toVariant.size && fromVariant.color === toVariant.color) return
+
+      const accounts = getStoredAccounts()
+      const storedAccount = accounts.find(({ account }) => account.user.id === currentAccount.user.id)
+      if (!storedAccount) throw new Error('We couldn’t find your account. Please sign in again.')
+
+      const cart = Array.isArray(storedAccount.account.user.cart)
+        ? storedAccount.account.user.cart.filter(isCartItem)
+        : []
+      const matchesVariant = (item: CartItem, variant: CartVariant) =>
+        item.productId === productId && item.size === variant.size && item.color === variant.color
+      const sourceItem = cart.find((item) => matchesVariant(item, fromVariant))
+      if (!sourceItem) throw new Error('That item is no longer in your cart.')
+
+      const targetItem = cart.find((item) => matchesVariant(item, toVariant))
+      const nextCart = cart.filter((item) =>
+        !matchesVariant(item, fromVariant) && !matchesVariant(item, toVariant)
+      )
+      nextCart.push({
+        productId,
+        quantity: quantity + (targetItem?.quantity ?? 0),
+        ...toVariant,
+      })
+
+      const updatedAccount: Account = {
+        ...storedAccount.account,
+        user: {
+          ...storedAccount.account.user,
+          cart: nextCart,
+        },
+      }
+      const updatedAccounts = accounts.map((entry) =>
+        entry.account.user.id === currentAccount.user.id
+          ? { ...entry, account: updatedAccount }
+          : entry
+      )
+
+      localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(updatedAccounts))
+      setAuthState({ account: updatedAccount, storageError: null })
+    },
+    placeOrder(orderDetails) {
+      const currentAccount = authState.account
+      if (!currentAccount) throw new Error('Sign in to place your order.')
+
+      const accounts = getStoredAccounts()
+      const storedAccount = accounts.find(({ account }) => account.user.id === currentAccount.user.id)
+      if (!storedAccount) throw new Error('We couldn’t find your account. Please sign in again.')
+      const items = Array.isArray(storedAccount.account.user.cart)
+        ? storedAccount.account.user.cart.filter(isCartItem)
+        : []
+      if (items.length === 0) throw new Error('Your cart is empty.')
+      if (!Number.isSafeInteger(orderDetails.total) || orderDetails.total <= 0) {
+        throw new Error('The order total is invalid.')
+      }
+
+      const isWalletPayment = orderDetails.paymentMethod === 'Wallet'
+      const wallet = storedAccount.account.user.wallet
+      if (isWalletPayment && wallet.balance < orderDetails.total) {
+        throw new Error('Your wallet balance is too low. Top up your wallet or choose another payment method.')
+      }
+
+      const order: CheckoutOrder = {
+        ...orderDetails,
+        createdAt: new Date().toISOString(),
+        items,
+      }
+      const updatedAccount: Account = {
+        ...storedAccount.account,
+        user: {
+          ...storedAccount.account.user,
+          cart: [],
+          orders: [...storedAccount.account.user.orders, order],
+          addresses: [...storedAccount.account.user.addresses, order.shippingAddress],
+          wallet: isWalletPayment
+            ? {
+                ...wallet,
+                balance: wallet.balance - order.total,
+                transactions: [...wallet.transactions, {
+                  id: crypto.randomUUID(),
+                  createdAt: order.createdAt,
+                  type: 'debit',
+                  amount: order.total,
+                  description: `Payment for order ${order.id}`,
+                  orderId: order.id,
+                }],
+              }
+            : wallet,
+        },
+      }
+      const updatedAccounts = accounts.map((entry) =>
+        entry.account.user.id === currentAccount.user.id ? { ...entry, account: updatedAccount } : entry
+      )
+      localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(updatedAccounts))
+      setAuthState({ account: updatedAccount, storageError: null })
+      return order
+    },
+    topUpWallet(amount) {
+      const currentAccount = authState.account
+      if (!currentAccount) throw new Error('Sign in to top up your wallet.')
+      if (!Number.isSafeInteger(amount) || amount <= 0) {
+        throw new Error('Enter a whole-number amount greater than Rp 0.')
+      }
+
+      const accounts = getStoredAccounts()
+      const storedAccount = accounts.find(({ account }) => account.user.id === currentAccount.user.id)
+      if (!storedAccount) throw new Error('We couldn’t find your account. Please sign in again.')
+
+      const wallet = storedAccount.account.user.wallet
+      if (!Number.isSafeInteger(wallet.balance + amount)) {
+        throw new Error('The wallet balance is too large to update.')
+      }
+      const transaction: WalletTransaction = {
+        id: crypto.randomUUID(),
+        createdAt: new Date().toISOString(),
+        type: 'credit',
+        amount,
+        description: 'Wallet top-up',
+      }
+      const updatedAccount: Account = {
+        ...storedAccount.account,
+        user: {
+          ...storedAccount.account.user,
+          wallet: {
+            ...wallet,
+            balance: wallet.balance + amount,
+            transactions: [...wallet.transactions, transaction],
+          },
+        },
+      }
+      const updatedAccounts = accounts.map((entry) =>
+        entry.account.user.id === currentAccount.user.id
+          ? { ...entry, account: updatedAccount }
+          : entry
+      )
+
+      localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(updatedAccounts))
+      setAuthState({ account: updatedAccount, storageError: null })
+      return transaction
     },
     toggleWishlist(productId) {
       const currentAccount = authState.account

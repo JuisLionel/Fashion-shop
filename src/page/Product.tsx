@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router'
 import { FiChevronLeft, FiChevronRight, FiHeart } from 'react-icons/fi'
-import gsap from 'gsap'
 import siteData from '../../Data.json'
 import { useAuth } from '../auth/useAuth'
+import AnimatedContent from '../Components/animated-content'
+import { pulseIcon } from '../Components/pulseIcon'
+import { useNotifications } from '../Components/useNotifications'
 
 type ProductRecord = {
   id: string
@@ -74,13 +76,13 @@ function getNearestIndex(element: HTMLElement) {
 export default function Product() {
   const { id } = useParams()
   const { account, addToCart, toggleWishlist } = useAuth()
+  const { notifyError } = useNotifications()
   const product = useMemo(() => PRODUCTS.find((entry) => entry.id === id), [id])
   const [size, setSize] = useState<string | null>(null)
   const [colorIndex, setColorIndex] = useState(0)
   const [showSizeError, setShowSizeError] = useState(false)
   const [activeImage, setActiveImage] = useState(0)
   const [actionMessage, setActionMessage] = useState('')
-  const infoRef = useRef<HTMLDivElement>(null)
   const carouselRef = useRef<HTMLDivElement>(null)
 
   // Same category, excluding the product being viewed
@@ -90,15 +92,6 @@ export default function Product() {
       .filter((entry) => entry.id !== product.id && entry.category === product.category)
       .slice(0, 4)
   }, [product])
-
-  useEffect(() => {
-    if (!infoRef.current) return
-    gsap.fromTo(
-      infoRef.current.children,
-      { y: 16, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.5, stagger: 0.06, ease: 'power2.out' }
-    )
-  }, [id])
 
   // Reset page state when navigating to another product
   useEffect(() => {
@@ -183,18 +176,22 @@ export default function Product() {
   const hasAvailableSize = product.sizes.some((itemSize) => (product.stock_by_size[itemSize] ?? 0) > 0)
 
   const handleAddToBag = () => {
-    if (!size) {
+    const selectedSize = product.sizes.length === 1 ? product.sizes[0] : size
+    if (!selectedSize) {
       setShowSizeError(true)
-      return
+      return false
     }
-    if ((product.stock_by_size[size] ?? 0) < 1) return
+    if ((product.stock_by_size[selectedSize] ?? 0) < 1) return false
 
     try {
-      addToCart(product.id, { size, color: selectedColor })
+      addToCart(product.id, { size: selectedSize, color: selectedColor })
       setShowSizeError(false)
       setActionMessage('Added to your shopping bag.')
+      return true
     } catch (error) {
-      setActionMessage(error instanceof Error ? error.message : 'Could not add this item to your bag.')
+      setActionMessage('')
+      notifyError(error instanceof Error ? error.message : 'Could not add this item to your bag.')
+      return false
     }
   }
 
@@ -203,7 +200,8 @@ export default function Product() {
       toggleWishlist(product.id)
       setActionMessage(wishlistIncludesProduct ? 'Removed from your wishlist.' : 'Added to your wishlist.')
     } catch (error) {
-      setActionMessage(error instanceof Error ? error.message : 'Could not update your wishlist.')
+      setActionMessage('')
+      notifyError(error instanceof Error ? error.message : 'Could not update your wishlist.')
     }
   }
 
@@ -238,7 +236,11 @@ export default function Product() {
   return (
     <main className="bg-base-100 text-base-content">
       <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_420px] xl:grid-cols-[minmax(0,1fr)_480px]">
-        <section aria-label="Product images" className="relative min-w-0 lg:h-[calc(100svh-4rem)]">
+        <AnimatedContent
+          role="region"
+          aria-label="Product images"
+          className="relative min-w-0 lg:h-[calc(100svh-4rem)]"
+        >
           <div
             ref={carouselRef}
             onScroll={handleCarouselScroll}
@@ -247,9 +249,8 @@ export default function Product() {
             {slides.map((slide, index) => (
               <div
                 key={`${slide.src}-${index}`}
-                className={`carousel-item aspect-4/5 w-full bg-base-200 lg:aspect-auto lg:h-full ${
-                  slides.length === 1 ? 'lg:w-full' : 'lg:w-[calc(50%-0.25rem)]'
-                }`}
+                className={`carousel-item aspect-4/5 w-full bg-base-200 lg:aspect-auto lg:h-full ${slides.length === 1 ? 'lg:w-full' : 'lg:w-[calc(50%-0.25rem)]'
+                  }`}
               >
                 <img
                   src={slide.src}
@@ -262,7 +263,7 @@ export default function Product() {
             ))}
           </div>
 
-          {/* Thumbnails, previous and next: three separate boxes */}
+          {/* Image previews and previous/next controls */}
           {slides.length > 2 && (
             <div className="absolute bottom-4 right-4 hidden items-stretch gap-2 lg:flex">
               <div className="flex gap-1 border border-base-300 bg-base-100/90 p-1.5 backdrop-blur">
@@ -273,18 +274,14 @@ export default function Product() {
                     aria-label={`Show image ${index + 1}`}
                     aria-current={index === activeImage}
                     onClick={() => goTo(index)}
-                    className={`h-11 w-8 overflow-hidden border transition-opacity ${
-                      index === activeImage
-                        ? 'border-base-content'
-                        : 'border-transparent opacity-50 hover:opacity-100'
-                    }`}
+                    className="h-11 w-8 overflow-hidden border border-transparent transition-opacity opacity-100"
                   >
                     <img src={slide.src} alt="" className="size-full object-cover" />
                   </button>
                 ))}
               </div>
 
-              <div className="size-[58px] border border-base-300 bg-base-100/90 backdrop-blur">
+              <div className="size-14.5 border border-base-300 bg-base-100/90 backdrop-blur">
                 <button
                   type="button"
                   aria-label="Previous image"
@@ -296,7 +293,7 @@ export default function Product() {
                 </button>
               </div>
 
-              <div className="size-[58px] border border-base-300 bg-base-100/90 backdrop-blur">
+              <div className="size-14.5 border border-base-300 bg-base-100/90 backdrop-blur">
                 <button
                   type="button"
                   aria-label="Next image"
@@ -310,23 +307,18 @@ export default function Product() {
             </div>
           )}
 
-          {/* Mobile dots */}
-          {slides.length > 1 && (
-            <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-1.5 lg:hidden" aria-hidden="true">
-              {slides.map((_, index) => (
-                <span
-                  key={index}
-                  className={`h-1.5 transition-all ${
-                    index === activeImage ? 'w-5 bg-base-content' : 'w-1.5 bg-base-content/30'
-                  }`}
-                />
-              ))}
-            </div>
-          )}
-        </section>
+        </AnimatedContent>
 
         <aside className="px-4 py-8 lg:sticky lg:top-0 lg:h-screen lg:self-start lg:overflow-y-auto lg:px-10 lg:py-12">
-          <div ref={infoRef} className="space-y-6">
+          <AnimatedContent
+            distance={100}
+            direction="vertical"
+            duration={0.8}
+            ease="power3.out"
+            blur={0}
+            stagger={0.08}
+            threshold={0.1}
+            className="space-y-6" >
             <div className="space-y-2">
               <p className="text-xs uppercase tracking-widest opacity-60">{product.category}</p>
               <h1 className="text-2xl font-light leading-snug">{product.name}</h1>
@@ -349,9 +341,8 @@ export default function Product() {
                       aria-label={`Choose ${color}`}
                       aria-pressed={index === colorIndex}
                       onClick={() => handleColorSelect(index)}
-                      className={`size-8 border border-base-300 ${
-                        index === colorIndex ? 'ring-2 ring-base-content ring-offset-2 ring-offset-base-100' : ''
-                      }`}
+                      className={`size-8 border border-base-300 ${index === colorIndex ? 'ring-2 ring-base-content ring-offset-2 ring-offset-base-100' : ''
+                        }`}
                       style={{ backgroundColor: getSwatchColor(color) }}
                     />
                   ))}
@@ -359,49 +350,69 @@ export default function Product() {
               </div>
             )}
 
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <p>Select size</p>
-                <button
-                  type="button"
-                  className="underline opacity-70 hover:opacity-100"
-                  onClick={() => (document.getElementById('size-guide') as HTMLDialogElement | null)?.showModal()}
-                >
-                  Size guide
-                </button>
-              </div>
-              {product.sizes.length > 0 ? (
-                <div className="grid grid-cols-3 gap-2">
-                  {product.sizes.map((itemSize) => {
-                    const inStock = (product.stock_by_size[itemSize] ?? 0) > 0
-                    return (
+            {product.sizes.length !== 1 && (
+              <div className="space-y-2">
+                {product.sizes.length > 1 && (
+                  <>
+                    <div className="flex justify-between text-sm">
+                      <p>Select size</p>
                       <button
-                        key={itemSize}
                         type="button"
-                        disabled={!inStock}
-                        aria-pressed={size === itemSize}
-                        onClick={() => {
-                          setSize(itemSize)
-                          setShowSizeError(false)
-                        }}
-                        className={`btn btn-outline rounded-none ${size === itemSize ? 'btn-active' : ''}`}
+                        className="underline opacity-70 hover:opacity-100"
+                        onClick={() => (document.getElementById('size-guide') as HTMLDialogElement | null)?.showModal()}
                       >
-                        {itemSize}
+                        Size guide
                       </button>
-                    )
-                  })}
-                </div>
-              ) : (
-                <p className="text-sm text-base-content/60">No sizes are available for this item.</p>
-              )}
-              {showSizeError && <p role="alert" className="text-sm text-error">Please select a size.</p>}
-              {!hasAvailableSize && <p role="status" className="text-sm text-error">This item is currently out of stock.</p>}
-            </div>
+                    </div>
+                    <div className="grid grid-cols-3 gap-2">
+                      {product.sizes.map((itemSize) => {
+                        const inStock = (product.stock_by_size[itemSize] ?? 0) > 0
+                        return (
+                          <button
+                            key={itemSize}
+                            type="button"
+                            disabled={!inStock}
+                            aria-pressed={size === itemSize}
+                            onClick={() => {
+                              setSize(itemSize)
+                              setShowSizeError(false)
+                            }}
+                            className={`btn btn-outline rounded-none ${size === itemSize ? 'btn-active' : ''}`}
+                          >
+                            {itemSize}
+                          </button>
+                        )
+                      })}
+                    </div>
+                  </>
+                )}
+                {product.sizes.length === 0 && (
+                  <p className="text-sm text-base-content/60">No sizes are available for this item.</p>
+                )}
+                {showSizeError && <p role="alert" className="text-sm text-error">Please select a size.</p>}
+                {!hasAvailableSize && <p role="status" className="text-sm text-error">This item is currently out of stock.</p>}
+              </div>
+            )}
 
             <div className="space-y-2">
+              <Link
+                to="/checkout"
+                onClick={(event) => {
+                  if (!handleAddToBag()) event.preventDefault()
+                }}
+                aria-label="Purchase now and continue to checkout"
+                className={`btn btn-neutral w-full rounded-none uppercase tracking-widest ${!hasAvailableSize ? 'pointer-events-none opacity-50' : ''
+                  }`}
+                aria-disabled={!hasAvailableSize}
+              >
+                Purchase now
+              </Link>
               <button
                 type="button"
-                onClick={handleAddToBag}
+                onClick={(event) => {
+                  pulseIcon(event.currentTarget)
+                  handleAddToBag()
+                }}
                 disabled={!hasAvailableSize}
                 className="btn btn-neutral w-full rounded-none uppercase tracking-widest"
               >
@@ -409,7 +420,10 @@ export default function Product() {
               </button>
               <button
                 type="button"
-                onClick={handleWishlist}
+                onClick={(event) => {
+                  pulseIcon(event.currentTarget)
+                  handleWishlist()
+                }}
                 aria-pressed={wishlistIncludesProduct}
                 className="btn btn-outline w-full rounded-none uppercase tracking-widest"
               >
@@ -445,7 +459,7 @@ export default function Product() {
                 </div>
               </div>
             </div>
-          </div>
+          </AnimatedContent>
         </aside>
       </div>
 
@@ -454,15 +468,29 @@ export default function Product() {
           aria-labelledby="recommendations-title"
           className="border-t border-base-300 px-4 py-12 lg:px-10"
         >
-          <div className="mb-6 flex items-end justify-between">
+          <AnimatedContent
+            distance={100}
+            direction="vertical"
+            duration={0.8}
+            ease="power3.out"
+            blur={0}
+            stagger={0.08}
+            threshold={0.1} className="mb-6 flex items-end justify-between">
             <div>
               <p className="text-xs uppercase tracking-widest opacity-60">{product.category}</p>
               <h2 id="recommendations-title" className="text-xl font-light">You may also like</h2>
             </div>
             <Link to="/shop" className="text-sm underline opacity-70 hover:opacity-100">View all</Link>
-          </div>
+          </AnimatedContent>
 
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+          <AnimatedContent
+            distance={100}
+            direction="vertical"
+            duration={0.8}
+            ease="power3.out"
+            blur={0}
+            stagger={0.08}
+            threshold={0.1} className="grid grid-cols-2 gap-4 md:grid-cols-4">
             {recommendations.map((item) => {
               const cover = item.main_image.find(isValidImage)
               return (
@@ -493,7 +521,7 @@ export default function Product() {
                 </Link>
               )
             })}
-          </div>
+          </AnimatedContent>
         </section>
       )}
 

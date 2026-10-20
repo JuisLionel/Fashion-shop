@@ -1,12 +1,10 @@
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router'
-
-import gsap from 'gsap'
-import { useGSAP } from '@gsap/react'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
+import AnimatedContent from '../Components/animated-content'
 import siteData from '../../Data.json'
 import { useAuth } from '../auth/useAuth'
+import { pulseIcon } from '../Components/pulseIcon'
+import { useNotifications } from '../Components/useNotifications'
 
 import {
   FiArrowRight,
@@ -14,8 +12,6 @@ import {
   FiShoppingBag,
   FiStar,
 } from 'react-icons/fi'
-
-gsap.registerPlugin(useGSAP, ScrollTrigger)
 
 type Product = {
   id: string
@@ -61,11 +57,18 @@ const MAX_DISCOUNT = Math.max(
 
 const formatPrice = (value: number) => `Rp ${value.toLocaleString('id-ID')}`
 
-const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
-
 function SectionHeader({ title, to, label = 'View all' }: { title: string; to?: string; label?: string }) {
   return (
-    <div className="reveal mb-8 flex items-end justify-between gap-4">
+    <AnimatedContent
+      distance={100}
+      direction="vertical"
+      duration={0.8}
+      ease="power3.out"
+      blur={0}
+      stagger={0.08}
+      threshold={0.1}
+      className="mb-8 flex items-end justify-between gap-4"
+    >
       <h2 className="font-jost text-3xl font-light md:text-4xl">{title}</h2>
       {to && (
         <Link
@@ -76,7 +79,7 @@ function SectionHeader({ title, to, label = 'View all' }: { title: string; to?: 
           <FiArrowRight aria-hidden="true" />
         </Link>
       )}
-    </div>
+    </AnimatedContent>
   )
 }
 
@@ -84,7 +87,16 @@ function Banner() {
   if (MAX_DISCOUNT === 0) return null
 
   return (
-    <section className="reveal relative flex h-[60svh] min-h-96 w-full items-end overflow-hidden bg-base-200 font-jost text-base-content md:items-center">
+    <AnimatedContent
+      distance={100}
+      direction="vertical"
+      duration={0.8}
+      ease="power3.out"
+      blur={0}
+      stagger={0.08}
+      threshold={0.1}
+      className="relative flex h-[60svh] min-h-96 w-full items-end overflow-hidden bg-base-200 font-jost text-base-content md:items-center"
+    >
       <img
         src="/banner.webp"
         alt=""
@@ -102,10 +114,10 @@ function Banner() {
       />
 
       <div className="relative z-10 flex w-full flex-col items-start gap-4 bg-base-100/90 p-6 text-base-content md:ml-auto md:w-[40%] md:p-12 lg:p-16">
-        <p className="text-sm md:text-base ">Limited Time Offers</p>
+        <p className="text-sm md:text-base">Limited Time Offers</p>
 
         <h2 className="text-3xl font-medium leading-tight md:text-4xl lg:text-5xl">
-          <span className='text-accent'>{MAX_DISCOUNT}%</span> Off All Fashion Favorites - Limited Time!
+          <span className="text-accent">{MAX_DISCOUNT}%</span> Off All Fashion Favorites - Limited Time!
         </h2>
 
         <p className="max-w-md text-sm font-light text-base-content/70">
@@ -120,13 +132,13 @@ function Banner() {
           <FiArrowRight aria-hidden="true" />
         </Link>
       </div>
-    </section>
+    </AnimatedContent>
   )
 }
 
 function ProductCard({ product }: { product: Product }) {
   const { account, addToCart, toggleWishlist } = useAuth()
-  const [actionError, setActionError] = useState('')
+  const { notifyError } = useNotifications()
   const images = Array.isArray(product.main_image) ? product.main_image : [product.main_image]
   const discount = product.sale_price_idr
     ? Math.round((1 - product.sale_price_idr / product.price_idr) * 100)
@@ -142,14 +154,22 @@ function ProductCard({ product }: { product: Product }) {
   const handleProductAction = (action: () => void) => {
     try {
       action()
-      setActionError('')
     } catch (error) {
-      setActionError(error instanceof Error ? error.message : 'Could not update this product.')
+      notifyError(error instanceof Error ? error.message : 'Could not update this product.')
     }
   }
 
   return (
-    <article className="reveal group font-jost">
+    <AnimatedContent
+      distance={100}
+      direction="vertical"
+      duration={0.8}
+      ease="power3.out"
+      blur={0}
+      stagger={0.08}
+      threshold={0.1}
+      className="group font-jost"
+    >
       <div className="relative aspect-3/4 overflow-hidden rounded-xl bg-base-200">
         <Link to={`/product/${product.id}`} aria-label={product.name} className="block h-full w-full">
           <figure className="hover-gallery h-full w-full">
@@ -183,7 +203,10 @@ function ProductCard({ product }: { product: Product }) {
           <button
             type="button"
             aria-label={`Add ${product.name} to cart${cartQuantity ? `, currently ${cartQuantity} in cart` : ''}`}
-            onClick={() => handleProductAction(() => addToCart(product.id))}
+            onClick={(event) => {
+              pulseIcon(event.currentTarget)
+              handleProductAction(() => addToCart(product.id))
+            }}
             className={`${iconButton} ${cartQuantity ? 'bg-base-content! text-base-100!' : ''}`}
           >
             <FiShoppingBag className="h-4 w-4" aria-hidden="true" />
@@ -192,7 +215,10 @@ function ProductCard({ product }: { product: Product }) {
             type="button"
             aria-label={`${isWishlisted ? 'Remove' : 'Add'} ${product.name} ${isWishlisted ? 'from' : 'to'} wishlist`}
             aria-pressed={isWishlisted}
-            onClick={() => handleProductAction(() => toggleWishlist(product.id))}
+            onClick={(event) => {
+              pulseIcon(event.currentTarget)
+              handleProductAction(() => toggleWishlist(product.id))
+            }}
             className={`${iconButton} ${isWishlisted ? 'bg-base-content! text-base-100!' : ''}`}
           >
             <FiHeart
@@ -202,8 +228,6 @@ function ProductCard({ product }: { product: Product }) {
           </button>
         </div>
       </div>
-
-      {actionError && <p role="status" className="mt-2 text-xs text-error">{actionError}</p>}
 
       <div className="pt-4">
         <div className="flex items-center justify-between gap-3 text-xs text-base-content/60">
@@ -241,16 +265,13 @@ function ProductCard({ product }: { product: Product }) {
           )}
         </div>
       </div>
-    </article>
+    </AnimatedContent>
   )
 }
 
-
 function Welcome() {
-  const root = useRef<HTMLElement>(null)
-
   return (
-    <section ref={root} className="relative flex min-h-176 h-svh items-end overflow-hidden bg-base-200">
+    <section className="relative flex min-h-176 h-svh items-end overflow-hidden bg-base-200">
       <img
         src="/hero.webp"
         alt=""
@@ -266,7 +287,7 @@ function Welcome() {
       />
 
       <div className="absolute inset-0 bg-linear-to-t from-base-100/90 via-base-100/20 to-transparent" aria-hidden="true" />
-      <div className="relative z-10 mx-auto grid w-full max-w-360 gap-10 px-6 pb-10 font-jost text-base-content sm:px-8 md:grid-cols-[1fr_auto] md:items-end md:px-12 md:pb-14">
+      <AnimatedContent distance={80} direction="vertical" duration={1} ease="power3.out" trigger="mount" stagger={0.1} className="relative z-10 mx-auto grid w-full max-w-360 gap-10 px-6 pb-10 font-jost text-base-content sm:px-8 md:grid-cols-[1fr_auto] md:items-end md:px-12 md:pb-14">
         <div className="flex flex-col items-start gap-5">
           <p className="text-xs uppercase tracking-[0.3em] text-base-content/75">Fashion Shop · Since 2026</p>
           <h2 className="max-w-xl text-4xl font-light leading-tight md:text-5xl lg:text-6xl">
@@ -293,7 +314,7 @@ function Welcome() {
             </div>
           ))}
         </dl>
-      </div>
+      </AnimatedContent>
     </section>
   )
 }
@@ -304,12 +325,30 @@ function Faq() {
   return (
     <section className="w-full bg-base-200 px-6 py-24 md:px-12 md:py-28">
       <div className="mx-auto max-w-5xl font-jost">
-        <div className="reveal mb-12 text-center">
+        <AnimatedContent
+          distance={100}
+          direction="vertical"
+          duration={0.8}
+          ease="power3.out"
+          blur={0}
+          stagger={0.08}
+          threshold={0.1}
+          className="mb-12 text-center"
+        >
           <p className="text-base text-base-content/70 md:text-lg">FAQ</p>
           <h2 className="mt-3 text-4xl font-normal md:text-5xl">Questions? We have answers</h2>
-        </div>
+        </AnimatedContent>
 
-        <div className="reveal space-y-3">
+        <AnimatedContent
+          distance={100}
+          direction="vertical"
+          duration={0.8}
+          ease="power3.out"
+          blur={0}
+          stagger={0.08}
+          threshold={0.1}
+          className="space-y-3"
+        >
           {faqs.map((item, index) => (
             <div
               key={item.question}
@@ -324,7 +363,7 @@ function Faq() {
               </div>
             </div>
           ))}
-        </div>
+        </AnimatedContent>
       </div>
     </section>
   )
@@ -357,53 +396,57 @@ function Category() {
           const imageClass = 'absolute inset-0 h-full w-full object-cover object-right transition-transform duration-700 ease-out group-hover:scale-105'
 
           return (
-            <Link
+            <AnimatedContent
               key={category.name}
-              to={category.to}
-              aria-label={`Shop ${category.name}`}
-              className={`reveal group relative flex min-h-96 flex-col overflow-hidden rounded-2xl bg-base-200 ${category.featured ? 'lg:row-span-2'
+              className={`group relative min-h-96 overflow-hidden bg-base-200 ${category.featured ? 'lg:row-span-2'
                 : ''
                 }`}
             >
+              <Link
+                to={category.to}
+                aria-label={`Shop ${category.name}`}
+                className="group relative flex h-full min-h-96 flex-col overflow-hidden"
+              >
                 <div className="category-scrim absolute inset-0 z-1" aria-hidden="true" />
                 <div className="relative z-10 flex w-full max-w-[85%] flex-col items-start gap-3 p-5 font-jost text-base-content md:p-8 lg:max-w-[48%]">
                   <span className="rounded-md bg-base-100/80 px-3 py-1 text-xs font-medium text-base-content">
-                  {categoryProducts.length} {categoryProducts.length === 1 ? 'Item' : 'Items'}
-                </span>
+                    {categoryProducts.length} {categoryProducts.length === 1 ? 'Item' : 'Items'}
+                  </span>
 
-                <h3 className={`font-semibold ${category.featured ? 'text-3xl md:text-4xl' : 'text-2xl md:text-3xl'}`}>
-                  {category.name}
-                </h3>
+                  <h3 className={`font-semibold ${category.featured ? 'text-3xl md:text-4xl' : 'text-2xl md:text-3xl'}`}>
+                    {category.name}
+                  </h3>
 
-                <p className="max-w-[24ch] text-xs leading-relaxed text-base-content/70">
-                  {category.description}
-                </p>
+                  <p className="max-w-[24ch] text-xs leading-relaxed text-base-content/70">
+                    {category.description}
+                  </p>
 
-                <ul className="space-y-1.5 text-xs md:text-sm">
-                  {visibleCategories.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                  {hasMore && <li className="text-base-content/60">and more...</li>}
-                </ul>
-              </div>
-              <>
-                <img
-                  src={category.image}
-                  alt=""
-                  loading="lazy"
-                  onError={(e) => { e.currentTarget.style.visibility = 'hidden' }}
-                  className={`theme-image-light ${imageClass}`}
-                />
-                <img
-                  src={darkImage}
-                  alt=""
-                  aria-hidden="true"
-                  loading="lazy"
-                  onError={(e) => { e.currentTarget.style.visibility = 'hidden' }}
-                  className={`theme-image-dark ${imageClass}`}
-                />
-              </>
-            </Link>
+                  <ul className="space-y-1.5 text-xs md:text-sm">
+                    {visibleCategories.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                    {hasMore && <li className="text-base-content/60">and more...</li>}
+                  </ul>
+                </div>
+                <>
+                  <img
+                    src={category.image}
+                    alt=""
+                    loading="lazy"
+                    onError={(e) => { e.currentTarget.style.visibility = 'hidden' }}
+                    className={`theme-image-light ${imageClass}`}
+                  />
+                  <img
+                    src={darkImage}
+                    alt=""
+                    aria-hidden="true"
+                    loading="lazy"
+                    onError={(e) => { e.currentTarget.style.visibility = 'hidden' }}
+                    className={`theme-image-dark ${imageClass}`}
+                  />
+                </>
+              </Link>
+            </AnimatedContent>
           )
         })}
       </div>
@@ -415,7 +458,7 @@ function NewArrivals() {
   if (NEW_ARRIVALS.length === 0) return null
 
   return (
-    <section className="w-full px-6 pb-20 md:px-12 mt-10">
+    <section className="mt-10 w-full px-6 pb-20 md:px-12">
       <SectionHeader title="New arrivals" to="/shop?sort=new" />
       <div className="grid grid-cols-2 gap-x-4 gap-y-10 lg:grid-cols-4">
         {NEW_ARRIVALS.map((product) => (
@@ -432,7 +475,16 @@ function Sale() {
   return (
     <section className="bg-base-100 transition-colors duration-300">
       <div className="w-full px-6 py-20 md:px-12">
-        <div className="reveal mb-10 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+        <AnimatedContent
+          distance={100}
+          direction="vertical"
+          duration={0.8}
+          ease="power3.out"
+          blur={0}
+          stagger={0.08}
+          threshold={0.1}
+          className="mb-10 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between"
+        >
           <div className="max-w-xl">
             <p className="font-jost text-sm uppercase tracking-[0.3em] text-accent">{siteData.site.home.saleEyebrow}</p>
             <h2 className="mt-3 font-jost text-4xl font-light md:text-5xl">Up to {MAX_DISCOUNT}% off</h2>
@@ -443,7 +495,7 @@ function Sale() {
           <Link to="/shop?sort=sale" className="btn btn-neutral shrink-0 rounded-none font-jost uppercase tracking-widest">
             {siteData.site.home.saleButtonLabel}
           </Link>
-        </div>
+        </AnimatedContent>
 
         <div className="grid grid-cols-2 gap-x-4 gap-y-10 lg:grid-cols-4">
           {ON_SALE.map((product) => (
@@ -466,8 +518,17 @@ function BestSellers() {
   ).slice(0, 4)
 
   return (
-    <section className="w-full px-6 pb-20 md:px-12 mt-5 bg-base-200 py-10">
-      <div className="reveal mb-8 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+    <section className="mt-5 w-full bg-base-200 px-6 py-10 pb-20 md:px-12">
+      <AnimatedContent
+        distance={100}
+        direction="vertical"
+        duration={0.8}
+        ease="power3.out"
+        blur={0}
+        stagger={0.08}
+        threshold={0.1}
+        className="mb-8 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between"
+      >
         <div>
           <p className="font-jost text-sm text-base-content/60">Our Products</p>
           <h2 className="mt-2 font-jost text-3xl font-light md:text-4xl">Our Top Seller Products</h2>
@@ -498,7 +559,7 @@ function BestSellers() {
             ))}
           </div>
         </div>
-      </div>
+      </AnimatedContent>
 
       {visibleProducts.length === 0 ? (
         <p className="py-10 text-center font-jost text-base-content/60">No products here yet.</p>
@@ -514,29 +575,8 @@ function BestSellers() {
 }
 
 export default function Home() {
-  const container = useRef<HTMLDivElement>(null)
-
-  useGSAP(
-    () => {
-      if (prefersReducedMotion()) return
-
-      gsap.set('.reveal', { autoAlpha: 0, y: 32 })
-      ScrollTrigger.batch('.reveal', {
-        start: 'top 90%',
-        once: false,
-        onEnter: (batch) =>
-          gsap.to(batch, { autoAlpha: 1, y: 0, duration: 0.8, ease: 'power3.out', stagger: 0.1, overwrite: true }),
-        onEnterBack: (batch) =>
-          gsap.to(batch, { autoAlpha: 1, y: 0, duration: 0.8, ease: 'power3.out', stagger: 0.1, overwrite: true }),
-        onLeave: (batch) => gsap.set(batch, { autoAlpha: 0, y: 32, overwrite: true }),
-        onLeaveBack: (batch) => gsap.set(batch, { autoAlpha: 0, y: 32, overwrite: true }),
-      })
-    },
-    { scope: container }
-  )
-
   return (
-    <div ref={container}>
+    <div>
       <Welcome />
       <Category />
       <BestSellers />

@@ -85,28 +85,6 @@ html[data-theme="tepian-dark"] .theme-image-dark {
     display: block !important;
 }
 
-@keyframes item-in {
-    from {
-        opacity: 0;
-        transform: translateY(16px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.item-in {
-    animation: item-in 0.5s ease-out both;
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .item-in {
-        animation: none;
-    }
-}
-
 @utility img-shadow {
     box-shadow: var(--img-shadow);
 }

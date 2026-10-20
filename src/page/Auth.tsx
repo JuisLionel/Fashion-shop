@@ -1,6 +1,8 @@
 import { useState, type FormEvent, type InputHTMLAttributes, type ReactNode } from 'react'
 import { Link, Navigate, useNavigate } from 'react-router'
 import { useAuth } from '../auth/useAuth'
+import { FaApple, FaGoogle } from 'react-icons/fa'
+import Silk from '../Components/Silk'
 
 function AuthLayout({
   children,
@@ -17,20 +19,38 @@ function AuthLayout({
 
   return (
     <section className="grid min-h-[calc(100dvh-4rem)] lg:grid-cols-2">
-      <aside className="relative hidden flex-col justify-between overflow-hidden bg-neutral p-12 text-neutral-content lg:flex">
+      <aside className="relative flex min-h-72 flex-col justify-end overflow-hidden bg-neutral p-8 text-neutral-content sm:p-12 lg:min-h-0">
+        <div className="absolute inset-0">
+          <Silk
+            color="#8A6A3B"
+            sheenColor="#E5D5B8"
+            speed={5}
+            scale={1}
+            rotation={0}
+            sheen={0.42}
+            depth={0.62}
+            glow={0.24}
+            noiseIntensity={0.8}
+            mouseInteraction
+            clickRipple
+            intro
+            ripple={1}
+            wave={1}
+            variation={0}
+            interactionStrength={1}
+            fade={0}
+            lightMode={false}
+          />
+        </div>
         <div className="pointer-events-none absolute -right-24 -top-24 size-96 rounded-full border border-neutral-content/10" />
         <div className="pointer-events-none absolute -right-8 -top-8 size-96 rounded-full border border-neutral-content/10" />
 
-        <div>
-          <p className="font-jost text-xs uppercase tracking-[0.25em] text-accent">Members</p>
+        <div className="relative z-10">
           <h2 className="mt-4 max-w-sm font-jost text-4xl font-light leading-tight xl:text-5xl">
             Your style, kept in one place.
           </h2>
-          <p className="mt-5 max-w-sm font-jost text-sm leading-relaxed text-neutral-content/70">
-            Follow your orders, save your addresses and book appointments with a free account.
-          </p>
         </div>
-     </aside>
+      </aside>
 
       {/* Form panel */}
       <div className="flex items-center justify-center px-6 py-10 md:py-14">
@@ -115,6 +135,18 @@ function FormError({ message }: { message: string }) {
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
 const linkClass = 'btn btn-outline btn-sm shrink-0 rounded-md border-base-content/20 font-jost normal-case tracking-normal'
 
+function SocialAuthButtons({ onUnavailable }: { onUnavailable: (provider: string) => void }) {
+  return (
+    <div className="mt-6 space-y-3">
+      <div className="flex items-center gap-4 font-jost text-[10px] uppercase tracking-[0.2em] text-base-content/40"><span className="h-px flex-1 bg-base-content/10" />Or continue with<span className="h-px flex-1 bg-base-content/10" /></div>
+      <div className="grid grid-cols-2 gap-3">
+        <button type="button" onClick={() => onUnavailable('Google')} className="btn btn-outline rounded-none border-base-content/20 font-jost normal-case"><FaGoogle aria-hidden="true" className="text-[#4285F4]" />Google</button>
+        <button type="button" onClick={() => onUnavailable('Apple')} className="btn btn-outline rounded-none border-base-content/20 font-jost normal-case"><FaApple aria-hidden="true" />Apple</button>
+      </div>
+    </div>
+  )
+}
+
 export function SignInPage() {
   const { isSignedIn, signIn } = useAuth()
   const navigate = useNavigate()
@@ -177,6 +209,7 @@ export function SignInPage() {
         <FormError message={error} />
         <SubmitButton disabled={isSubmitting}>{isSubmitting ? 'Signing in…' : 'Sign in'}</SubmitButton>
       </form>
+      <SocialAuthButtons onUnavailable={(provider) => setError(`${provider} sign-in is not configured yet. Connect a secure OAuth provider to enable it.`)} />
     </AuthLayout>
   )
 }
@@ -311,6 +344,7 @@ export function SignUpPage() {
           </SubmitButton>
         </div>
       </form>
+      <SocialAuthButtons onUnavailable={(provider) => setError(`${provider} sign-up is not configured yet. Connect a secure OAuth provider to enable it.`)} />
     </AuthLayout>
   )
 }
@@ -357,7 +391,7 @@ export function AccountPage() {
   )
 }
 
-type AccountSection = 'orders' | 'settings' | 'addresses' | 'wallet' | 'appointments'
+type AccountSection = 'orders' | 'settings' | 'addresses' | 'appointments'
 
 export function AccountSectionPage({ section, title }: { section: AccountSection; title: string }) {
   const { account } = useAuth()
@@ -368,11 +402,7 @@ export function AccountSectionPage({ section, title }: { section: AccountSection
     ? user.orders
     : section === 'addresses'
       ? user.addresses
-      : section === 'wallet'
-        ? []
-        : section === 'appointments'
-          ? []
-          : []
+      : []
 
   return (
     <section className="mx-auto max-w-3xl px-6 py-16 md:py-24">
@@ -411,6 +441,133 @@ export function AccountSectionPage({ section, title }: { section: AccountSection
           Nothing here yet.
         </p>
       )}
+    </section>
+  )
+}
+
+export function WalletPage() {
+  const { account, topUpWallet } = useAuth()
+  const [isTopUpOpen, setIsTopUpOpen] = useState(false)
+  const [topUpAmount, setTopUpAmount] = useState('100000')
+  const [message, setMessage] = useState('')
+  const [error, setError] = useState('')
+  if (!account) return <Navigate to="/sign-in" replace />
+
+  const presetAmounts = [50_000, 100_000, 250_000, 500_000]
+  const amount = Number(topUpAmount)
+  const transactions = [...account.user.wallet.transactions]
+    .sort((left, right) => right.createdAt.localeCompare(left.createdAt))
+
+  const submitTopUp = () => {
+    try {
+      topUpWallet(amount)
+      setMessage(`Added Rp ${amount.toLocaleString('id-ID')} to your wallet.`)
+      setError('')
+      setIsTopUpOpen(false)
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : 'Could not top up your wallet.')
+    }
+  }
+
+  return (
+    <section className="mx-auto max-w-5xl px-6 py-12 md:px-10 md:py-20">
+      <Link to="/account" className="font-jost text-sm underline underline-offset-4 hover:text-accent">
+        My account
+      </Link>
+      <div className="mt-6 flex flex-col justify-between gap-6 border-b border-base-300 pb-8 sm:flex-row sm:items-end">
+        <div>
+          <p className="font-jost text-xs uppercase tracking-[0.25em] text-accent">Account wallet</p>
+          <h1 className="mt-3 font-jost text-3xl font-light md:text-4xl">My wallet</h1>
+        </div>
+        <Link to="/shop" className="btn btn-outline rounded-none font-jost uppercase tracking-widest">
+          Shop now
+        </Link>
+      </div>
+
+      <div className="mt-8 border border-base-content/15 bg-base-200/40 p-6 sm:p-8">
+        <p className="font-jost text-xs uppercase tracking-[0.2em] text-base-content/60">Available balance</p>
+        <p className="mt-3 font-jost text-4xl font-light sm:text-5xl">
+          Rp {account.user.wallet.balance.toLocaleString('id-ID')}
+        </p>
+        <button
+          type="button"
+          onClick={() => { setIsTopUpOpen((open) => !open); setMessage(''); setError('') }}
+          className="btn btn-neutral mt-6 rounded-none font-jost uppercase tracking-widest"
+        >
+          {isTopUpOpen ? 'Cancel top up' : 'Top up'}
+        </button>
+      </div>
+
+      {isTopUpOpen && (
+        <section className="mt-6 border border-base-content/15 p-6" aria-labelledby="wallet-top-up-title">
+          <h2 id="wallet-top-up-title" className="font-jost text-lg font-medium">Choose or enter an amount</h2>
+          <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+            {presetAmounts.map((presetAmount) => (
+              <button
+                key={presetAmount}
+                type="button"
+                aria-pressed={topUpAmount === String(presetAmount)}
+                onClick={() => setTopUpAmount(String(presetAmount))}
+                className={`btn rounded-none font-jost ${topUpAmount === String(presetAmount) ? 'btn-neutral' : 'btn-outline'}`}
+              >
+                Rp {presetAmount.toLocaleString('id-ID')}
+              </button>
+            ))}
+          </div>
+          <label htmlFor="wallet-top-up-amount" className="mt-5 block font-jost text-sm font-medium">
+            Custom amount (IDR)
+          </label>
+          <div className="mt-2 flex max-w-md items-center border border-base-content/20">
+            <span className="px-3 font-jost text-sm text-base-content/60">Rp</span>
+            <input
+              id="wallet-top-up-amount"
+              type="number"
+              inputMode="numeric"
+              min="1"
+              max={Number.MAX_SAFE_INTEGER - account.user.wallet.balance}
+              step="1"
+              value={topUpAmount}
+              onChange={(event) => setTopUpAmount(event.target.value)}
+              className="min-w-0 flex-1 bg-transparent px-3 py-3 font-jost text-sm outline-none"
+              aria-describedby="wallet-top-up-note"
+            />
+          </div>
+          <p id="wallet-top-up-note" className="mt-4 font-jost text-xs text-base-content/60">
+            Wallet credit is added immediately; payment processing is not connected.
+          </p>
+          {error && <p role="alert" className="mt-3 font-jost text-sm text-error">{error}</p>}
+          <button type="button" onClick={submitTopUp} className="btn btn-neutral mt-4 rounded-none font-jost">
+            Add Rp {Number.isSafeInteger(amount) && amount > 0 ? amount.toLocaleString('id-ID') : '—'}
+          </button>
+        </section>
+      )}
+      {message && <p role="status" className="mt-4 font-jost text-sm text-success">{message}</p>}
+
+      <div className="mt-10">
+        <h2 className="font-jost text-xl font-medium">Recent activity</h2>
+        {transactions.length > 0 ? (
+          <ul className="mt-4 divide-y divide-base-300 border-y border-base-300">
+            {transactions.map((transaction) => (
+              <li key={transaction.id} className="flex flex-wrap items-center justify-between gap-3 py-4 font-jost">
+                <div>
+                  <p className="text-sm font-medium">{transaction.description}</p>
+                  <p className="mt-1 text-xs text-base-content/60">
+                    {new Date(transaction.createdAt).toLocaleString()}
+                    {transaction.orderId && <> · <Link to={`/orders/${encodeURIComponent(transaction.orderId)}`} className="underline">View order</Link></>}
+                  </p>
+                </div>
+                <p className={`text-sm font-medium ${transaction.type === 'credit' ? 'text-success' : ''}`}>
+                  {transaction.type === 'credit' ? '+' : '−'} Rp {transaction.amount.toLocaleString('id-ID')}
+                </p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="mt-4 border-y border-base-300 py-6 font-jost text-sm text-base-content/65">
+            No wallet activity yet.
+          </p>
+        )}
+      </div>
     </section>
   )
 }
